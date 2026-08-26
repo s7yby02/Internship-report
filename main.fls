@@ -377,6 +377,10 @@ INPUT ./chapters/00-glossary.tex
 INPUT ./chapters/01-introduction.tex
 INPUT ./chapters/02-context.tex
 INPUT /Users/ayoub.elharran/Library/texlive/2026/texmf-var/luatex-cache/generic/fonts/otl/lmmono8-regular.luc
+INPUT ./imgs/project_card_page.png
+INPUT ./imgs/project_card_page.png
+INPUT ./imgs/data_platform_delivery_board.png
+INPUT ./imgs/data_platform_delivery_board.png
 INPUT ./chapters/03-state-of-the-art.tex
 INPUT ./chapters/04-notion.tex
 INPUT /Users/ayoub.elharran/Library/texlive/2026/texmf-var/luatex-cache/generic/fonts/otl/lmmono9-regular.luc

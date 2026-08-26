@@ -1,5 +1,5 @@
 # Fdb version 4
-["lualatex"] 1787740858.30731 "/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex" "main.pdf" "main" 1787740860.38146 0
+["lualatex"] 1787760350.4502 "/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex" "main.pdf" "main" 1787760352.81834 0
   "/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex" 1787216088.01037 6132 2c09b63ce8b9f93fe35a85eef30fb128 ""
   "/Users/ayoub.elharran/Library/texlive/2026/texmf-var/luatex-cache/generic/fonts/otl/lmmono10-italic.luc" 1787214843.67671 82963 c15d64f4bcf476a0edb40235dddc364d ""
   "/Users/ayoub.elharran/Library/texlive/2026/texmf-var/luatex-cache/generic/fonts/otl/lmmono10-regular.luc" 1787214843.65738 81837 ec2ed421f8e276f2142e5cde68880e00 ""
@@ -355,7 +355,7 @@
   "chapters/00-cover.tex" 1787210803.27406 1499 4a7afec824c5aacd531c27e4034c7eac ""
   "chapters/00-glossary.tex" 1787210851.8052 2413 547749a260f1149f49e7177bd9bbd2c7 ""
   "chapters/01-introduction.tex" 1787503615.31845 3516 26d88b6e926dadf5dca8e53259f124a9 ""
-  "chapters/02-context.tex" 1787505078.3457 6948 c8f755f0451875869fa4f14e5580ce86 ""
+  "chapters/02-context.tex" 1787760350.25585 8276 d6c957ec020c3f1fcc9fc7bd5393daa5 ""
   "chapters/03-state-of-the-art.tex" 1787509980.55926 8816 b3c528728fb7e96df8fb164c9d2e2055 ""
   "chapters/04-notion.tex" 1787511894.8581 14551 96bbc66b4e117c3f67f6a54c0117901e ""
   "chapters/05-tableau.tex" 1787513023.65217 9531 56b0ecc52ca1df80fb865e63090adb2a ""
@@ -364,9 +364,11 @@
   "chapters/08-conclusion.tex" 1787740858.0825 2528 5c0e0f7cd0552575e034c9f6bb9acd02 ""
   "chapters/09-biblio.tex" 1787211151.47187 2146 87fae31eeef6344688a4bf474b39a7fd ""
   "chapters/10-appendices.tex" 1787211177.63674 5476 12a07ffeae0c9399e974db3a0415d973 ""
-  "main.aux" 1787740860.173 40125 ad8fadbf5f637fff64a964be0965b0c0 "lualatex"
+  "imgs/data_platform_delivery_board.png" 1787759056.74481 879736 7e71d5966051b6dd50cb4cfedda2d3a3 ""
+  "imgs/project_card_page.png" 1787759056.74528 336813 d56d67739ed29773da4698ce0dcdb814 ""
+  "main.aux" 1787760352.60834 41146 3249bd3e108fbfaf585a7e01d4f27403 "lualatex"
   "main.tex" 1787216088.01037 6132 2c09b63ce8b9f93fe35a85eef30fb128 ""
-  "main.toc" 1787740860.18266 6052 0635f684fd66a649aad5bee3314af781 "lualatex"
+  "main.toc" 1787760352.61741 6072 cd063d588c986fcd0756df2d5dd80165 "lualatex"
   (generated)
   "main.aux"
   "main.log"

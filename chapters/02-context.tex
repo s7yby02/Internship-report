@@ -55,9 +55,25 @@ The ecosystem revolves around a few building blocks (Figure~\ref{fig:archi-platf
 
 One architectural element recurs in two of the three projects: the \emph{Job Orchestrator}. It is an internal pattern for running a job \emph{outside} Airflow's Docker image. The principle: the job's code lives in a dedicated repository (for example \texttt{qonto-python-data-engineering} or \texttt{qonto-python-dlt}), with its own Docker image and its own dependencies; the job is simply declared in a \texttt{schedule.yaml} file, and a component (\texttt{custom\_jobs\_orchestrator.py}) \emph{auto-generates} the corresponding Airflow DAG, each task running in an isolated Kubernetes \emph{pod}. The benefit is twofold: the job's dependencies are \emph{decoupled} from the common image, and there is no longer any DAG code to maintain in \texttt{qonto-airflow}. This mechanism is the keystone of the first two projects.
 
-\section{Working method}
+\section{Working method: the Qonto Way}
 
-The team applies a structured method, internally called the \emph{Qonto Way}, which distinguishes two phases in a project: \emph{Value Analysis} (VA) where we frame the problem, stakeholders, the definition of ``done'' and the possible approaches then \emph{Value Engineering} (VE) with the detailed design, resolution of the sticking points (\emph{Hard Points}) and construction. Each project is documented on a Notion space following this template. I followed this approach for all three projects, which strongly structured my work: identify the true cause before coding, make trade-offs explicit, and list the sticking points to resolve.
+Each initiative is run as a Notion \emph{project card} following the \emph{Qonto Way}, a structured lifecycle in three phases (Figure~\ref{fig:qonto-way-card}). \textbf{Value Analysis} (VA) frames the problem: an \emph{Intro \& Context}, the \emph{Definition of Done}, and the \emph{Goals}. \textbf{Value Engineering} (VE) designs the solution: a \emph{Visual Spec}, the \emph{Hard Points} (the open questions or blockers to resolve before building), the \emph{Solutions}, and a \emph{Dive-in} holding the deep implementation notes. \textbf{Build} then executes the work as a task kanban (\emph{Not started} / \emph{In progress} / \emph{Done}). I followed this method for all three projects; the card in Figure~\ref{fig:qonto-way-card} is the real one for the Tableau migration (Chapter~\ref{ch:tableau}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{imgs/project_card_page.png}
+\caption{The Notion project card that structures the work following the ``the Qonto Way''.}
+\label{fig:qonto-way-card}
+\end{figure}
+
+At team level, a \emph{Delivery Board} tracks every project across the same lifecycle stages, \emph{Value Analysis} $\rightarrow$ \emph{Value Engineering} $\rightarrow$ \emph{Build} $\rightarrow$ \emph{Value Validation}, each with a progress percentage, its blockers and a target date, and reviewed in a daily stand-up (Figure~\ref{fig:delivery-board}). This gave a shared, at-a-glance picture of where each initiative stood. In practice the method strongly structured my work: it forced me to pin down the \emph{Definition of Done} before coding, to surface the \emph{Hard Points} early, and to make trade-offs explicit in the \emph{Solutions} and \emph{Dive-in} sections, a discipline reflected throughout this report.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{imgs/data_platform_delivery_board.png}
+\caption{The Data Platform Delivery Board during.}
+\label{fig:delivery-board}
+\end{figure}
 
 On the engineering side, work goes through \emph{Pull Requests} (PRs) systematically reviewed by one or more engineers, continuous integration (tests, linting, schema validation) and a deployment across successive environments (\emph{staging} then production). This review discipline proved decisive, in particular for the zero-downtime production cutovers described later.
 

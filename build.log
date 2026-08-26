@@ -364,15 +364,15 @@ rred downstream) vs
 [6]) [7] (./chapters/01-introduction.tex) (./chapters/02-context.tex [1]
 [2]
 Chapter 1.
-[3]) (./chapters/03-state-of-the-art.tex [4] [5]
+[3] [4] [5]) (./chapters/03-state-of-the-art.tex [6]
 Chapter 2.
-[6] [7]
+[7] [8]
 
 LaTeX Font Warning: Font shape `TU/LatinModernMono(0)/b/n' undefined
 (Font)              using `TU/LatinModernMono(0)/m/n' instead on input line 35.
 
 
-) (./chapters/04-notion.tex [8]
+) (./chapters/04-notion.tex [9]
 Chapter 3.
 
 Underfull \hbox (badness 10000) in paragraph at lines 43--43
@@ -387,29 +387,29 @@ bs\TU/TeXGyrePagella(0)/m/n/10 )|
 
 Underfull \hbox (badness 10000) in paragraph at lines 43--43
 []|\TU/TeXGyrePagella(0)/b/n/10 dlt
-[9] [10] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+[10] [11] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
 Underfull \hbox (badness 1509) in paragraph at lines 116--116
 []|\TU/TeXGyrePagella(0)/m/n/10 Coercion by Notion property type: dates reduced
  to the local day, times-
-[11] [12]) (./chapters/05-tableau.tex [13]
+[12] [13]) (./chapters/05-tableau.tex [14]
 Chapter 4.
-[14] [15] [16]) (./chapters/06-cesop.tex [17]
+[15] [16] [17]) (./chapters/06-cesop.tex [18]
 Chapter 5.
 
 Underfull \hbox (badness 10000) in paragraph at lines 25--25
 []|\TU/TeXGyrePagella(0)/b/n/10 PKIoverheid \TU/TeXGyrePagella(0)/m/n/10 certif
 icate (X.509),
-[18]
-Underfull \hbox (badness 1377) in paragraph at lines 73--74
-[]\TU/LatinModernMono(0)/b/n/10.95 transport/ \TU/TeXGyrePagella(0)/m/n/10.95 —
- the \TU/TeXGyrePagella(0)/b/n/10.95 FTPS/mTLS \TU/TeXGyrePagella(0)/m/n/10.95 
-client to Digipoort (connect, upload the file pair,
+[19]
+Underfull \hbox (badness 2837) in paragraph at lines 73--74
+[]\TU/LatinModernMono(0)/b/n/10.95 transport/\TU/TeXGyrePagella(0)/m/n/10.95 : 
+the \TU/TeXGyrePagella(0)/b/n/10.95 FTPS/mTLS \TU/TeXGyrePagella(0)/m/n/10.95 c
+lient to Digipoort (connect, upload the file pair,
 
 Underfull \hbox (badness 1147) in paragraph at lines 73--74
 \TU/TeXGyrePagella(0)/m/n/10.95 list and download acknowledgements) and the \TU
 /LatinModernMono(0)/b/n/10.95 .meta \TU/TeXGyrePagella(0)/b/n/10.95 builder \TU
 /TeXGyrePagella(0)/m/n/10.95 compliant with the
-[19] [20]) (./chapters/07-assessment.tex [21]
+[20]) (./chapters/07-assessment.tex [21]
 Chapter 6.
 
 Underfull \hbox (badness 10000) in paragraph at lines 22--22
