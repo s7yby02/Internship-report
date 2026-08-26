@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.8.17)  26 AUG 2026 11:41
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.8.17)  26 AUG 2026 12:40
  restricted system commands enabled.
  file:line:error style messages enabled.
 **/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex
@@ -1936,7 +1936,7 @@ LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/b/n' will be
 (Font)              scaled to size 7.35999pt on input line 43.
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/b/n' will be
 (Font)              scaled to size 10.07397pt on input line 73.
- [19] [20]) (./chapters/07-assessment.tex [21]
+ [19]) (./chapters/07-assessment.tex [20]
 Chapter 6.
 
 Underfull \hbox (badness 10000) in paragraph at lines 22--22
@@ -1948,9 +1948,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 22--22
 []|\TU/TeXGyrePagella(0)/m/n/10 Re-silience
  []
 
-[22
+[21
 
-]) (./chapters/08-conclusion.tex [23]) (./chapters/09-biblio.tex [24
+]) (./chapters/08-conclusion.tex [22]) (./chapters/09-biblio.tex [23
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 28--29
@@ -1962,19 +1962,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 28--29
 \TU/TeXGyrePagella(0)/m/it/10 bank-ing li-cense\TU/TeXGyrePagella(0)/m/n/10 , TechCrunch, July 2025. [][]$\TU/LatinModernMono(0)/m/n/10 https://techcrunch.com/2025/07/02/
  []
 
-) (./chapters/10-appendices.tex [25
+) (./chapters/10-appendices.tex [24
 
 ]
 Appendix A.
-[26
+[25
 
 ]
 Appendix B.
-[27
+[26
 
 ]
 Appendix C.
-[28
+[27
 
 ]
 Appendix D.
@@ -1983,7 +1983,7 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 Missing character: There is no ▶ (U+25B6) in font "name:Latin Modern Mono:mode=node;script=latn;language=dflt;+tlig;"!
 Missing character: There is no ▶ (U+25B6) in font "name:Latin Modern Mono:mode=node;script=latn;language=dflt;+tlig;"!
-) [29
+) [28
 
 
 Missing character: There is no ▶ (U+25B6) in font "name:Latin Modern Mono:mode=node;script=latn;language=dflt;+tlig;"!
@@ -1999,19 +1999,19 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 )
 
 Here is how much of LuaTeX's memory you used:
- 48251 strings out of 476076
+ 48248 strings out of 476076
  305794,2373549 words of node,token memory allocated
  1469 words of node memory still in use:
    31 hlist, 2 vlist, 14 rule, 1 local_par, 7 glue, 5 kern, 2 penalty, 3 glyph, 93 attribute, 59 glue_spec, 91 attribute_list, 2 write, 24 pdf_literal, 6 pdf_action, 24 pdf_colorstack nodes
    avail lists: 1:5,2:3490,3:1224,4:7729,5:6133,6:98,7:9255,8:109,9:15203,10:34,11:695
- 69350 multiletter control sequences out of 65536+600000
+ 69348 multiletter control sequences out of 65536+600000
  104 fonts using 14117751 bytes
- 98i,12n,104p,1700b,1050s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,12n,104p,1700b,1047s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-bolditalic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono10-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-bolditalic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono8-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on main.pdf (37 pages, 233665 bytes).
+Output written on main.pdf (36 pages, 230359 bytes).
 
-PDF statistics: 736 PDF objects out of 1000 (max. 8388607)
- 627 compressed objects within 7 object streams
- 174 named destinations out of 1000 (max. 1048576)
+PDF statistics: 732 PDF objects out of 1000 (max. 8388607)
+ 624 compressed objects within 7 object streams
+ 173 named destinations out of 1000 (max. 1048576)
  672 words of extra memory for PDF output out of 10000 (max. 100000000)
 

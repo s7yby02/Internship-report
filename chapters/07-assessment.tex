@@ -14,7 +14,7 @@ In hindsight, the three projects share the same outline, summarised in Table~\re
 \textbf{Axis} & \textbf{Notion project} & \textbf{Tableau project} \\
 \midrule
 Triggering constraint & \texttt{notion-client} 0.9$\rightarrow$3.0 in the base image: breaking API + silent truncation & Tableau client too old in the base image: JWT blocked \\
-Legacy fragility & Three-operator chain, no truncation detection & 14 manually rotated PATs + token pool + XCom hack \\
+Legacy fragility & No truncation detection & 14 manually rotated PATs + token pool + XCom hack \\
 Decoupling & To \texttt{qonto-python-dlt} (dlt Snowflake destination) & To \texttt{qonto-python-data-engineering} (K8s pods) \\
 Real difficulty & Byte-for-byte parity + zero-downtime cutover & Unblocking the JWT by moving the dependency out + avoiding pod starvation \\
 Resilience gained & Native pagination, load auditing, atomic swap & A single secret, short-lived token, no more rotation \\
@@ -42,8 +42,8 @@ Beyond the technical side, the internship reinforced a way of working: \emph{tra
 
 \section{Transferable skills}
 
-I gained autonomy and \emph{ownership}: taking a high-impact topic and carrying it into production entails real responsibility, especially for critical pipelines that page the on-call rotation. Collaboration was essential — demanding code reviews, exchanges with the \emph{Regulatory} and \emph{SRE} teams for CESOP — as was written communication: documenting decisions, sticking points and trade-offs on Notion, both to gain buy-in in review and to transfer ownership of the systems to the team.
+I gained autonomy and \emph{ownership}: taking a high-impact topic and carrying it into production entails real responsibility, especially for critical pipelines that page the on-call rotation. Collaboration was essential: demanding code reviews, exchanges with different teams by documenting decisions, sticking points and trade-offs on Notion, both to gain buy-in in review and to transfer ownership of the systems to the team.
 
 \section{Value for the company}
 
-The deliverables carry direct and lasting value: the removal of two incident classes (silent truncation; missed token rotation), a significant reduction of legacy code and of coupling to the shared image, and the establishment of a hitherto non-existent regulatory chain. Beyond that, the patterns established — dlt's first Snowflake destination, a zero-downtime migration template, reusable JWT authentication — are references for the team's future migrations.
+The deliverables carry direct and lasting value: the removal of two incident classes (silent truncation; missed token rotation), a significant reduction of legacy code and of coupling to the shared image, and the establishment of a hitherto non-existent regulatory chain. Beyond that, the patterns established (dlt's first Snowflake destination, a zero-downtime migration template, reusable JWT authentication) are references for the team's future migrations.
