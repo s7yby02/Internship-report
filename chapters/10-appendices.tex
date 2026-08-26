@@ -1,0 +1,70 @@
+\chapter{Detailed presentation of Qonto}\label{anx:qonto}
+
+Qonto is a European neobank for professionals (freelancers, very small businesses and SMEs), founded in 2017 by Alexandre Prot and Steve Anavi and operated by the company Olinda~SAS~\cite{qonto-wiki}. Its offering covers the business account, payment cards, transfers, invoicing and pre-accounting and financial-steering tools. At the time of the internship, the company reports on the order of 600{,}000 customers, operates in eight European countries (France, Germany, Italy, Spain, Austria, Belgium, the Netherlands, Portugal) and states the ambition of reaching two million customers by 2030~\cite{qonto-press}. On the regulatory side, Qonto operates as a payment institution and has begun the process of obtaining a banking licence. This payment-service-provider status underpins the regulatory-reporting obligations discussed in Chapter~\ref{ch:cesop}.
+
+\chapter{Technical environment and repositories}
+
+The projects span several repositories:
+
+\begin{description}[style=nextline,leftmargin=1em,font=\ttfamily\bfseries]
+  \item[qonto-airflow] Airflow monorepo (declarative DAG generation, shared Docker base image). Target of the decommissionings and production cutovers.
+  \item[qonto-python-dlt] dlt-based ingestion repository (Snowflake destination). Home of the new Notion job.
+  \item[qonto-python-data-engineering] \emph{Job Orchestrator}: Python jobs run in Kubernetes pods. Home of the Tableau and CESOP jobs.
+  \item[data-contracts] Data contracts (Qontract, YAML) describing the schema of ingested tables.
+\end{description}
+
+\noindent\textbf{Technical stack:} Apache Airflow (orchestration), Snowflake (warehouse), Amazon S3 (staging), dbt (transformation), Kubernetes (isolated execution), AWS SSM Parameter Store (secrets), Python~3.12, \texttt{uv} (dependency management).
+
+\chapter{Main contributions (Pull Requests)}
+
+As concrete evidence of the work carried out, the main merged PRs, by project.
+
+\paragraph{Notion project (\texttt{qonto-python-dlt}).} Porting of the tested modules (\#46) and wiring of the test DAGs (\#47); naming conventions for parity (\#55, \#56, \#57); JSONL loading for native VARIANT/ARRAY (\#68); date and time-zone parity (\#70, \#79); serialisation of list/object columns (\#71, \#72, \#73); nullability aligned with the legacy (\#75); tuned retry session for long fetches (\#80); reserved-keyword suffixing (\#82); schema reconciliation on contract drift (\#83, \#84).
+
+\paragraph{Notion project --- cutover (\texttt{qonto-airflow}).} Wiring the dlt loader in parallel (\#1419); cutover to \texttt{RAW.NOTION} (\#1513); repointing the sensors (\#1511); removing the transitional shims (\#1529); decommissioning the legacy operator and removing the \texttt{notion-client} dependency (\#1536).
+
+\paragraph{Tableau project (\texttt{qonto-python-data-engineering}).} JWT dependencies and logic (\#171, \#173); metadata loader (\#179, \#180); refresh pipeline with generated schedule (\#187); concurrency cap and 409 idempotency (\#191); workbook-onboarding skill (\#194); publishing the priority seed to S3 (\#196); documentation (\#204).
+
+\paragraph{Tableau project --- cutover (\texttt{qonto-airflow}).} Per-task priority from \texttt{schedule.yaml} (\#1593); per-DAG \texttt{max\_active\_tasks} (\#1602); P2 priority seed from S3 (\#1626); removal of the legacy refresh runtime --- operator, tokens, PATs, pool (\#1633, \#1634).
+
+\paragraph{CESOP project (\texttt{qonto-python-data-engineering}).} Project blueprint (\#221); \texttt{.meta} builder (\#222); acknowledgement parser (\#224); Snowflake state model (\#225); Digipoort FTPS client (\#226); submission flow --- DAG~A (\#228); Logius CA trust (\#229); polling flow --- DAG~B (\#230).
+
+\chapter{Code excerpts}
+
+\section*{JWT authentication (Tableau project)}
+The function that mints the short-lived HS256 token for the Tableau \emph{Connected App} (Chapter~\ref{ch:tableau}):
+
+\begin{lstlisting}[language=Python,caption={\texttt{make\_jwt}: minting a short JWT signed by a single secret.}]
+def make_jwt(client_id: str, secret_id: str, secret_value: str, scopes: list[str]) -> str:
+    return jwt.encode(
+        {
+            "iss": client_id,
+            "exp": datetime.now(UTC) + timedelta(minutes=5),
+            "jti": str(uuid.uuid4()),          # anti-replay
+            "aud": "tableau",
+            "sub": TABLEAU_USER,
+            "scp": scopes,                       # least privilege
+        },
+        secret_value,
+        algorithm="HS256",
+        headers={"kid": secret_id, "iss": client_id},
+    )
+\end{lstlisting}
+
+\section*{Naming convention for parity (Notion project)}
+The custom naming convention imposed on dlt to preserve production column names (Chapter~\ref{ch:notion}): it merely lowercases, without touching underscores, and declares itself case-insensitive to emit unquoted DDL.
+
+\begin{lstlisting}[language=Python,caption={``Passthrough'' naming convention (excerpt).}]
+class NamingConvention(BaseNamingConvention):
+    # dlt collapses "__" ; we pick an out-of-band separator to
+    # avoid the collision with Notion column names.
+    PATH_SEPARATOR: ClassVar[str] = "▶"
+
+    def normalize_identifier(self, identifier: str) -> str:
+        identifier = super().normalize_identifier(identifier)
+        return self.shorten_identifier(identifier.lower(), identifier, self.max_length)
+
+    @property
+    def is_case_sensitive(self) -> bool:
+        return False
+\end{lstlisting}

@@ -1,0 +1,45 @@
+\chapter{State of the art and problem statement}\label{ch:sota}
+
+The projects of this internship belong to data engineering and to software engineering applied to pipelines. This chapter situates the work with respect to the state of the art of integration paradigms, ingestion frameworks, orchestration, machine-to-machine authentication and warehouse loading. It concludes by formalising the problem common to the projects.
+
+\section{Integration paradigms: from ETL to EL}
+
+Data integration long followed the \emph{ETL} paradigm (\emph{Extract–Transform–Load}): data is extracted and transformed \emph{before} being loaded into a target database. The advent of elastic cloud warehouses such as Snowflake or BigQuery favoured the \emph{EL} (or \emph{ELT}) paradigm: the raw data is \emph{loaded first}, then transformed \emph{inside} the warehouse using tools such as dbt~\cite{dbt-docs}. Deferring transformation downstream offers several recognised advantages~\cite{kleppmann}: the raw data remains available (replayability), the transformation logic is versioned and tested like code, and extraction reduces to a faithful copy operation. Qonto's platform follows this paradigm: ingestion must produce a faithful mirror of the source in \texttt{RAW}, and all business logic lives in dbt. This separation has a direct consequence for the Notion project: an ingestion \emph{must not} alter the shape of the data, on pain of breaking the downstream dbt models.
+
+\section{Ingestion frameworks: from the in-house operator to the declarative framework}
+
+Three families of approaches coexist for extracting a source and loading it into a warehouse.
+
+\paragraph{In-house operators.} Historically, Qonto wrote one Airflow \emph{operator} per source type (for example a \texttt{NotionToS3Operator}). This approach gives full control but places on the team the entire cross-cutting logic: pagination, error retries, typing, incremental loading, code that must be maintained and that is a recurring source of bugs.
+
+\paragraph{Connector platforms.} Tools such as Airbyte~\cite{airbyte} provide a catalogue of ready-made connectors. They reduce the code to write but introduce heavy infrastructure (a service to operate) and impose their own destination formats and conventions, which complicates parity with an existing system.
+
+\paragraph{``Library'' EL frameworks.} A more recent approach embeds ingestion as a \emph{library} inside a plain Python program. The \emph{dlt} (\emph{data load tool}) framework~\cite{dlt-docs} is a representative: the developer declares \emph{resources} (Python generators yielding records) and a \emph{pipeline} towards a \emph{destination} (Snowflake, say); the framework automatically handles API pagination, \emph{normalisation} of semi-structured data, file \emph{staging} and loading, including incremental loads and schema tracking. dlt thus offers the best of both worlds: little in-house code, yet without the infrastructure of a connector platform. At Qonto, dlt was already in production for other sources (LinkedIn and Facebook advertising), but with a \emph{data-lake} destination (Iceberg); using a native Snowflake destination was a first (Chapter~\ref{ch:notion}).
+
+\section{Orchestration and infrastructure coupling}
+
+Airflow~\cite{airflow-docs} models a pipeline as a directed acyclic graph (DAG) of tasks. A structuring design choice is how the \emph{code} and \emph{dependencies} of the tasks are packaged. A \emph{monorepo} with a Docker image shared by all DAGs simplifies deployment but creates strong coupling: any library upgrade potentially affects \emph{all} pipelines. This is the \emph{blast radius}: the more a dependency is shared, the wider the risk induced by changing it. Software engineering literature and practice recommend, to contain this risk (\emph{dependency isolation}) for example by running each job in its own container, via Airflow's \texttt{KubernetesPodOperator} or an equivalent pattern. Qonto's \emph{Job Orchestrator} (Chapter~\ref{ch:context}) applies exactly this principle. This coupling to the shared image is the common thread of the first two projects, formalised in \S\ref{sec:pb}.
+
+\section{Machine-to-machine authentication}
+
+Making two systems talk to each other without human intervention raises the question of authentication. Several mechanisms exist, of increasing stringency.
+
+\paragraph{Personal access tokens (PAT).} A \emph{Personal Access Token} is a long-lived secret tied to an account. Simple to implement, it has two major flaws: its \emph{rotation} (renewal before expiry) is a recurring manual task and a source of incidents, and its nature as a durable secret increases the exposure surface. The Tableau project (Chapter~\ref{ch:tableau}) started from managing fourteen annually rotated PATs.
+
+\paragraph{Short-lived signed tokens (JWT).} The \emph{JSON Web Token} standard~\cite{rfc7519} lets a client \emph{mint} its own signed token, with a very short lifetime, from a single secret. The \emph{JWT bearer} profile of OAuth~2.0~\cite{rfc7523} formalises exchanging that assertion for a session token. Tableau exposes this mechanism through its \emph{Connected Apps}~\cite{tableau-connectedapps}: a single secret, never transmitted over the network, replaces the multitude of PATs; each run mints a token valid for a few minutes, with least-privilege \emph{scopes}. This shift from a durable shared secret to a short-lived per-run token illustrates two best practices: \emph{least privilege} and \emph{reducing the lifetime of secrets}.
+
+\paragraph{Mutual certificate authentication (mTLS/PKI).} In exchanges with public administrations, authentication often relies on a public-key infrastructure (PKI) and \emph{mutual TLS}: the client presents an X.509 certificate issued by a trusted authority. This is the model imposed by the Dutch Digipoort gateway via a PKIoverheid certificate, over an FTPS channel~\cite{rfc4217} and not to be confused with SFTP (Chapter~\ref{ch:cesop}).
+
+A cross-cutting point across these mechanisms is \emph{secrets management}: no secret should be written in clear text in the code or the image. Qonto uses AWS SSM Parameter Store (encrypted), where only the parameter \emph{name} appears in the configuration, the value being resolved at runtime.
+
+\section{Warehouse loading: staging, \texttt{COPY} and atomic swap}
+
+Efficiently loading large volumes into Snowflake follows a well-established pattern~\cite{snowflake-copy}: drop the files on object storage (S3), then run a bulk \texttt{COPY INTO} command. The question of \emph{visibility} then arises while a table is being fully reloaded in ``replace'' mode. A naive approach (truncate then re-insert) leaves a window during which the table returns zero rows. The \emph{atomic swap} technique solves this: load into a \emph{staging} table, then exchange the two tables with an instantaneous metadata operation (\texttt{SWAP}), so that a reader sees the old version until commit, then the new one with no partial state. Two subtleties, central to Chapter~\ref{ch:notion}, accompany this pattern: Snowflake's \texttt{SWAP} operation \emph{also exchanges the grants} between the two tables.
+
+\section{Regulatory reporting and data transmission}
+
+Finally, part of the internship falls under \emph{compliance}. The European CESOP directive~\cite{cesop-eu} has, since 2024, required payment service providers to report their cross-border payments quarterly, in a standardised XML format, in order to fight VAT fraud. While most countries offer a web API, some, including the Netherlands, impose a government gateway (Digipoort) with a file-based exchange protocol and certificate authentication. Building such a chain is a problem of \emph{systems integration} and \emph{state machines} (submission, then asynchronous reconciliation of acknowledgements that may span several weeks) more than a data problem in the classical sense.
+
+\section{Problem statement and positioning}\label{sec:pb}
+
+From this state of the art, the internship's common problem emerges. In the first two projects, the business logic was not itself faulty; the true source of fragility was the \emph{coupling} to Airflow's shared Docker image, which made any change risky and concealed failures. The adopted approach is therefore, each time: (1)~\emph{diagnose} that the real constraint is infrastructural; (2)~\emph{decouple} the job into a dedicated repository and image (via the Job Orchestrator); (3)~take advantage of the decoupling to \emph{remove} a brittle legacy mechanism and \emph{harden} the job; all of it (4)~\emph{without interruption} for downstream consumers. The third project, regulatory in nature, applies the same demand for rigour and industrialisation to a brand-new chain. The following chapters unfold this approach project by project.

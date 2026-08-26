@@ -1,0 +1,66 @@
+\chapter{Internship context}\label{ch:context}
+
+This chapter introduces the host company, the team I worked in, the technical ecosystem underpinning the projects, and the working method. It provides the background needed to understand the following chapters; a more detailed company presentation is given in Appendix~\ref{anx:qonto}.
+
+\section{The company: Qonto}
+
+Qonto is a European neobank for freelancers, very small businesses and SMEs. Founded in 2017 by Alexandre Prot and Steve Anavi, it is operated by the company Olinda~SAS and offers a business account together with financial-management services: payment cards, transfers, invoicing, pre-accounting and steering tools~\cite{qonto-wiki,qonto-press}. At the time of the internship, Qonto reports on the order of 600{,}000 customers and operates in eight European countries: France, Germany, Italy, Spain, Austria, Belgium, the Netherlands and Portugal, following an expansion into four new markets in 2024~\cite{qonto-press}.
+
+On the regulatory side, Qonto operates as a \emph{payment institution} (Payment Service Provider, PSP). This status is not a mere legal detail: it entails regulatory-reporting obligations, including the European CESOP filing addressed in Chapter~\ref{ch:cesop} and demands a high level of rigour on data reliability and traceability. The opening of a Dutch IBAN in late 2025 is precisely what made Qonto liable for the CESOP filing in the Netherlands.
+
+\section{The Data Platform team and the technical ecosystem}
+
+I completed my internship within the \emph{Data Platform} team, part of the Data department. Its mission is to provide business and other technical teams with a reliable platform for ingesting, transforming and delivering data. It owns the ``plumbing'': moving data from dozens of sources into the warehouse, guaranteeing its freshness and accuracy, and exposing the results.
+
+The ecosystem revolves around a few building blocks (Figure~\ref{fig:archi-platform}):
+
+\begin{itemize}
+  \item \textbf{Apache Airflow} is the central orchestrator. Its code lives in a monolithic repository, \texttt{qonto-airflow}, whose distinctive feature is a \emph{declarative} generation model: rather than hand-writing each DAG, one drops a configuration file and the corresponding DAG is produced automatically. This repository relies on a \textbf{shared Docker base image} used by all pipelines; a central point for what follows.
+  \item \textbf{Snowflake} is the cloud data warehouse, the final target of every ingestion. Raw data lands in a \texttt{RAW} database, organised by schema (one per source: \texttt{NOTION}, \texttt{TABLEAU\_METADATA}, etc.).
+  \item \textbf{Amazon S3} serves as a \emph{staging} area: extractions are written there (CSV, JSONL, Parquet) before being loaded into Snowflake with a \texttt{COPY INTO} command.
+  \item \textbf{dbt} (\emph{data build tool}) handles downstream transformation: from the \texttt{RAW} tables, SQL models build the business tables consumed by analysts. A single DAG, \texttt{daily\_transform\_dbt}, materialises all these models with their dependencies.
+  \item \textbf{Data contracts} (\emph{Qontract}) describe, as YAML files, the expected schema of each ingested table: fields, types, primary key. They are the source of truth for typing.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  font=\sffamily\footnotesize,
+  node distance=8mm and 12mm,
+  box/.style={rectangle,rounded corners=2pt,draw=qgray!60,fill=qlight,minimum height=8mm,minimum width=20mm,align=center,inner sep=4pt},
+  src/.style={box,fill=white},
+  store/.style={box,fill=qaccent!12,draw=qaccent!70},
+  proc/.style={box,fill=qaccent2!12,draw=qaccent2!70},
+  arr/.style={-{Stealth[length=2mm]},draw=qgray,thick}
+]
+\node[src] (sources) {Sources\\{\scriptsize Notion, Tableau,}\\{\scriptsize APIs, Postgres\dots}};
+\node[proc,right=of sources] (airflow) {Airflow\\{\scriptsize (ingestion)}};
+\node[store,right=of airflow] (s3) {S3\\{\scriptsize staging}};
+\node[store,right=of s3] (raw) {Snowflake\\\texttt{RAW}};
+\node[proc,below=10mm of raw] (dbt) {dbt\\{\scriptsize transform}};
+\node[store,left=of dbt] (marts) {Snowflake\\{\scriptsize marts}};
+\node[src,left=of marts] (bi) {Delivery\\{\scriptsize Tableau, exports}};
+\draw[arr] (sources) -- (airflow);
+\draw[arr] (airflow) -- (s3);
+\draw[arr] (s3) -- (raw);
+\draw[arr] (raw) -- (dbt);
+\draw[arr] (dbt) -- (marts);
+\draw[arr] (marts) -- (bi);
+\end{tikzpicture}
+\caption{Simplified daily ETL chain of the Data Platform.}
+\label{fig:archi-platform}
+\end{figure}
+
+\subsection{The \emph{Job Orchestrator}: moving a job out of the shared image}
+
+One architectural element recurs in two of the three projects: the \emph{Job Orchestrator}. It is an internal pattern for running a job \emph{outside} Airflow's Docker image. The principle: the job's code lives in a dedicated repository (for example \texttt{qonto-python-data-engineering} or \texttt{qonto-python-dlt}), with its own Docker image and its own dependencies; the job is simply declared in a \texttt{schedule.yaml} file, and a component (\texttt{custom\_jobs\_orchestrator.py}) \emph{auto-generates} the corresponding Airflow DAG, each task running in an isolated Kubernetes \emph{pod}. The benefit is twofold: the job's dependencies are \emph{decoupled} from the common image, and there is no longer any DAG code to maintain in \texttt{qonto-airflow}. This mechanism is the keystone of the first two projects.
+
+\section{Working method}
+
+The team applies a structured method, internally called the \emph{Qonto Way}, which distinguishes two phases in a project: \emph{Value Analysis} (VA) where we frame the problem, stakeholders, the definition of ``done'' and the possible approaches then \emph{Value Engineering} (VE) with the detailed design, resolution of the sticking points (\emph{Hard Points}) and construction. Each project is documented on a Notion space following this template. I followed this approach for all three projects, which strongly structured my work: identify the true cause before coding, make trade-offs explicit, and list the sticking points to resolve.
+
+On the engineering side, work goes through \emph{Pull Requests} (PRs) systematically reviewed by one or more engineers, continuous integration (tests, linting, schema validation) and a deployment across successive environments (\emph{staging} then production). This review discipline proved decisive, in particular for the zero-downtime production cutovers described later.
+
+\section{My position and assignments}
+
+Integrated into the team as a data engineer intern, I took ownership of topics end to end, from analysis to production. My three main assignments, presented in the following chapters, were: (i)~migrating Notion ingestion to the dlt framework; (ii)~migrating the Tableau pipelines out of the Airflow image with a move to JWT authentication; and (iii)~building the CESOP regulatory transmission chain for the Netherlands.

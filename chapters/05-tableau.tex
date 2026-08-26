@@ -1,0 +1,99 @@
+\chapter{Migrating the Tableau DAGs and JWT authentication}\label{ch:tableau}
+
+The second project applies the same decoupling approach as the first, but with a different root cause: here, the central problem is \emph{authentication}. It shows how a seemingly minor constraint (tokens to renew) in fact forces a redesign of the execution architecture.
+
+\section{The legacy}
+
+Two families of Tableau pipelines lived in \texttt{qonto-airflow}:
+
+\begin{itemize}
+  \item \textbf{Refresh}: a DAG \texttt{daily\_refresh\_tableau\_workbooks} (03:00 UTC) recomputed \textbf{62 workbooks} every night, one task per workbook, each gated by sensors on the dbt models that feed it (about 140 deduplicated sensors). The priority (\emph{P1}) workbooks are critical and page the on-call rotation on failure.
+  \item \textbf{Metadata loading}: four DAGs queried Tableau's \emph{Metadata} GraphQL API (workbooks, tables, views, revisions) into Snowflake via the extract $\rightarrow$ S3 $\rightarrow$ Snowflake chain.
+\end{itemize}
+
+\section{The central problem: authentication}
+
+The whole thing relied on \textbf{fourteen personal access tokens} (PATs): ten for refresh and four for metadata \emph{expiring every year} and tracked \emph{by hand} in a Notion table. A missed rotation broke the nightly refresh. To stay under the \emph{concurrent-session limit per token} imposed by Tableau, the refresh used a \emph{pool of ten tokens} managed by an XCom mechanism detailed below. Finally, the version of the Tableau client (\emph{Tableau Server Client}, TSC) embedded in the Airflow image was \emph{too old} to support \emph{Connected Apps}: the move to JWT was therefore \emph{blocked} as long as the dependency stayed in the shared image. We find here, exactly, the coupling identified in Chapter~\ref{ch:sota}.
+
+\subsection{The legacy XCom mechanism}
+
+This mechanism deserves an explanation, as it illustrates a subtle piece of technical debt. XCom is the communication channel between Airflow tasks, designed to be \emph{immutable} (append-only). The legacy code diverted it to implement a token pool:
+
+\begin{enumerate}
+  \item an operator pushed, at the start of the DAG, the list of the ten available connection names (the ``whiteboard'' of free tokens);
+  \item one sensor per workbook, running in a \emph{single-slot Airflow pool} (a \emph{mutex}), read the list, \emph{removed} a token and \emph{rewrote} the shortened list;
+  \item the refresh operator used the acquired token;
+  \item a release operator returned the token at the end of the run (even on failure).
+\end{enumerate}
+
+\emph{Why a single-slot mutex?} Because the 62 acquisitions run in parallel and all perform a \emph{read–modify–write} cycle on the same list: without serialisation, two tasks would take the same token (a \emph{race condition}). The mutex guarantees a single mutation at a time, to be distinguished from the \emph{parallelism of ten} (the number of tokens). Above all, to mutate an XCom value mid-run, the legacy code \emph{wrote directly to the} \texttt{xcom} \emph{table} of Airflow's metadata database which is a mutable state hacked into the heart of the scheduler, brittle and invisible to Airflow. This is the \emph{hack} that the migration removed.
+
+\section{Solution: dedicated pods and a JWT Connected App}
+
+The solution combines decoupling and an authentication redesign:
+
+\begin{itemize}
+  \item \textbf{Migration of both pipelines} to \texttt{qonto-python-data-engineering} (\texttt{jobs/tableau/}), run as \texttt{CustomJobKubernetesPodOperator} — one pod per workbook, thus \emph{outside} the Airflow image. The \texttt{apache-airflow-providers-tableau} provider is removed from \texttt{qonto-airflow}.
+  \item \textbf{Replacement of the 14 PATs by a single JWT \emph{Connected App}.} A \texttt{make\_jwt()} function mints, on each run, an HS256 token (\texttt{exp} at 5 minutes, a unique anti-replay identifier, least-privilege scopes), signed by a single secret resolved from AWS SSM. The application identifiers are public; only the secret value is confidential and is never transmitted or committed. \textbf{One secret replaces fourteen PATs.}
+  \item \textbf{Full removal} of the XCom pool, the mutex and the associated operators. The refresh DAG goes from \emph{five tasks per workbook to two} (dbt sensor $\rightarrow$ pod); metadata from \emph{three tasks to one pod} (Figure~\ref{fig:tableau-ba}).
+  \item The configuration of the 62 workbooks is \emph{driven by Python modules} and the refresh \texttt{schedule.yaml} is \emph{generated}, with a continuous-integration test keeping generation and modules in sync.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\sffamily\scriptsize,node distance=5mm,
+  t/.style={rectangle,rounded corners=2pt,draw=qgray!60,fill=white,align=center,inner sep=3pt,minimum height=7mm},
+  n/.style={t,fill=qaccent2!14,draw=qaccent2!70},
+  arr/.style={-{Stealth[length=1.6mm]},draw=qgray,thick}]
+\node[align=left,font=\sffamily\scriptsize\itshape] (lb) {Before\\(5 tasks):};
+\node[t,right=6mm of lb] (i) {initialize\\tokens};
+\node[t,right=of i] (ds) {dbt\\sensor};
+\node[t,right=of ds] (aq) {acquire\\token};
+\node[t,right=of aq] (rw) {refresh\\workbook};
+\node[t,right=of rw] (rl) {release\\token};
+\draw[arr] (i)--(ds); \draw[arr] (ds)--(aq); \draw[arr] (aq)--(rw); \draw[arr] (rw)--(rl);
+\node[align=left,font=\sffamily\scriptsize\itshape,below=10mm of lb.west,anchor=west] (la) {After\\(2 tasks):};
+\node[n,right=6mm of la] (ds2) {dbt sensor};
+\node[n,right=of ds2] (pod) {refresh\_workbook (K8s pod, internal JWT)};
+\draw[arr,draw=qaccent2] (ds2)--(pod);
+\end{tikzpicture}
+\caption{Refreshing a workbook: before and after.}
+\label{fig:tableau-ba}
+\end{figure}
+
+\section{How the JWT works}
+
+On each run, \texttt{make\_jwt} encodes an HS256 token carrying the issuer (client identifier), the audience (\texttt{tableau}), the subject (service account), the requested scopes, a unique identifier and a five-minute expiry; the header references the secret identifier. This token is passed to the Tableau client, whose authentication call returns a \emph{session token} (valid for up to 240 minutes of inactivity) used thereafter.
+\section{Difficulties encountered}
+
+Three concrete obstacles had to be overcome, each instructive.
+
+\paragraph{The jobs API blocked under JWT.} Tracking a refresh's progress used the \texttt{jobs} API, which returns a 401 error for a session issued by a Connected App. \emph{Fix}: detect the end of the refresh by \emph{polling} the workbook's last-update timestamp (\texttt{updated\_at}) every 30 seconds until it changes.
+
+\paragraph{Refresh-pod starvation.} An initial global cap made the slots \emph{shared} between the 140 dbt sensors and the pods: a ready pod could wait up to 90 minutes. \emph{Fix}: a \emph{dedicated Airflow pool} (ten slots) bounding \emph{only} the refresh pods.
+
+\paragraph{Idempotency on 409 and 429.} If a refresh is already queued (code 409, for example triggered manually from the UI), we do not re-trigger it: we wait for the one in flight. Rate limiting (code 429) was handled with a back-off; it is now avoided upstream by the pool of ten.
+
+\begin{keybox}[Important nuance: the real constraint is server-side]
+Tableau Cloud caps concurrent extract refreshes at \emph{ten} per site. After migration, I \emph{keep} this limit of ten, but via a \emph{simple Airflow pool} rather than through token scarcity. What disappears: token scarcity, the XCom mutex and manual rotation. In other words, the migration does not remove the server limit, it removes the \emph{brittle plumbing} that simulated it.
+\end{keybox}
+
+\section{Decisions and trade-offs}
+
+\emph{Why not simply bump the TSC in the Airflow image?} Because the image is \emph{shared by all DAGs}: bumping the Tableau client risked breaking other providers and coupled a product library to the lifecycle of everyone's image. Moving the dependency into a dedicated repository and pods unblocks the JWT \emph{and} reduces the risk surface to the Tableau perimeter alone.
+
+\emph{Accepted trade-offs:} one more repository, image and deployment pipeline, plus a \emph{cross-repo contract}. The gain; JWT unblocked, zero rotation, removal of the XCom hack far outweighs it.
+
+\begin{keybox}[Results and evaluation]
+\begin{itemize}
+  \item \textbf{One secret instead of fourteen PATs}, and \emph{zero manual rotation}: the ``missed rotation $\rightarrow$ broken refresh'' incident class disappears.
+  \item \textbf{Simplification}: refresh from 5 to 2 tasks per workbook, metadata from 3 tasks to 1 pod; removal of the token pool, the mutex and the XCom mutation hack.
+  \item \textbf{Decoupling}: Tableau provider removed from the base image; execution in isolated pods.
+  \item \textbf{Reduced debt}: on the order of 880 lines of legacy code removed.
+  \item \textbf{Cleanly bounded concurrency}: still capped at ten (Tableau Cloud limit), but through an explicit pool.
+\end{itemize}
+\end{keybox}
+
+\begin{contribbox}
+I led the entire migration: design and implementation of the JWT authentication and its tests, porting of the refresh and metadata pipelines to pods, configuration-driven generation of the 62 workbooks, resolution of the three difficulties above, and decommissioning of the legacy runtime on the \texttt{qonto-airflow} side (PR~\#1633/\#1634). In addition, I tooled the onboarding of a new workbook via a \emph{skill} that validates, generates the configuration and opens the PR; a contribution to the team's automation culture.
+\end{contribbox}

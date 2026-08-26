@@ -1,0 +1,160 @@
+% =====================================================================
+%  Master's internship report — Master in Data Science (Univ. Rouen)
+%  Author: Ayoub EL HARRAN — Data Engineering @ Qonto
+%  Engine: XeLaTeX (OpenType fonts + polyglossia EN/FR)
+%  Build:  latexmk -xelatex main.tex   (or xelatex main.tex ×2)
+% =====================================================================
+\documentclass[11pt,a4paper,oneside]{report}
+
+% ---------- Language & fonts (XeLaTeX + polyglossia) ----------
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\setotherlanguage{french}
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{TeX Gyre Pagella}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{Latin Modern Mono}[Scale=0.92]
+
+% ---------- Page layout ----------
+\usepackage[a4paper,top=2.6cm,bottom=2.4cm,left=2.6cm,right=2.6cm,headheight=14pt]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{emptypage}
+\tolerance=2000
+\emergencystretch=1.2em
+
+% ---------- Colours ----------
+\usepackage{xcolor}
+\definecolor{qink}{HTML}{1F2933}
+\definecolor{qaccent}{HTML}{1F6FB2}
+\definecolor{qaccent2}{HTML}{2B8A6F}
+\definecolor{qgray}{HTML}{5B6570}
+\definecolor{qlight}{HTML}{EEF3F7}
+\definecolor{qcode}{HTML}{F5F7FA}
+\definecolor{codekw}{HTML}{0B5FA5}
+\definecolor{codestr}{HTML}{2B8A6F}
+\definecolor{codecmt}{HTML}{8A94A0}
+
+% ---------- Headings ----------
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\sffamily\bfseries\color{qink}}
+  {\raggedright\large\color{qaccent}\MakeUppercase{\chaptertitlename}\ \thechapter}
+  {8pt}{\Huge\raggedright}
+  [\vspace{4pt}{\color{qaccent}\titlerule[1.2pt]}]
+\titlespacing*{\chapter}{0pt}{6pt}{22pt}
+\titleformat{\section}
+  {\normalfont\sffamily\large\bfseries\color{qink}}{\color{qaccent}\thesection}{0.7em}{}
+\titleformat{\subsection}
+  {\normalfont\sffamily\normalsize\bfseries\color{qink!90}}{\color{qaccent}\thesubsection}{0.6em}{}
+
+% ---------- Headers / footers ----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\footnotesize\sffamily\color{qgray}\nouppercase{\leftmark}}
+\fancyhead[R]{\footnotesize\sffamily\color{qgray}Internship report — Qonto}
+\fancyfoot[C]{\footnotesize\sffamily\color{qgray}\thepage}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+
+% ---------- Lists, tables, figures ----------
+\usepackage{enumitem}
+\setlist{itemsep=2pt,topsep=3pt,parsep=0pt}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{font=small,labelfont={sf,bf,color=qaccent},textfont=sf}
+
+% ---------- Callout boxes ----------
+\usepackage[most]{tcolorbox}
+\newtcolorbox{keybox}[1][Results]{
+  colback=qlight,colframe=qaccent,coltitle=white,
+  fonttitle=\sffamily\bfseries,title={#1},
+  boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+\newtcolorbox{contribbox}[1][My contribution]{
+  colback=qaccent2!8,colframe=qaccent2,coltitle=white,
+  fonttitle=\sffamily\bfseries,title={#1},
+  boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+
+% ---------- Code ----------
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{qcode},
+  keywordstyle=\color{codekw}\bfseries,
+  stringstyle=\color{codestr},
+  commentstyle=\color{codecmt}\itshape,
+  numberstyle=\tiny\color{qgray},
+  numbers=left,numbersep=7pt,
+  frame=single,rulecolor=\color{qgray!35},
+  breaklines=true,breakatwhitespace=false,
+  showstringspaces=false,tabsize=2,
+  captionpos=b,columns=fullflexible,
+  aboveskip=8pt,belowskip=6pt,
+  literate={é}{{\'e}}1 {è}{{\`e}}1 {à}{{\`a}}1 {ê}{{\^e}}1 {ç}{{\c c}}1 {’}{{'}}1 {→}{{$\rightarrow$}}1 {–}{{-}}1
+}
+\lstdefinelanguage{yaml}{
+  keywords={true,false,null,dags,tasks,type,options,depends_on,schedule,owner,env_vars},
+  keywordstyle=\color{codekw}\bfseries,
+  comment=[l]{\#},morecomment=[l]{\#},
+  morestring=[b]",morestring=[b]'
+}
+
+% ---------- Misc ----------
+\usepackage{csquotes}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,backgrounds,calc}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usepackage[hidelinks,colorlinks=true,linkcolor=qink,urlcolor=qaccent,citecolor=qaccent]{hyperref}
+\usepackage{bookmark}
+
+% =====================================================================
+%  COVER VARIABLES — TO BE COMPLETED BY AYOUB (placeholders)
+% =====================================================================
+\newcommand{\studentName}{Ayoub ELHARRAN}
+\newcommand{\studentTrack}{Master 2 — Data Science and Engineering}
+\newcommand{\academicYear}{Academic year 2025--2026}
+\newcommand{\reportTitle}{Decouple to harden:\\ migrating and industrialising data pipelines at Qonto}
+% \newcommand{\reportSubtitle}{Notion ingestion \textrightarrow{} dlt, Tableau DAGs \& JWT authentication, and CESOP Netherlands regulatory transmission}
+\newcommand{\reportSubtitle}{}
+\newcommand{\companyName}{Qonto (Olinda SAS)}
+\newcommand{\companyTutor}{Michael Ourch}
+\newcommand{\companyTutorRole}{Senior Data Engineer, Data Platform}
+\newcommand{\companyTutorMail}{michael.ourch@qonto.com}
+\newcommand{\companyAddress}{\textcolor{qgray}{}}
+\newcommand{\universityTutor}{Maxime Berar}
+\newcommand{\internshipPeriod}{April -- October 2026}
+\newcommand{\university}{Université de Rouen Normandie \textemdash{} UFR of Sciences and Technology}
+
+% =====================================================================
+\begin{document}
+\pagenumbering{roman}
+\input{chapters/00-cover}
+\input{chapters/00-abstract}
+\input{chapters/00-acknowledgements}
+\microtypesetup{protrusion=false}
+\tableofcontents
+\microtypesetup{protrusion=true}
+\cleardoublepage
+\input{chapters/00-glossary}
+
+\cleardoublepage
+\pagenumbering{arabic}
+\input{chapters/01-introduction}
+\input{chapters/02-context}
+\input{chapters/03-state-of-the-art}
+\input{chapters/04-notion}
+\input{chapters/05-tableau}
+\input{chapters/06-cesop}
+\input{chapters/07-assessment}
+\input{chapters/08-conclusion}
+\input{chapters/09-biblio}
+\appendix
+\input{chapters/10-appendices}
+\end{document}

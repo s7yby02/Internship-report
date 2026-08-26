@@ -1,0 +1,27 @@
+% ---------------- Glossary ----------------
+\chapter*{Glossary \& acronyms}
+\addcontentsline{toc}{chapter}{Glossary \& acronyms}
+\markboth{Glossary}{}
+
+\begin{description}[style=nextline,leftmargin=1em,font=\sffamily\bfseries\color{qink}]
+  \item[Airflow] Open-source workflow orchestrator. A pipeline is described as a \textbf{DAG}.
+  \item[DAG] \emph{Directed Acyclic Graph}: a scheduled pipeline, a set of tasks linked by dependencies.
+  \item[dbt] \emph{data build tool}: SQL transformation tool running downstream of the data warehouse.
+  \item[dlt] \emph{data load tool}: a Python \textbf{EL} ingestion library (extract + load) with automatic normalisation, staging and loading.
+  \item[EL / ETL] Data-integration paradigms: \emph{Extract–Load} (transformation deferred downstream) vs \emph{Extract–Transform–Load}.
+  \item[Snowflake] Cloud data warehouse, the target of every ingestion.
+  \item[S3] Amazon Web Services object storage, used as a \emph{staging} area.
+  \item[Data contract (Qontract)] A YAML file declaring the fields, types and key of an ingested table.
+  \item[Job Orchestrator] Qonto-internal pattern: a job is declared in a \texttt{schedule.yaml} and its Airflow DAG is \emph{auto-generated}, in a repository and Docker image dedicated to that job.
+  \item[PAT] \emph{Personal Access Token}: a personal token with limited lifetime and manual rotation.
+  \item[JWT] \emph{JSON Web Token}: a signed token, used here via a Tableau \emph{Connected App} for authentication.
+  \item[Connected App] A trusted application declared on the Tableau side, enabling signed-JWT authentication instead of PATs.
+  \item[mTLS] \emph{mutual TLS}: authentication in which both client and server present a certificate.
+  \item[PKIoverheid] The Dutch government's public-key infrastructure; issues trusted X.509 certificates.
+  \item[Digipoort] The Dutch government's file-exchange gateway (operated by Logius).
+  \item[FTPS] \emph{FTP over TLS} (RFC 4217) — not to be confused with SFTP (FTP over SSH).
+  \item[CESOP] \emph{Central Electronic System of Payment information}: the EU system for collecting cross-border payment data (VAT anti-fraud).
+  \item[PSP] \emph{Payment Service Provider} (Qonto's status).
+  \item[PR] \emph{Pull Request}: a proposed code change submitted for review.
+  \item[VARIANT] Snowflake's semi-structured type (stores native JSON / arrays / objects).
+\end{description}

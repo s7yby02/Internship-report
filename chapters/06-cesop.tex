@@ -1,0 +1,100 @@
+\chapter{CESOP Netherlands regulatory transmission chain}\label{ch:cesop}
+
+The third project differs from the first two: it is not about migrating an existing system, but about \emph{building a brand-new} regulatory transmission chain. It draws more on systems and protocol engineering than on data engineering.
+
+\section{Regulatory context}
+
+Since 1~January 2024, the European \emph{CESOP} directive~\cite{cesop-eu} has required every payment service provider (PSP) to report its cross-border payments \emph{quarterly}, in order to fight VAT fraud in cross-border e-commerce. The regulatory trigger: as soon as a PSP executes more than 25 cross-border payments to the same payee in a quarter, all those payments must be reported; authorities then cross-check the data between member states. As Qonto is a PSP, this reporting is an already-running process for the countries where it operates. The new element: the opening of a Dutch IBAN, operational since December~2025, which makes the Netherlands a new reporting country, with a first affected quarter (Q4~2025). And \emph{the Netherlands does it differently from every other country} which is precisely the subject of this project.
+
+\section{The Dutch specificity}
+
+Where other countries accept submission via a web API (HTTPS + API key or OAuth), the Netherlands imposes a government gateway, \textbf{Digipoort} (operated by the agency Logius), with an entirely different technical stack (Table~\ref{tab:nl-delta}).
+
+\begin{table}[H]
+\centering\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}p{3.2cm}XX@{}}
+\toprule
+\textbf{Element} & \textbf{Other countries (ES/IT/FR/DE)} & \textbf{Netherlands} \\
+\midrule
+Submission point & National tax portal & The \textbf{Digipoort} gateway \\
+Authentication & API key / OAuth & \textbf{PKIoverheid} certificate (X.509), \textbf{mTLS} \\
+Transmission & HTTPS POST & \textbf{FTPS} + a \texttt{.meta} companion file \\
+Feedback & Direct API response & \textbf{Files dropped} into an \texttt{out/} folder to be polled (hours to weeks) \\
+\bottomrule
+\end{tabularx}
+\caption{The gap between the usual CESOP submission and the Dutch route (Digipoort).}
+\label{tab:nl-delta}
+\end{table}
+
+The most important design point is the distinction between \emph{the what} and \emph{the how}. \emph{The what} — the XML content (payments, payees, amounts) — is the \emph{payload}, produced by an existing generator in the Data Engineering team; it \emph{arrives as an input} to my project and follows the standard CESOP format (version~4.03). \emph{The how} — authenticate, attach a \texttt{.meta}, transmit, reconcile the acknowledgements — is my scope: the ``plumbing'' (\emph{transport/plumbing}). I build the pipes, not the water flowing through them.
+
+\section{Architecture: two DAGs and a state table}
+
+The ``submission $\rightarrow$ acknowledgement'' loop is \emph{asynchronous} and may span hours to weeks: a single task therefore cannot stay blocked waiting. The design splits the work into two DAGs, linked by a Snowflake state table (Figure~\ref{fig:cesop-dags}).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\sffamily\scriptsize,node distance=2.6mm,
+  st/.style={rectangle,rounded corners=2pt,draw=qaccent!60,fill=qaccent!8,align=left,inner sep=3pt,text width=4.6cm,minimum height=6mm},
+  su/.style={rectangle,rounded corners=2pt,draw=qaccent2!60,fill=qaccent2!10,align=left,inner sep=3pt,text width=4.6cm,minimum height=6mm},
+  db/.style={cylinder,shape border rotate=90,aspect=0.25,draw=qgray!70,fill=qlight,align=center,inner sep=3pt,minimum width=2.4cm},
+  arr/.style={-{Stealth[length=1.6mm]},draw=qgray,thick}]
+\node[st] (a1) {\textbf{DAG A — \texttt{cesop\_nl\_submit}} (quarterly)};
+\node[st,below=of a1] (a2) {1. fetch the payload(s)};
+\node[st,below=of a2] (a3) {2. validate (XSD)};
+\node[st,below=of a3] (a4) {3. compute digest + build the \texttt{.meta}};
+\node[st,below=of a4] (a5) {4. upload over FTPS (payload then \texttt{.meta})};
+\node[st,below=of a5] (a6) {5. record the submission};
+\draw[arr] (a1)--(a2);\draw[arr](a2)--(a3);\draw[arr](a3)--(a4);\draw[arr](a4)--(a5);\draw[arr](a5)--(a6);
+\node[su,right=22mm of a1] (b1) {\textbf{DAG B — \texttt{poll\_receipts}} (every 3h)};
+\node[su,below=of b1] (b2) {1. list open submissions};
+\node[su,below=of b2] (b3) {2. fetch receipts (\texttt{out/})};
+\node[su,below=of b3] (b4) {3. parse and classify};
+\node[su,below=of b4] (b5) {4. update state};
+\node[su,below=of b5] (b6) {5. alert on error (Slack)};
+\draw[arr] (b1)--(b2);\draw[arr](b2)--(b3);\draw[arr](b3)--(b4);\draw[arr](b4)--(b5);\draw[arr](b5)--(b6);
+\node[db,below=8mm of $(a6)!0.5!(b6)$] (state) {\texttt{RAW.CESOP\_NL.}\\\texttt{SUBMISSIONS}};
+\draw[arr] (a6) |- (state);
+\draw[arr] (state) -| (b2);
+\draw[arr,dashed,draw=qgray] (b5) |- (state);
+\end{tikzpicture}
+\caption{Two-DAG architecture: a quarterly submitter and a three-hourly receipt poller, linked by a state table.}
+\label{fig:cesop-dags}
+\end{figure}
+
+The \texttt{RAW.CESOP\_NL.SUBMISSIONS} table holds one row per submission and tracks its lifecycle: transport status, technical validation (a few hours), then business validation (days to weeks). DAG~A inserts the rows; DAG~B updates them as acknowledgements arrive.
+
+\section{Implementation}
+
+The job lives in \texttt{qonto-python-data-engineering/jobs/cesop\_nl/}, following the repository's conventions (\texttt{config.py} with Pydantic settings, \texttt{main.py}, \texttt{queries/}) and organised by responsibility:
+
+\begin{itemize}
+  \item \texttt{transport/} — the \textbf{FTPS/mTLS} client to Digipoort (connect, upload the file pair, list and download acknowledgements) and the \textbf{\texttt{.meta} builder} compliant with the \texttt{metabestand.xsd} schema;
+  \item \texttt{submit/} — DAG~A's flow (fetch, validate, digest, \texttt{.meta}, upload, record);
+  \item \texttt{poll/} — DAG~B's flow, with an \textbf{acknowledgement parser} that classifies the four artefact types in the \texttt{out/} folder into a uniform result, and the archival of raw receipts on S3;
+  \item \texttt{state/} — the Snowflake state-table repository and its schema.
+\end{itemize}
+
+A few notable implementation points. The \texttt{.meta} file is a small XML that accompanies each payload: it carries the reference identifier (equal to the exact payload filename), the sender, the fixed receiver for CESOP and the size. The upload order is \emph{strict}: the payload first, \emph{then} the \texttt{.meta}, in the same session — it is the arrival of the \texttt{.meta} that triggers processing on the Digipoort side. Trusting Logius's server certificate required explicitly installing the certificate-authority chain. Rejection alerts are surfaced on Slack in \emph{Block Kit} format. Finally, \emph{resubmission} handling was implemented: a rejected delivery must be resent as a \emph{fresh initial submission} (not as a correction), with a file-identifier increment and dated archival of the acknowledgements.
+
+\section{Sticking points resolved}
+
+The analysis phase resolved several uncertainties, by reading the official specifications (Logius FTPS interface, the tax authority's ``dialogue'' document, the PSPNL manual):
+
+\begin{itemize}
+  \item \textbf{``Signing'' = computing a digest, not signing the XML.} The certificate is used for TLS authentication; integrity is provided by an optional \emph{SHA-512} digest in the \texttt{.meta}. No XML signature (XMLDSig) is required — a major simplification confirmed with the regulatory side, which avoids a heavy cryptographic dependency.
+  \item \textbf{The format is not a ``PSPNL wrapper''.} The payload is standard CESOP~4.03; the Dutch specificity lives only in the \texttt{.meta} and the transport.
+  \item \textbf{Dedicated ports.} CESOP does not use port~21: control port~4022, passive data ports 4023--4073, TLS~1.2 — which requires an \emph{egress allow-list} covering those ports.
+  \item \textbf{A quarter may produce several files} (a 100~MB split rule): the job handles a \emph{list} of payloads, not a single file.
+  \item \textbf{Resubmission model} (\texttt{CESOP100} new / \texttt{CESOP101} correction / \texttt{CESOP102} nil return): the correlation keys (message and document identifiers) that DAG~B must persist and match were identified.
+\end{itemize}
+
+\begin{keybox}[State of progress at the end of the internship]
+\textbf{Done:} overall design and blueprint; \texttt{.meta} builder; Digipoort FTPS client; acknowledgement parser; Snowflake state model; submission flow (DAG~A) and polling flow (DAG~B); Logius CA trust; DAG scheduling; Slack alerts; resubmission handling. Almost everything could be built and tested \emph{offline} against local examples (about 80\%).\\[3pt]
+\textbf{Remaining:} locating the certificate's private key and provisioning the secrets in SSM; opening the egress allow-list (SRE); the test campaign — \emph{ASD} (connectivity) then \emph{VTS} (validation) — before go-live and the first real delivery.
+\end{keybox}
+
+\begin{contribbox}
+I handled the analysis (reading and synthesising the official specifications, resolving the sticking points) then the design and implementation of the entire transport chain: package structure, \texttt{.meta} builder, FTPS/mTLS client, acknowledgement parser, state model, and both end-to-end flows, through to scheduling, S3 archival and Slack alerts. I collaborated with the \emph{Regulatory} team (specifications, certificate) and \emph{SRE} (networking) for the dependencies outside my scope.
+\end{contribbox}

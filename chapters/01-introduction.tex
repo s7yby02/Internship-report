@@ -1,0 +1,18 @@
+% ================= Introduction =================
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\markboth{Introduction}{}
+
+Data sits at the heart of how a financial company operates: it feeds steering, fraud detection, customer relationship management and, increasingly, regulatory obligations. At Qonto, a European neobank and payment service provider, hundreds of data flows converge every night into a Snowflake warehouse, where they are transformed and then exposed to business teams. These flows are orchestrated by Apache Airflow. Their reliability directly conditions the quality of downstream decisions: a wrong figure, an incomplete table or an unrefreshed dashboard all have concrete consequences.
+
+My end-of-studies internship took place within the \emph{Data Platform} team, whose mission is precisely to build and maintain this ingestion, transformation and delivery infrastructure. The initial topic was about hardening existing pipelines that were quickly crystallised around a recurring observation: several jobs historically written \emph{inside} the monolithic \texttt{qonto-airflow} repository and its shared Docker image suffered from the same structural weakness. That image, common to every pipeline, made any library upgrade risky (it could affect all flows) and concealed silent failures. The problem statement of this internship can therefore be phrased as follows:
+
+\begin{quote}
+\itshape How can we harden and industrialise business-critical data pipelines, without any service interruption for their consumers, when the true source of fragility is not the business logic but a shared infrastructure dependency?
+\end{quote}
+
+This report presents three projects carried out in response to that question. The first two share a common pattern: diagnosing that the real constraint is the coupling to the Airflow image, \emph{decoupling} the job into a dedicated repository and image, then taking the opportunity to remove a brittle legacy mechanism. The first project migrates Notion ingestion to the \emph{dlt} framework in response to a silent-truncation incident; the second replaces hard-to-maintain personal-token authentication with a JWT-based \emph{Connected App} for the Tableau pipelines. The third project, of a different nature, consists in building a brand-new regulatory transmission chain (the CESOP filing for the Netherlands) to a government gateway that imposes a specific exchange protocol and authentication scheme.
+
+The report is organised as follows. \textbf{Chapter~\ref{ch:context}} introduces the company, the team and the technical ecosystem in which the projects take place, together with the working method. \textbf{Chapter~\ref{ch:sota}} reviews the state of the art of the relevant ingestion, orchestration and authentication approaches, and formalises the common problem. \textbf{Chapters~\ref{ch:notion}, \ref{ch:tableau} and~\ref{ch:cesop}} detail the three projects, each following the same outline: the legacy, the problem, the options considered and the decision, the implementation, the difficulties encountered and the evaluation of results. \textbf{Chapter~\ref{ch:assessment}} draws up an assessment of the skills acquired. The conclusion revisits the main lessons and outlines perspectives.
+
+Throughout the report, particular care is taken to distinguish teamwork from my \emph{personal contribution}, as recommended by the assessment guidelines, and to \emph{measure}, wherever possible, the effects of the changes introduced.
