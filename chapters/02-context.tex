@@ -8,6 +8,12 @@ Qonto is a European neobank for freelancers, very small businesses and SMEs. Fou
 
 On the regulatory side, Qonto operates as a \emph{payment institution} (Payment Service Provider, PSP). This status is not a mere legal detail: it entails regulatory-reporting obligations, including the European CESOP filing addressed in Chapter~\ref{ch:cesop} and demands a high level of rigour on data reliability and traceability. The opening of a Dutch IBAN in late 2025 is precisely what made Qonto liable for the CESOP filing in the Netherlands.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{imgs/qonto.png}
+\caption{Qonto logo}
+\label{fig:qonto-way-card}
+\end{figure}
 
 \section{The Data Platform team and the working method: the Qonto Way}
 
@@ -18,7 +24,7 @@ Each initiative is run as a Notion \emph{project card} following the \emph{Qonto
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{imgs/project_card_page.png}
-\caption{The Notion project card that structures the work following the ``the Qonto Way''.}
+\caption{The Notion project card that structures the work following ``the Qonto Way''.}
 \label{fig:qonto-way-card}
 \end{figure}
 
@@ -27,7 +33,7 @@ At team level, a \emph{Delivery Board} tracks every project across the same life
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{imgs/data_platform_delivery_board.png}
-\caption{The Data Platform Delivery Board during the internship: ongoing projects arranged by lifecycle stage (Value Analysis $\rightarrow$ Value Engineering $\rightarrow$ Build $\rightarrow$ Value Validation), each with a progress percentage, its blockers and a target date. The CESOP project (Build column) is assigned to the author.}
+\caption{The Data Platform Delivery Board}
 \label{fig:delivery-board}
 \end{figure}
 
@@ -85,8 +91,8 @@ One architectural element recurs in two of the three projects: the \emph{Job Orc
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.86\textwidth]{imgs/job_orchestrator.png}
-\caption{Two execution models. In the monorepo, all DAGs share one Docker base image, so a single library bump can put every pipeline at risk. With the Job Orchestrator, a job is declared in \texttt{schedule.yaml} and its DAG is auto-generated, each task running in an isolated Kubernetes pod carrying the job's own image and dependencies.}
+\includegraphics[width=0.8\textwidth]{imgs/job_orchestrator.png}
+\caption{Airflow monorepo and the Job Orchestrator}
 \label{fig:job-orch}
 \end{figure}
 
@@ -94,7 +100,7 @@ One architectural element recurs in two of the three projects: the \emph{Job Orc
 
 If config-driven generation is the \emph{mechanism}, \emph{Qontract} is the \emph{configuration} that sits behind every ingestion, and the reason the platform stays consistent from source to warehouse. A Qontract is a YAML \emph{data contract} (following the open ODCS~\texttt{v3.1.0} specification) that declares, for one table: its destination (Snowflake database and schema), its columns with both a \emph{logical} and a \emph{physical} type, its primary key, and an \texttt{ingestion} block telling the loader \emph{where} to read the source and \emph{how}. It is the single source of truth: the same file drives what is ingested, how each column is typed in Snowflake, and what the downstream dbt models and freshness tests expect. Listing~\ref{lst:qontract} shows a condensed real contract, the Notion \texttt{data\_bugs} board.
 
-\begin{lstlisting}[language=yaml,caption={Condensed Qontract for the Notion \texttt{data\_bugs} table (real contract, abridged).},label={lst:qontract}]
+\begin{lstlisting}[language=yaml,caption={A contract example for the Notion data\_bugs table.},label={lst:qontract}]
 apiVersion: 'v3.1.0'
 kind: 'DataContract'
 id: 'urn:datacontract:notion:raw:notion:data_bugs'
@@ -104,7 +110,7 @@ servers:
   - { type: snowflake, database: raw, schema: notion }   # destination
 schema:
   - name: 'data_bugs'
-    logicalType: 'object'          # -> a Snowflake table
+    logicalType: 'object'
     physicalType: 'table'
     properties:
       - { name: 'id',           logicalType: string,    physicalType: text,          primaryKey: true, required: true }
@@ -119,7 +125,7 @@ customProperties:
   - property: 'ingestion'
     value:
       page_size: 50
-      resource_id: '2e7b3f6c73bc4da19fef375e932d20e1'   # which Notion data source to read
+      resource_id: '2e7b3f6c73bc4dg49fef375e932d20e1'   # which Notion data source to read
 \end{lstlisting}
 
 Two things make the contract operational. First, the \texttt{ingestion} block is what the config-driven generator turns into a running job: \texttt{resource\_id} identifies the exact Notion data source to query and \texttt{page\_size} caps each API page. Second, the loader maps every property's declared type to a Snowflake type (Table~\ref{tab:type-map}); applying that mapping \emph{from the contract} rather than guessing it from the data is what guarantees a stable schema at every load. Chapter~\ref{ch:notion} shows the code that performs this parsing (\texttt{build\_resource\_from\_contract} and \texttt{yaml\_to\_dlt\_columns}).

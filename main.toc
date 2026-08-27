@@ -16,14 +16,14 @@
 \contentsline {chapter}{\numberline {2}State of the art and problem statement}{9}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Integration paradigms: from ETL to EL}{9}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Ingestion frameworks: from the in-house operator to the declarative framework}{9}{section.2.2}%
-\contentsline {paragraph}{In-house operators.}{9}{paragraph*.11}%
-\contentsline {paragraph}{Connector platforms.}{9}{paragraph*.12}%
-\contentsline {paragraph}{``Library'' EL frameworks.}{9}{paragraph*.13}%
+\contentsline {paragraph}{In-house operators.}{9}{paragraph*.12}%
+\contentsline {paragraph}{Connector platforms.}{9}{paragraph*.13}%
+\contentsline {paragraph}{``Library'' EL frameworks.}{9}{paragraph*.14}%
 \contentsline {section}{\numberline {2.3}Orchestration and infrastructure coupling}{10}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Machine-to-machine authentication}{10}{section.2.4}%
-\contentsline {paragraph}{Personal access tokens (PAT).}{10}{paragraph*.14}%
-\contentsline {paragraph}{Short-lived signed tokens (JWT).}{10}{paragraph*.15}%
-\contentsline {paragraph}{Mutual certificate authentication (mTLS/PKI).}{10}{paragraph*.16}%
+\contentsline {paragraph}{Personal access tokens (PAT).}{10}{paragraph*.15}%
+\contentsline {paragraph}{Short-lived signed tokens (JWT).}{10}{paragraph*.16}%
+\contentsline {paragraph}{Mutual certificate authentication (mTLS/PKI).}{10}{paragraph*.17}%
 \contentsline {section}{\numberline {2.5}Warehouse loading: staging, \texttt {COPY} and atomic swap}{11}{section.2.5}%
 \contentsline {section}{\numberline {2.6}Regulatory reporting and data transmission}{11}{section.2.6}%
 \contentsline {section}{\numberline {2.7}Problem statement and positioning}{11}{section.2.7}%
@@ -34,8 +34,8 @@
 \contentsline {section}{\numberline {3.4}Implementation: the dlt architecture}{13}{section.3.4}%
 \contentsline {section}{\numberline {3.5}The real challenge: byte-for-byte parity with the legacy}{14}{section.3.5}%
 \contentsline {section}{\numberline {3.6}Two mechanisms re-implemented around dlt}{15}{section.3.6}%
-\contentsline {paragraph}{(a) Grant preservation on the swap.}{15}{paragraph*.20}%
-\contentsline {paragraph}{(b) Schema reconciliation on contract drift.}{15}{paragraph*.21}%
+\contentsline {paragraph}{(a) Grant preservation on the swap.}{15}{paragraph*.21}%
+\contentsline {paragraph}{(b) Schema reconciliation on contract drift.}{15}{paragraph*.22}%
 \contentsline {section}{\numberline {3.7}The zero-downtime production cutover}{15}{section.3.7}%
 \contentsline {chapter}{\numberline {4}Migrating the Tableau DAGs and JWT authentication}{17}{chapter.4}%
 \contentsline {section}{\numberline {4.1}The legacy}{17}{section.4.1}%
@@ -44,9 +44,9 @@
 \contentsline {section}{\numberline {4.3}Solution: dedicated pods and a JWT Connected App}{18}{section.4.3}%
 \contentsline {section}{\numberline {4.4}How the JWT works}{18}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Difficulties encountered}{19}{section.4.5}%
-\contentsline {paragraph}{The jobs API blocked under JWT.}{19}{paragraph*.24}%
-\contentsline {paragraph}{Refresh-pod starvation.}{19}{paragraph*.25}%
-\contentsline {paragraph}{Idempotency on 409 and 429.}{19}{paragraph*.26}%
+\contentsline {paragraph}{The jobs API blocked under JWT.}{19}{paragraph*.25}%
+\contentsline {paragraph}{Refresh-pod starvation.}{19}{paragraph*.26}%
+\contentsline {paragraph}{Idempotency on 409 and 429.}{19}{paragraph*.27}%
 \contentsline {section}{\numberline {4.6}Decisions and trade-offs}{19}{section.4.6}%
 \contentsline {chapter}{\numberline {5}CESOP Netherlands regulatory transmission chain}{21}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Regulatory context}{21}{section.5.1}%
@@ -60,14 +60,14 @@
 \contentsline {section}{\numberline {6.3}Methodological skills}{25}{section.6.3}%
 \contentsline {section}{\numberline {6.4}Transferable skills}{25}{section.6.4}%
 \contentsline {section}{\numberline {6.5}Value for the company}{25}{section.6.5}%
-\contentsline {chapter}{Conclusion and perspectives}{26}{chapter*.30}%
-\contentsline {chapter}{Bibliography}{27}{chapter*.31}%
+\contentsline {chapter}{Conclusion and perspectives}{26}{chapter*.31}%
+\contentsline {chapter}{Bibliography}{27}{chapter*.32}%
 \contentsline {chapter}{\numberline {A}Detailed presentation of Qonto}{28}{appendix.A}%
 \contentsline {chapter}{\numberline {B}Technical environment and repositories}{29}{appendix.B}%
 \contentsline {chapter}{\numberline {C}Main contributions (Pull Requests)}{30}{appendix.C}%
-\contentsline {paragraph}{Notion project (\texttt {qonto-python-dlt}).}{30}{paragraph*.32}%
-\contentsline {paragraph}{Notion project --- cutover (\texttt {qonto-airflow}).}{30}{paragraph*.33}%
-\contentsline {paragraph}{Tableau project (\texttt {qonto-python-data-engineering}).}{30}{paragraph*.34}%
-\contentsline {paragraph}{Tableau project --- cutover (\texttt {qonto-airflow}).}{30}{paragraph*.35}%
-\contentsline {paragraph}{CESOP project (\texttt {qonto-python-data-engineering}).}{30}{paragraph*.36}%
+\contentsline {paragraph}{Notion project (\texttt {qonto-python-dlt}).}{30}{paragraph*.33}%
+\contentsline {paragraph}{Notion project --- cutover (\texttt {qonto-airflow}).}{30}{paragraph*.34}%
+\contentsline {paragraph}{Tableau project (\texttt {qonto-python-data-engineering}).}{30}{paragraph*.35}%
+\contentsline {paragraph}{Tableau project --- cutover (\texttt {qonto-airflow}).}{30}{paragraph*.36}%
+\contentsline {paragraph}{CESOP project (\texttt {qonto-python-data-engineering}).}{30}{paragraph*.37}%
 \contentsline {chapter}{\numberline {D}Code excerpts}{31}{appendix.D}%
