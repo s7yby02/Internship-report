@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.8.17)  27 AUG 2026 20:00
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.8.17)  27 AUG 2026 20:15
  restricted system commands enabled.
  file:line:error style messages enabled.
 **/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex
@@ -1752,26 +1752,51 @@ File: imgs/data_platform_delivery_board.png Graphic file (type png)
 Package luatex.def Info: imgs/data_platform_delivery_board.png  used on input line 35.
 (luatex.def)             Requested size: 359.64394pt x 270.77658pt.
  [4<./imgs/project_card_page.png>]
+<imgs/airflow.png, id=241, 1810.765pt x 691.58376pt>
+File: imgs/airflow.png Graphic file (type png)
+<use imgs/airflow.png>
+Package luatex.def Info: imgs/airflow.png  used on input line 51.
+(luatex.def)             Requested size: 89.90927pt x 34.3385pt.
+<imgs/Snowflake.png, id=242, 3854.4pt x 2168.1pt>
+File: imgs/Snowflake.png Graphic file (type png)
+<use imgs/Snowflake.png>
+Package luatex.def Info: imgs/Snowflake.png  used on input line 59.
+(luatex.def)             Requested size: 89.90927pt x 50.55005pt.
+ [5<./imgs/data_platform_delivery_board.png><./imgs/airflow.png>]
+<imgs/s3.png, id=252, 1063.975pt x 449.68pt>
+File: imgs/s3.png Graphic file (type png)
+<use imgs/s3.png>
+Package luatex.def Info: imgs/s3.png  used on input line 67.
+(luatex.def)             Requested size: 89.90927pt x 37.99928pt.
+<imgs/DBT.png, id=253, 2007.5pt x 766.865pt>
+File: imgs/DBT.png Graphic file (type png)
+<use imgs/DBT.png>
+Package luatex.def Info: imgs/DBT.png  used on input line 75.
+(luatex.def)             Requested size: 89.90927pt x 34.34361pt.
+<imgs/Qontract.png, id=254, 492.84125pt x 171.64125pt>
+File: imgs/Qontract.png Graphic file (type png)
+<use imgs/Qontract.png>
+Package luatex.def Info: imgs/Qontract.png  used on input line 82.
+(luatex.def)             Requested size: 179.81854pt x 62.62627pt.
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 69.
- [5<./imgs/data_platform_delivery_board.png>]
-<imgs/job_orchestrator.png, id=249, 319.9152pt x 195.6108pt>
+(Font)              scaled to size 8.27998pt on input line 101.
+ [6<./imgs/Snowflake.png><./imgs/s3.png><./imgs/DBT.png><./imgs/Qontract.png>]
+<imgs/job_orchestrator.png, id=269, 319.9152pt x 195.6108pt>
 File: imgs/job_orchestrator.png Graphic file (type png)
 <use imgs/job_orchestrator.png>
-Package luatex.def Info: imgs/job_orchestrator.png  used on input line 94.
+Package luatex.def Info: imgs/job_orchestrator.png  used on input line 126.
 (luatex.def)             Requested size: 359.64394pt x 219.90637pt.
- [6]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 103.
+ [7<./imgs/job_orchestrator.png>]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 135.
 
 
 LaTeX Font Warning: Font shape `TU/LatinModernMono(0)/b/n' undefined
-(Font)              using `TU/LatinModernMono(0)/m/n' instead on input line 110.
+(Font)              using `TU/LatinModernMono(0)/m/n' instead on input line 142.
 
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/it' will be
-(Font)              scaled to size 8.27998pt on input line 110.
+(Font)              scaled to size 8.27998pt on input line 142.
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/b/n' will be
-(Font)              scaled to size 8.27998pt on input line 116.
-[7<./imgs/job_orchestrator.png>]
+(Font)              scaled to size 8.27998pt on input line 148.
 Package microtype Info: Character `ﬆ' is missing
 (microtype)             in font `TU/TeXGyrePagella(0)/m/n/7'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1923,15 +1948,15 @@ Package microtype Info: Character `⁻' is missing
 (microtype)             in font `TU/TeXGyrePagella(0)/b/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/n' will be
-(Font)              scaled to size 9.19998pt on input line 139.
-) (./chapters/03-state-of-the-art.tex [8]
+(Font)              scaled to size 9.19998pt on input line 171.
+) (./chapters/03-state-of-the-art.tex [8] [9]
 Chapter 2.
-[9
+[10
 
-] [10]
+] [11]
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/b/n' will be
 (Font)              scaled to size 11.03998pt on input line 35.
-) (./chapters/04-notion.tex [11]
+) (./chapters/04-notion.tex [12]
 Chapter 3.
 
 Underfull \hbox (badness 10000) in paragraph at lines 43--43
@@ -1953,19 +1978,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--43
 []|\TU/TeXGyrePagella(0)/b/n/10 dlt \TU/TeXGyrePagella(0)/m/n/10 (\TU/LatinModernMono(0)/m/n/10 qonto-python-
  []
 
-[12
+[13
 
 ]
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/n' will be
 (Font)              scaled to size 7.35999pt on input line 64.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-) [13]
+) [14]
 Underfull \hbox (badness 1466) in paragraph at lines 116--117
 []\TU/TeXGyrePagella(0)/m/n/10.95 Two de-sign choices in this pars-ing are worth not-ing. Re-solv-ing \TU/LatinModernMono(0)/m/n/10.95 physicalType \TU/TeXGyrePagella(0)/m/it/10.95 be-
  []
 
-[14] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+[15] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 Package microtype Info: Character `‥' is missing
@@ -2184,28 +2209,28 @@ Package microtype Info: Character `⁺' is missing
 Package microtype Info: Character `⁻' is missing
 (microtype)             in font `TU/TeXGyrePagella(0)/m/n/12'.
 (microtype)             Ignoring protrusion settings for this character.
- [15] [16]) (./chapters/05-tableau.tex [17]
+ [16] [17]) (./chapters/05-tableau.tex [18]
 Chapter 4.
-[18
+[19
 
-] [19] [20]) (./chapters/06-cesop.tex [21]
+] [20] [21]) (./chapters/06-cesop.tex [22]
 Chapter 5.
-[22
+[23
 
 ]
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/b/n' will be
 (Font)              scaled to size 7.35999pt on input line 43.
- [23] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+ [24] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-) [24]
-<imgs/cesop_slack_notif.png, id=558, 790.955pt x 255.95625pt>
+) [25]
+<imgs/cesop_slack_notif.png, id=576, 790.955pt x 255.95625pt>
 File: imgs/cesop_slack_notif.png Graphic file (type png)
 <use imgs/cesop_slack_notif.png>
 Package luatex.def Info: imgs/cesop_slack_notif.png  used on input line 126.
 (luatex.def)             Requested size: 382.12297pt x 123.65823pt.
-) (./chapters/07-assessment.tex [25<./imgs/cesop_slack_notif.png>]
+) (./chapters/07-assessment.tex [26<./imgs/cesop_slack_notif.png>]
 Chapter 6.
 
 Underfull \hbox (badness 10000) in paragraph at lines 22--22
@@ -2217,9 +2242,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 22--22
 []|\TU/TeXGyrePagella(0)/m/n/10 Re-silience
  []
 
-[26
+[27
 
-]) (./chapters/08-conclusion.tex [27]) (./chapters/09-biblio.tex [28
+]) (./chapters/08-conclusion.tex [28]) (./chapters/09-biblio.tex [29
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 28--29
@@ -2231,27 +2256,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 28--29
 \TU/TeXGyrePagella(0)/m/it/10 bank-ing li-cense\TU/TeXGyrePagella(0)/m/n/10 , TechCrunch, July 2025. [][]$\TU/LatinModernMono(0)/m/n/10 https://techcrunch.com/2025/07/02/
  []
 
-) (./chapters/10-appendices.tex [29
+) (./chapters/10-appendices.tex [30
 
 ]
 Appendix A.
-[30
+[31
 
 ]
 Appendix B.
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/b/n' will be
 (Font)              scaled to size 10.07397pt on input line 10.
-[31
+[32
 
 ]
 Appendix C.
-[32
+[33
 
 ]
 Appendix D.
 Missing character: There is no ▶ (U+25B6) in font "name:Latin Modern Mono:mode=node;script=latn;language=dflt;+tlig;"!
 Missing character: There is no ▶ (U+25B6) in font "name:Latin Modern Mono:mode=node;script=latn;language=dflt;+tlig;"!
-) [33
+) [34
 
 
 Missing character: There is no ▶ (U+25B6) in font "name:Latin Modern Mono:mode=node;script=latn;language=dflt;+tlig;"!
@@ -2270,19 +2295,19 @@ LaTeX Warning: There were multiply-defined labels.
 )
 
 Here is how much of LuaTeX's memory you used:
- 48604 strings out of 476076
- 477811,2373549 words of node,token memory allocated
+ 48660 strings out of 476076
+ 477812,2373549 words of node,token memory allocated
  1469 words of node memory still in use:
    31 hlist, 2 vlist, 14 rule, 1 local_par, 7 glue, 5 kern, 2 penalty, 3 glyph, 93 attribute, 59 glue_spec, 91 attribute_list, 2 write, 24 pdf_literal, 6 pdf_action, 24 pdf_colorstack nodes
-   avail lists: 1:6,2:5021,3:1269,4:11939,5:9545,6:95,7:12789,8:109,9:23261,10:39,11:1004
- 69550 multiletter control sequences out of 65536+600000
+   avail lists: 1:3,2:5021,3:1269,4:11939,5:9545,6:97,7:12789,8:109,9:23261,10:39,11:1004
+ 69585 multiletter control sequences out of 65536+600000
  106 fonts using 14614087 bytes
  98i,13n,104p,1700b,1190s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-bolditalic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono10-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-bolditalic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono8-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyrepagella-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on main.pdf (41 pages, 1348460 bytes).
+Output written on main.pdf (42 pages, 1973221 bytes).
 
-PDF statistics: 921 PDF objects out of 1000 (max. 8388607)
- 797 compressed objects within 8 object streams
- 302 named destinations out of 1000 (max. 1048576)
+PDF statistics: 940 PDF objects out of 1000 (max. 8388607)
+ 804 compressed objects within 9 object streams
+ 308 named destinations out of 1000 (max. 1048576)
  688 words of extra memory for PDF output out of 10000 (max. 100000000)
 

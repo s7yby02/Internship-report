@@ -46,10 +46,42 @@ The ecosystem revolves around a few building blocks (Figure~\ref{fig:archi-platf
 
 \begin{itemize}
   \item \textbf{Apache Airflow} is the central orchestrator. Its code lives in a monolithic repository, \texttt{qonto-airflow}, whose distinctive feature is a \emph{declarative} generation model: rather than hand-writing each DAG, one drops a configuration file and the corresponding DAG is produced automatically. This repository relies on a \textbf{shared Docker base image} used by all pipelines; a central point for what follows.
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.2\textwidth]{imgs/airflow.png}
+  \caption{Airflow logo}
+  \end{figure}
+
   \item \textbf{Snowflake} is the cloud data warehouse, the final target of every ingestion. Raw data lands in a \texttt{RAW} database, organised by schema (one per source).
+  
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.2\textwidth]{imgs/Snowflake.png}
+  \caption{Snowflake logo}
+  \end{figure}
+
   \item \textbf{Amazon S3} serves as a \emph{staging} area: extractions are written there (CSV, JSONL, Parquet) before being loaded into Snowflake with a \texttt{COPY INTO} command.
+  
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.2\textwidth]{imgs/s3.png}
+  \caption{Amazon S3 logo}
+  \end{figure}
+
   \item \textbf{DBT} (\emph{data build tool}) handles downstream transformation: from the \texttt{RAW} tables, SQL models build the business tables consumed by analysts. A single DAG, \texttt{daily\_transform\_dbt}, materialises all these models with their dependencies.
+  
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.2\textwidth]{imgs/DBT.png}
+  \caption{DBT logo}
+  \end{figure}
+  
   \item \textbf{Data contracts} (\emph{Qontract}) describe, as YAML files, the expected schema of each ingested table: fields, types, primary key. They are the source of truth for typing.
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{imgs/Qontract.png}
+  \caption{Qontract logo}
+  \end{figure}
 \end{itemize}
 
 \begin{figure}[H]

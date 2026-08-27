@@ -382,6 +382,16 @@ INPUT ./imgs/project_card_page.png
 INPUT ./imgs/project_card_page.png
 INPUT ./imgs/data_platform_delivery_board.png
 INPUT ./imgs/data_platform_delivery_board.png
+INPUT ./imgs/airflow.png
+INPUT ./imgs/airflow.png
+INPUT ./imgs/Snowflake.png
+INPUT ./imgs/Snowflake.png
+INPUT ./imgs/s3.png
+INPUT ./imgs/s3.png
+INPUT ./imgs/DBT.png
+INPUT ./imgs/DBT.png
+INPUT ./imgs/Qontract.png
+INPUT ./imgs/Qontract.png
 INPUT /Users/ayoub.elharran/Library/texlive/2026/texmf-var/luatex-cache/generic/fonts/otl/lmmono8-regular.luc
 INPUT ./imgs/job_orchestrator.png
 INPUT ./imgs/job_orchestrator.png
