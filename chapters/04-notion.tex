@@ -73,7 +73,47 @@ The decisive argument: the rewrite approach would have had me re-code \emph{by h
 
 The job lives in \texttt{qonto-python-dlt/jobs/notion/}, split into tested modules (\texttt{main}, \texttt{contracts}, \texttt{helpers}, \texttt{formatters}, \texttt{naming}, \texttt{governance}). The entry point is \texttt{python -m jobs.notion.main --yaml <s3://\dots contract.yaml>}: \emph{one invocation = one contract = one table}.
 
-The pivotal function, \texttt{build\_resource\_from\_contract()}, is \emph{pure} (no I/O): it reads the YAML contract and derives from it the list of fields, the dlt \emph{column hints} via a \texttt{yaml\_to\_dlt\_columns()} translator, the table name and the primary key (the contract's, otherwise falling back to \texttt{id}), then builds the dlt resource, applying those hints with the ``replace'' write disposition.
+The pivotal function, \texttt{build\_resource\_from\_contract()}, is \emph{pure} (no I/O): it reads the YAML contract and derives from it the list of fields, the dlt \emph{column hints} via a \texttt{yaml\_to\_dlt\_columns()} translator, the table name and the primary key (the contract's, otherwise falling back to \texttt{id}), then builds the dlt resource, applying those hints with the ``replace'' write disposition. Listing~\ref{lst:notion-parse} shows this parsing: it is exactly the code behind the type mapping introduced in Chapter~\ref{ch:context} (Table~\ref{tab:type-map}).
+
+\begin{lstlisting}[language=Python,caption={How a Qontract is parsed into a typed dlt resource.},label={lst:notion-parse}]
+# contracts.py -- translate ONE contract field into a dlt column hint
+def yaml_field_to_dlt_column(prop):
+    # ODCS v3.1.0: resolve physicalType first (narrow, e.g. timestamp_ntz),
+    # then fall back to logicalType (abstract, e.g. timestamp).
+    if prop.physical_type in _LOGICAL_TYPE_TO_DLT:
+        column = dict(_LOGICAL_TYPE_TO_DLT[prop.physical_type])
+    else:
+        column = dict(_LOGICAL_TYPE_TO_DLT[prop.logical_type])
+    column["nullable"] = True            # legacy made every column nullable
+    if prop.primary_key:
+        column["primary_key"] = True
+        column["nullable"] = False       # PK stays NOT NULL (Notion page id)
+    return column
+
+def yaml_to_dlt_columns(properties):
+    # key by normalized (lowercased) name so dlt matches columns at load time
+    return {normalize_column_name(p.name): yaml_field_to_dlt_column(p)
+            for p in properties}
+
+# main.py -- wire the parsed contract into a configured dlt resource (pure)
+def build_resource_from_contract(contract, access_token, ...):
+    schema      = contract.schema[0]
+    source_id   = contract.get_custom("ingestion.resource_id")
+    page_size   = contract.get_custom("ingestion.page_size")   # e.g. 50
+    fields      = [p.name for p in schema.properties]
+    columns     = yaml_to_dlt_columns(schema.properties)       # type hints
+    primary_key = next((normalize_column_name(p.name)
+                        for p in schema.properties if p.primary_key), "id")
+    resource = notion_pages(source_id, access_token, fields, page_size)
+    return resource.apply_hints(
+        table_name=schema.name.lower(),
+        columns=columns,               # types + nullability from the contract
+        primary_key=primary_key,
+        write_disposition="replace",   # full refresh -> atomic swap
+    )
+\end{lstlisting}
+
+Two design choices in this parsing are worth noting. Resolving \texttt{physicalType} \emph{before} \texttt{logicalType} is what lets a \texttt{created\_time} field (\texttt{logicalType: timestamp}, \texttt{physicalType: timestamp\_ntz}) produce a \texttt{TIMESTAMP\_NTZ} column rather than a timezone-aware one; and forcing every column \texttt{nullable} (except the primary key) mirrors the legacy CSV$\rightarrow$VARCHAR pipeline, so a contract's \texttt{required:\ true} never aborts the load on the first NULL.
 
 Everything then starts from \emph{a single call}, \texttt{pipeline.run()}, monolithic from the outside but internally chaining three phases:
 

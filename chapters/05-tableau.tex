@@ -63,7 +63,25 @@ The solution combines decoupling and an authentication redesign:
 
 \section{How the JWT works}
 
-On each run, \texttt{make\_jwt} encodes an HS256 token carrying the issuer (client identifier), the audience (\texttt{tableau}), the subject (service account), the requested scopes, a unique identifier and a five-minute expiry; the header references the secret identifier. This token is passed to the Tableau client, whose authentication call returns a \emph{session token} (valid for up to 240 minutes of inactivity) used thereafter.
+On each run, \texttt{make\_jwt} encodes an HS256 token carrying the issuer (client identifier), the audience (\texttt{tableau}), the subject (service account), the requested scopes, a unique identifier and a five-minute expiry; the header references the secret identifier (Listing~\ref{lst:make-jwt}). This token is passed to the Tableau client, whose authentication call returns a \emph{session token} (valid for up to 240 minutes of inactivity) used thereafter. The refresh requests only \texttt{tableau:tasks:run} and \texttt{tableau:content:read} (least privilege).
+
+\begin{lstlisting}[language=Python,caption={Minting the short-lived Tableau JWT (\texttt{jobs/tableau/authentication.py}).},label={lst:make-jwt}]
+def make_jwt(client_id, secret_id, secret_value, scopes):
+    return jwt.encode(
+        {
+            "iss": client_id,                                  # Connected App client id
+            "exp": datetime.now(UTC) + timedelta(minutes=5),   # short-lived
+            "jti": str(uuid.uuid4()),                          # anti-replay id
+            "aud": "tableau",
+            "sub": TABLEAU_USER,                               # service account
+            "scp": scopes,                                     # least privilege
+        },
+        secret_value,                                          # the ONE secret (AWS SSM)
+        algorithm="HS256",
+        headers={"kid": secret_id, "iss": client_id},
+    )
+\end{lstlisting}
+
 \section{Difficulties encountered}
 
 Three concrete obstacles had to be overcome, each instructive.

@@ -1,5 +1,5 @@
 # Fdb version 4
-["lualatex"] 1787849279.99713 "/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex" "main.pdf" "main" 1787849282.53809 0
+["lualatex"] 1787853609.37741 "/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex" "main.pdf" "main" 1787853612.12664 0
   "/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex" 1787216088.01037 6132 2c09b63ce8b9f93fe35a85eef30fb128 ""
   "/Users/ayoub.elharran/Library/texlive/2026/texmf-var/luatex-cache/generic/fonts/otl/lmmono10-italic.luc" 1787214843.67671 82963 c15d64f4bcf476a0edb40235dddc364d ""
   "/Users/ayoub.elharran/Library/texlive/2026/texmf-var/luatex-cache/generic/fonts/otl/lmmono10-regular.luc" 1787214843.65738 81837 ec2ed421f8e276f2142e5cde68880e00 ""
@@ -357,20 +357,21 @@
   "chapters/01-introduction.tex" 1787503615.31845 3516 26d88b6e926dadf5dca8e53259f124a9 ""
   "chapters/02-context.tex" 1787849276.90892 12989 a6f06ab9488f463d25b939bf887aee1b ""
   "chapters/03-state-of-the-art.tex" 1787509980.55926 8816 b3c528728fb7e96df8fb164c9d2e2055 ""
-  "chapters/04-notion.tex" 1787511894.8581 14551 96bbc66b4e117c3f67f6a54c0117901e ""
-  "chapters/05-tableau.tex" 1787513023.65217 9531 56b0ecc52ca1df80fb865e63090adb2a ""
-  "chapters/06-cesop.tex" 1787738369.14886 9513 aa566a979475311362abd9d92ab0bf4f ""
+  "chapters/04-notion.tex" 1787850241.53176 17167 e0403df9ad0853dfd36c46038cafe877 ""
+  "chapters/05-tableau.tex" 1787850505.59794 10548 91e01dd706475c6c50d5e652c1e4760a ""
+  "chapters/06-cesop.tex" 1787853608.39021 12242 f1fd7b7566ffbf59b46cea2775bf3185 ""
   "chapters/07-assessment.tex" 1787740624.41138 4450 8c739e7bbe13a39d06e37905c5dfb388 ""
   "chapters/08-conclusion.tex" 1787740858.0825 2528 5c0e0f7cd0552575e034c9f6bb9acd02 ""
   "chapters/09-biblio.tex" 1787211151.47187 2146 87fae31eeef6344688a4bf474b39a7fd ""
   "chapters/10-appendices.tex" 1787211177.63674 5476 12a07ffeae0c9399e974db3a0415d973 ""
+  "imgs/cesop_slack_notif.png" 1787852857.60745 126674 a0824f9b2aa0bdba602cafe4e9ead883 ""
   "imgs/data_platform_delivery_board.png" 1787759056.74481 879736 7e71d5966051b6dd50cb4cfedda2d3a3 ""
   "imgs/job_orchestrator.png" 1787761866.5149 78894 7cac9a6b39d1d3b1ddc2336d64b50474 ""
   "imgs/project_card_page.png" 1787759056.74528 336813 d56d67739ed29773da4698ce0dcdb814 ""
   "imgs/qonto.png" 1787848490.61442 71795 a9e3c5e505058c945e71b87eb68ee827 ""
-  "main.aux" 1787849282.32509 43906 4b51d3c0a30e362893bacf7e1653e75d "lualatex"
+  "main.aux" 1787853611.89758 45678 81619f0f5595dbb51c56072cc6c324c0 "lualatex"
   "main.tex" 1787216088.01037 6132 2c09b63ce8b9f93fe35a85eef30fb128 ""
-  "main.toc" 1787849282.3338 6289 5f59ec2c0d721211365de6ca8e6aa493 "lualatex"
+  "main.toc" 1787853611.90641 6289 61b8845f7798c9c611708c3eb2ebe94e "lualatex"
   (generated)
   "main.aux"
   "main.log"

@@ -32,42 +32,42 @@
 \contentsline {section}{\numberline {3.2}The trigger: a silent-truncation incident}{12}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Options considered and decision}{13}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Implementation: the dlt architecture}{13}{section.3.4}%
-\contentsline {section}{\numberline {3.5}The real challenge: byte-for-byte parity with the legacy}{14}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Two mechanisms re-implemented around dlt}{15}{section.3.6}%
-\contentsline {paragraph}{(a) Grant preservation on the swap.}{15}{paragraph*.21}%
-\contentsline {paragraph}{(b) Schema reconciliation on contract drift.}{15}{paragraph*.22}%
-\contentsline {section}{\numberline {3.7}The zero-downtime production cutover}{15}{section.3.7}%
-\contentsline {chapter}{\numberline {4}Migrating the Tableau DAGs and JWT authentication}{17}{chapter.4}%
-\contentsline {section}{\numberline {4.1}The legacy}{17}{section.4.1}%
-\contentsline {section}{\numberline {4.2}The central problem: authentication}{17}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}The legacy XCom mechanism}{17}{subsection.4.2.1}%
-\contentsline {section}{\numberline {4.3}Solution: dedicated pods and a JWT Connected App}{18}{section.4.3}%
-\contentsline {section}{\numberline {4.4}How the JWT works}{18}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Difficulties encountered}{19}{section.4.5}%
-\contentsline {paragraph}{The jobs API blocked under JWT.}{19}{paragraph*.25}%
-\contentsline {paragraph}{Refresh-pod starvation.}{19}{paragraph*.26}%
-\contentsline {paragraph}{Idempotency on 409 and 429.}{19}{paragraph*.27}%
-\contentsline {section}{\numberline {4.6}Decisions and trade-offs}{19}{section.4.6}%
-\contentsline {chapter}{\numberline {5}CESOP Netherlands regulatory transmission chain}{21}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Regulatory context}{21}{section.5.1}%
-\contentsline {section}{\numberline {5.2}The Dutch specificity}{21}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Architecture: two DAGs and a state table}{22}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Implementation}{22}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Sticking points resolved}{23}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Assessment and skills acquired}{24}{chapter.6}%
-\contentsline {section}{\numberline {6.1}A common pattern: diagnose, decouple, harden}{24}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Technical skills}{24}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Methodological skills}{25}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Transferable skills}{25}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Value for the company}{25}{section.6.5}%
-\contentsline {chapter}{Conclusion and perspectives}{26}{chapter*.31}%
-\contentsline {chapter}{Bibliography}{27}{chapter*.32}%
-\contentsline {chapter}{\numberline {A}Detailed presentation of Qonto}{28}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Technical environment and repositories}{29}{appendix.B}%
-\contentsline {chapter}{\numberline {C}Main contributions (Pull Requests)}{30}{appendix.C}%
-\contentsline {paragraph}{Notion project (\texttt {qonto-python-dlt}).}{30}{paragraph*.33}%
-\contentsline {paragraph}{Notion project --- cutover (\texttt {qonto-airflow}).}{30}{paragraph*.34}%
-\contentsline {paragraph}{Tableau project (\texttt {qonto-python-data-engineering}).}{30}{paragraph*.35}%
-\contentsline {paragraph}{Tableau project --- cutover (\texttt {qonto-airflow}).}{30}{paragraph*.36}%
-\contentsline {paragraph}{CESOP project (\texttt {qonto-python-data-engineering}).}{30}{paragraph*.37}%
-\contentsline {chapter}{\numberline {D}Code excerpts}{31}{appendix.D}%
+\contentsline {section}{\numberline {3.5}The real challenge: byte-for-byte parity with the legacy}{15}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Two mechanisms re-implemented around dlt}{16}{section.3.6}%
+\contentsline {paragraph}{(a) Grant preservation on the swap.}{16}{paragraph*.21}%
+\contentsline {paragraph}{(b) Schema reconciliation on contract drift.}{16}{paragraph*.22}%
+\contentsline {section}{\numberline {3.7}The zero-downtime production cutover}{16}{section.3.7}%
+\contentsline {chapter}{\numberline {4}Migrating the Tableau DAGs and JWT authentication}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}The legacy}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}The central problem: authentication}{18}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}The legacy XCom mechanism}{18}{subsection.4.2.1}%
+\contentsline {section}{\numberline {4.3}Solution: dedicated pods and a JWT Connected App}{19}{section.4.3}%
+\contentsline {section}{\numberline {4.4}How the JWT works}{19}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Difficulties encountered}{20}{section.4.5}%
+\contentsline {paragraph}{The jobs API blocked under JWT.}{20}{paragraph*.25}%
+\contentsline {paragraph}{Refresh-pod starvation.}{20}{paragraph*.26}%
+\contentsline {paragraph}{Idempotency on 409 and 429.}{20}{paragraph*.27}%
+\contentsline {section}{\numberline {4.6}Decisions and trade-offs}{20}{section.4.6}%
+\contentsline {chapter}{\numberline {5}CESOP Netherlands regulatory transmission chain}{22}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Regulatory context}{22}{section.5.1}%
+\contentsline {section}{\numberline {5.2}The Dutch specificity}{22}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Architecture: two DAGs and a state table}{23}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Implementation}{24}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Sticking points resolved}{25}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Assessment and skills acquired}{26}{chapter.6}%
+\contentsline {section}{\numberline {6.1}A common pattern: diagnose, decouple, harden}{26}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Technical skills}{26}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Methodological skills}{27}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Transferable skills}{27}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Value for the company}{27}{section.6.5}%
+\contentsline {chapter}{Conclusion and perspectives}{28}{chapter*.32}%
+\contentsline {chapter}{Bibliography}{29}{chapter*.33}%
+\contentsline {chapter}{\numberline {A}Detailed presentation of Qonto}{30}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Technical environment and repositories}{31}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Main contributions (Pull Requests)}{32}{appendix.C}%
+\contentsline {paragraph}{Notion project (\texttt {qonto-python-dlt}).}{32}{paragraph*.34}%
+\contentsline {paragraph}{Notion project --- cutover (\texttt {qonto-airflow}).}{32}{paragraph*.35}%
+\contentsline {paragraph}{Tableau project (\texttt {qonto-python-data-engineering}).}{32}{paragraph*.36}%
+\contentsline {paragraph}{Tableau project --- cutover (\texttt {qonto-airflow}).}{32}{paragraph*.37}%
+\contentsline {paragraph}{CESOP project (\texttt {qonto-python-data-engineering}).}{32}{paragraph*.38}%
+\contentsline {chapter}{\numberline {D}Code excerpts}{33}{appendix.D}%

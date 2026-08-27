@@ -63,20 +63,71 @@ The ``submission $\rightarrow$ acknowledgement'' loop is \emph{asynchronous} and
 \label{fig:cesop-dags}
 \end{figure}
 
-The \texttt{RAW.CESOP\_NL.SUBMISSIONS} table holds one row per submission and tracks its lifecycle: transport status, technical validation (a few hours), then business validation (days to weeks). DAG~A inserts the rows; DAG~B updates them as acknowledgements arrive.
+The \texttt{RAW.CESOP\_NL.SUBMISSIONS} table holds one row per submission and tracks its lifecycle: transport status, technical validation (a few hours), then business validation (days to weeks). DAG~A inserts the rows; DAG~B updates them as acknowledgements arrive. Its columns mirror exactly those three stages (Listing~\ref{lst:submissions}).
+
+\begin{lstlisting}[language=SQL,caption={The \texttt{RAW.CESOP\_NL.SUBMISSIONS} state table (\texttt{jobs/cesop\_nl/state/schemas.py}).},label={lst:submissions}]
+CREATE TABLE IF NOT EXISTS RAW.CESOP_NL.SUBMISSIONS (
+    SUBMISSION_ID              VARCHAR(255) PRIMARY KEY,  -- our correlation id
+    QUARTER                    VARCHAR(16),               -- e.g. 2026Q2
+    PAYLOAD_FILENAME           VARCHAR(255),              -- = .meta data-reference/@id
+    MESSAGE_REF_ID             VARCHAR(255),              -- payload MessageRefId
+    SUBMITTED_AT               TIMESTAMP_NTZ,             -- FTPS upload time (UTC)
+    ATTEMPT                    NUMBER(5,0) DEFAULT 1,     -- resubmission counter
+    -- Stage 1a: Digipoort transport receipt (.ok / .error)
+    TRANSPORT_RECEIPT_STATUS   VARCHAR(32) DEFAULT 'PENDING',
+    TRANSPORT_RECEIPT_AT       TIMESTAMP_NTZ,
+    -- Stage 1b: Belastingdienst technical response
+    TECH_VALIDATION_STATUS     VARCHAR(32) DEFAULT 'PENDING',
+    TECH_VALIDATION_AT         TIMESTAMP_NTZ,
+    -- Stage 2: CESOP business validation
+    BUSINESS_VALIDATION_STATUS VARCHAR(32) DEFAULT 'PENDING',
+    BUSINESS_VALIDATION_AT     TIMESTAMP_NTZ,
+    LAST_RESPONSE_REF          VARCHAR(255),
+    ERROR_DETAIL               VARCHAR(4000),             -- first parsed error
+    VALIDATION_ERRORS          VARIANT,                   -- full error list (JSON)
+    _CREATED_AT                TIMESTAMP_NTZ,
+    _UPDATED_AT                TIMESTAMP_NTZ
+);
+\end{lstlisting}
 
 \section{Implementation}
 
 The job lives in \texttt{qonto-python-data-engineering/jobs/cesop\_nl/}, following the repository's conventions (\texttt{config.py} with Pydantic settings, \texttt{main.py}, \texttt{queries/}) and organised by responsibility:
 
 \begin{itemize}
-  \item \texttt{transport/}: the \textbf{FTPS/mTLS} client to Digipoort (connect, upload the file pair, list and download acknowledgements) and the \textbf{\texttt{.meta} builder} compliant with the \texttt{metabestand.xsd} schema;
-  \item \texttt{submit/}: DAG~A's flow (fetch, validate, digest, \texttt{.meta}, upload, record);
-  \item \texttt{poll/}: DAG~B's flow, with an \textbf{acknowledgement parser} that classifies the four artefact types in the \texttt{out/} folder into a uniform result, and the archival of raw receipts on S3;
-  \item \texttt{state/}: the Snowflake state-table repository and its schema.
+  \item \textbf{transport/}: the \textbf{FTPS/mTLS} client to Digipoort (connect, upload the file pair, list and download acknowledgements) and the \texttt{.meta} file \textbf{builder}.
+  \item \textbf{submit/}: DAG~A's flow (fetch, validate, digest, \texttt{.meta}, upload, record).
+  \item \textbf{poll/}: DAG~B's flow, with an \textbf{acknowledgement parser} that classifies the four artefact types in the \texttt{out/} folder into a uniform result, and the archival of raw receipts on S3.
+  \item \textbf{state/}: the Snowflake state-table repository and its schema.
 \end{itemize}
 
-A few notable implementation points. The \texttt{.meta} file is a small XML that accompanies each payload: it carries the reference identifier (equal to the exact payload filename), the sender, the fixed receiver for CESOP and the size. The upload order is \textbf{strict}: the payload first, \emph{then} the \texttt{.meta} in the same session. It is the arrival of the \texttt{.meta} that triggers processing on the Digipoort side. Trusting Logius's server certificate required explicitly installing the certificate-authority chain. Rejection alerts are surfaced on Slack in \emph{Block Kit} format. Finally, \emph{resubmission} handling was implemented: a rejected delivery must be resent as a \emph{fresh initial submission} (not as a correction), with a file-identifier increment and dated archival of the acknowledgements.
+A few notable implementation points. The \texttt{.meta} file is a small XML that accompanies each payload: it carries the reference identifier, the sender, the fixed receiver for CESOP and the size. The upload order is \textbf{strict}: the payload first, \emph{then} the \texttt{.meta} in the same session. It is the arrival of the \texttt{.meta} that triggers processing on the Digipoort side. Trusting Logius's server certificate required explicitly installing the certificate-authority chain. Rejection alerts are surfaced on Slack in \emph{Block Kit} format (Figure~\ref{fig:cesop-slack}). Finally, \emph{resubmission} handling was implemented: a rejected delivery must be resent as a \emph{fresh initial submission} (not as a correction), with a file-identifier increment and dated archival of the acknowledgements. Listing~\ref{lst:meta} shows a representative \texttt{.meta} produced by the builder for one payload; the \texttt{digest} is a 128-hex-char SHA-512 (our only ``signing'').
+
+\begin{lstlisting}[language=XML,caption={The Digipoort \texttt{.meta} sidecar built for a payload (structure fixed by \texttt{metabestand.xsd}).},label={lst:meta}]
+<?xml version="1.0" encoding="UTF-8"?>
+<otp-metadata xmlns="http://logius.nl/digipoort/gb/v16/metabestand.xsd"
+              profile="otp-gb-1.6">
+  <data-reference id="CESOP-NL-2026Q2-1.1.xml">
+    <organisation>
+      <sender>qonto@ftp.procesinfrastructuur.nl</sender>
+      <receiver>bld-lpsp@ftp.procesinfrastructuur.nl</receiver>   <!-- fixed CESOP mailbox -->
+    </organisation>
+    <content mimeType="application/xml">
+      <filename>CESOP-NL-2026Q2-1.1.xml</filename>
+      <digest>3a1f9c4e...b72e</digest>                            <!-- SHA-512, 128 hex chars -->
+      <size>584921</size>
+    </content>
+  </data-reference>
+</otp-metadata>
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{imgs/cesop_slack_notif.png}
+\caption{A Slack notification of a rejected submission.}
+\label{fig:cesop-slack}
+\end{figure}
+
 
 \section{Sticking points resolved}
 
