@@ -33,7 +33,7 @@ This mechanism deserves an explanation, as it illustrates a subtle piece of tech
 The solution combines decoupling and an authentication redesign:
 
 \begin{itemize}
-  \item \textbf{Migration of both pipelines} to \texttt{qonto-python-data-engineering} (\texttt{jobs/tableau/}), run as \texttt{CustomJobKubernetesPodOperator} — one pod per workbook, thus \emph{outside} the Airflow image. The \texttt{apache-airflow-providers-tableau} provider is removed from \texttt{qonto-airflow}.
+  \item \textbf{Migration of both pipelines} to \texttt{qonto-python-data-engineering} (\texttt{jobs/tableau/}), run as \texttt{CustomJobKubernetesPodOperator} — one pod per workbook, thus \emph{outside} the Airflow image (the end-to-end runtime flow is shown in Figure~\ref{fig:tableau-flow}). The \texttt{apache-airflow-providers-tableau} provider is removed from \texttt{qonto-airflow}.
   \item \textbf{Replacement of the 14 PATs by a single JWT \emph{Connected App}.} A \texttt{make\_jwt()} function mints, on each run, an HS256 token (\texttt{exp} at 5 minutes, a unique anti-replay identifier, least-privilege scopes), signed by a single secret resolved from AWS SSM. The application identifiers are public; only the secret value is confidential and is never transmitted or committed. \textbf{One secret replaces fourteen PATs.}
   \item \textbf{Full removal} of the XCom pool, the mutex and the associated operators. The refresh DAG goes from \emph{five tasks per workbook to two} (dbt sensor $\rightarrow$ pod); metadata from \emph{three tasks to one pod} (Figure~\ref{fig:tableau-ba}).
   \item The configuration of the 62 workbooks is \emph{driven by Python modules} and the refresh \texttt{schedule.yaml} is \emph{generated}, with a continuous-integration test keeping generation and modules in sync.
@@ -61,6 +61,13 @@ The solution combines decoupling and an authentication redesign:
 \label{fig:tableau-ba}
 \end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.9\textheight]{imgs/tableau_refresh.png}
+\caption{End-to-end runtime flow of the refresh pipeline.}
+\label{fig:tableau-flow}
+\end{figure}
+
 \section{How the JWT works}
 
 On each run, \texttt{make\_jwt} encodes an HS256 token carrying the issuer (client identifier), the audience (\texttt{tableau}), the subject (service account), the requested scopes, a unique identifier and a five-minute expiry; the header references the secret identifier (Listing~\ref{lst:make-jwt}). This token is passed to the Tableau client, whose authentication call returns a \emph{session token} (valid for up to 240 minutes of inactivity) used thereafter. The refresh requests only \texttt{tableau:tasks:run} and \texttt{tableau:content:read} (least privilege).
@@ -81,6 +88,15 @@ def make_jwt(client_id, secret_id, secret_value, scopes):
         headers={"kid": secret_id, "iss": client_id},
     )
 \end{lstlisting}
+
+Figure~\ref{fig:jwt-seq} traces the full exchange end to end: fetching the single secret from AWS SSM, minting the JWT, exchanging it for a session token, and driving the refresh through to completion.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{imgs/jwt_mecanism.png}
+\caption{The Connected-App JWT authentication sequence.}
+\label{fig:jwt-seq}
+\end{figure}
 
 \section{Difficulties encountered}
 

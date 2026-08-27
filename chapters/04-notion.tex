@@ -71,7 +71,14 @@ The decisive argument: the rewrite approach would have had me re-code \emph{by h
 
 \section{Implementation: the dlt architecture}
 
-The job lives in \texttt{qonto-python-dlt/jobs/notion/}, split into tested modules (\texttt{main}, \texttt{contracts}, \texttt{helpers}, \texttt{formatters}, \texttt{naming}, \texttt{governance}). The entry point is \texttt{python -m jobs.notion.main --yaml <s3://\dots contract.yaml>}: \emph{one invocation = one contract = one table}.
+The job lives in \texttt{qonto-python-dlt/jobs/notion/}, split into tested modules (\texttt{main}, \texttt{contracts}, \texttt{helpers}, \texttt{formatters}, \texttt{naming}, \texttt{governance}). The entry point is \texttt{python -m jobs.notion.main --yaml <s3://\dots contract.yaml>}: \emph{one invocation = one contract = one table}. Figure~\ref{fig:notion-archi} gives the end-to-end picture across the six stages, from the contract down to post-load governance: \textbf{(1)}~the \emph{Qontract}, parsed into column hints, ingestion knobs and tag definitions; \textbf{(2)}~\emph{orchestration} as a per-table DAG (Job Orchestrator); \textbf{(3)}~\emph{extract \& normalize} via the dlt \texttt{notion\_pages} resource (REST client + cursor paginator, 19 property formatters, contract-driven type hints, \texttt{object/array} $\rightarrow$ VARIANT); \textbf{(4)}~\emph{durable staging} as JSONL on S3; \textbf{(5)}~\emph{warehouse load} (\texttt{COPY INTO} $\rightarrow$ atomic swap $\rightarrow$ \texttt{RAW.NOTION.<table>}, plus the dlt audit tables); \textbf{(6)}~\emph{post-load governance} (column tags applied from the contract).
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.95\textheight]{imgs/notion_archi.png}
+\caption{End-to-end architecture of the Notion$\rightarrow$dlt pipeline.}
+\label{fig:notion-archi}
+\end{figure}
 
 The pivotal function, \texttt{build\_resource\_from\_contract()}, is \emph{pure} (no I/O): it reads the YAML contract and derives from it the list of fields, the dlt \emph{column hints} via a \texttt{yaml\_to\_dlt\_columns()} translator, the table name and the primary key (the contract's, otherwise falling back to \texttt{id}), then builds the dlt resource, applying those hints with the ``replace'' write disposition. Listing~\ref{lst:notion-parse} shows this parsing: it is exactly the code behind the type mapping introduced in Chapter~\ref{ch:context} (Table~\ref{tab:type-map}).
 

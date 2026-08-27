@@ -64,6 +64,8 @@ nput line 12.
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/rotating.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty))
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty))
@@ -367,15 +369,15 @@ rred downstream) vs
 [6]) [7] (./chapters/01-introduction.tex) (./chapters/02-context.tex [1]
 [2]
 Chapter 1.
-[3] [4] [5] [6]
+[3] [4] [5] [6] [7]
 
 LaTeX Font Warning: Font shape `TU/LatinModernMono(0)/b/n' undefined
-(Font)              using `TU/LatinModernMono(0)/m/n' instead on input line 110
+(Font)              using `TU/LatinModernMono(0)/m/n' instead on input line 142
 .
 
-[7]) (./chapters/03-state-of-the-art.tex [8]
+) (./chapters/03-state-of-the-art.tex [8] [9]
 Chapter 2.
-[9] [10]) (./chapters/04-notion.tex [11]
+[10] [11]) (./chapters/04-notion.tex [12]
 Chapter 3.
 
 Underfull \hbox (badness 10000) in paragraph at lines 43--43
@@ -390,36 +392,45 @@ bs\TU/TeXGyrePagella(0)/m/n/10 )|
 
 Underfull \hbox (badness 10000) in paragraph at lines 43--43
 []|\TU/TeXGyrePagella(0)/b/n/10 dlt
-[12] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty) [13]
-Underfull \hbox (badness 2134) in paragraph at lines 116--117
+[13]
+
+LaTeX Warning: Float too large for page by 46.85869pt on input line 81.
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty) [14] [15]
+Underfull \hbox (badness 2134) in paragraph at lines 123--124
 []\TU/TeXGyrePagella(0)/m/n/10.95 Two design choices in this parsing are worth 
 noting. Resolving \TU/LatinModernMono(0)/m/n/10.95 physicalType \TU/TeXGyrePage
 lla(0)/m/it/10.95 be-
-[14] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
-Underfull \hbox (badness 1509) in paragraph at lines 156--156
+[16] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+Underfull \hbox (badness 1509) in paragraph at lines 163--163
 []|\TU/TeXGyrePagella(0)/m/n/10 Coercion by Notion property type: dates reduced
  to the local day, times-
-[15] [16]) (./chapters/05-tableau.tex [17]
+[17] [18]) (./chapters/05-tableau.tex [19]
 Chapter 4.
-[18] [19] [20]) (./chapters/06-cesop.tex [21]
+[20]
+Underfull \hbox (badness 5726) in paragraph at lines 36--37
+[]\TU/TeXGyrePagella(0)/b/n/10.95 Migration of both pipelines \TU/TeXGyrePagell
+a(0)/m/n/10.95 to \TU/LatinModernMono(0)/m/n/10.95 qonto-python-data-engineerin
+g \TU/TeXGyrePagella(0)/m/n/10.95 (\TU/LatinModernMono(0)/m/n/10.95 jobs/tablea
+u/\TU/TeXGyrePagella(0)/m/n/10.95 ),
+
+Underfull \hbox (badness 3919) in paragraph at lines 36--37
+\TU/TeXGyrePagella(0)/m/n/10.95 run as \TU/LatinModernMono(0)/m/n/10.95 CustomJ
+obKubernetesPodOperator \TU/TeXGyrePagella(0)/m/n/10.95 — one pod per workbook,
+ thus \TU/TeXGyrePagella(0)/m/it/10.95 outside
+
+Underfull \hbox (badness 1924) in paragraph at lines 36--37
+\TU/TeXGyrePagella(0)/m/n/10.95 the Airflow image (the end-to-end runtime flow 
+is shown in Figure [][]4.2[][]). The
+[21] [22] [23] [24]) (./chapters/06-cesop.tex [25]
 Chapter 5.
 
 Underfull \hbox (badness 10000) in paragraph at lines 25--25
 []|\TU/TeXGyrePagella(0)/b/n/10 PKIoverheid \TU/TeXGyrePagella(0)/m/n/10 certif
 icate (X.509),
-[22] [23]
-Underfull \hbox (badness 2837) in paragraph at lines 98--99
-[]\TU/LatinModernMono(0)/b/n/10.95 transport/\TU/TeXGyrePagella(0)/m/n/10.95 : 
-the \TU/TeXGyrePagella(0)/b/n/10.95 FTPS/mTLS \TU/TeXGyrePagella(0)/m/n/10.95 c
-lient to Digipoort (connect, upload the file pair,
-
-Underfull \hbox (badness 1147) in paragraph at lines 98--99
-\TU/TeXGyrePagella(0)/m/n/10.95 list and download acknowledgements) and the \TU
-/LatinModernMono(0)/b/n/10.95 .meta \TU/TeXGyrePagella(0)/b/n/10.95 builder \TU
-/TeXGyrePagella(0)/m/n/10.95 compliant with the
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty) [24])
-(./chapters/07-assessment.tex [25]
+[26] [27] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty) [28])
+(./chapters/07-assessment.tex [29]
 Chapter 6.
 
 Underfull \hbox (badness 10000) in paragraph at lines 22--22
@@ -433,7 +444,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 22--22
 
 Underfull \hbox (badness 1014) in paragraph at lines 22--22
 []|\TU/TeXGyrePagella(0)/m/n/10 A single secret, short-lived token, no
-[26]) (./chapters/08-conclusion.tex [27]) (./chapters/09-biblio.tex [28]
+[30]) (./chapters/08-conclusion.tex [31]) (./chapters/09-biblio.tex [32]
 Underfull \hbox (badness 2409) in paragraph at lines 24--25
 []\TU/TeXGyrePagella(0)/m/n/10 P. Ford-Hutchinson, \TU/TeXGyrePagella(0)/m/it/1
 0 Securing FTP with TLS\TU/TeXGyrePagella(0)/m/n/10 , RFC 4217, IETF, October 2
@@ -447,22 +458,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 28--29
 \TU/TeXGyrePagella(0)/m/it/10 banking license\TU/TeXGyrePagella(0)/m/n/10 , Tec
 hCrunch, July 2025. [][]$[][][][][] [] [] [] [][][][][][][][][][] [] [][][] [] 
 [][][][] [] [][] [] [][] []
-) (./chapters/10-appendices.tex [29]
+) (./chapters/10-appendices.tex [33]
 Appendix A.
-[30]
+[34]
 Appendix B.
-[31]
+[35]
 Appendix C.
 
 Underfull \hbox (badness 2189) in paragraph at lines 26--27
 [] []\TU/TeXGyrePagella(0)/b/n/10.95 Tableau project (\TU/LatinModernMono(0)/b/
 n/10.95 qonto-python-data-engineering\TU/TeXGyrePagella(0)/b/n/10.95 ).[] \TU/T
 eXGyrePagella(0)/m/n/10.95 JWT dependencies and logic (#171,
-[32]
+[36]
 Appendix D.
 Missing character: There is no ▶ (U+25B6) in font Latin Modern Mono 8 Regular/O
 T:script=latn;language=dflt;mapping=tex-text;!
-) [33] (./main.aux)
+) [37] (./main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -471,5 +482,5 @@ LaTeX Warning: There were multiply-defined labels.
 
  )
 (see the transcript file for additional information)
-Output written on main.pdf (41 pages).
+Output written on main.pdf (45 pages).
 Transcript written on main.log.
