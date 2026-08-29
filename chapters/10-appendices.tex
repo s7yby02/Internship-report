@@ -58,7 +58,7 @@ The custom naming convention imposed on dlt to preserve production column names 
 class NamingConvention(BaseNamingConvention):
     # dlt collapses "__" ; we pick an out-of-band separator to
     # avoid the collision with Notion column names.
-    PATH_SEPARATOR: ClassVar[str] = "▶"
+    PATH_SEPARATOR: ClassVar[str] = "\u25b6"   # out-of-band separator (U+25B6)
 
     def normalize_identifier(self, identifier: str) -> str:
         identifier = super().normalize_identifier(identifier)

@@ -4,9 +4,9 @@ entering extended mode
 (./main.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21>
-(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
-Document Class: report 2021/10/04 v1.4n Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo))
+(/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2021/10/04 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/bk12.clo))
 (/usr/share/texlive/texmf-dist/tex/latex/polyglossia/polyglossia.sty
 (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/makecmds/makecmds.sty)
@@ -54,12 +54,12 @@ nput line 12.
 (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/xetex.def))
-(/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
 (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
@@ -68,7 +68,8 @@ nput line 12.
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty))
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
-(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty))
 (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
 (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
@@ -344,7 +345,7 @@ LaTeX Warning: Label `fig:qonto-way-card' multiply defined.
 ) (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
-(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-Palatino.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-LatinModernRoman.cfg)
 Package pgfplots notification 'compat/show suggested version=true': you might b
 enefit from \pgfplotsset{compat=1.18} (current compat level: 1.17).
 
@@ -352,22 +353,39 @@ enefit from \pgfplotsset{compat=1.18} (current compat level: 1.17).
 (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty)
 (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
 (./chapters/00-cover.tex
-(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg) [1])
-(./chapters/00-abstract.tex [1]) (./chapters/00-acknowledgements.tex
-Underfull \hbox (badness 6332) in paragraph at lines 18--2
-\TU/TeXGyrePagella(0)/b/n/10.95 Mots-clés : \TU/TeXGyrePagella(0)/m/n/10.95 ing
-énierie des données, Apache Airflow, dlt, Snowflake, dbt, ingestion
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
 
-Underfull \hbox (badness 2165) in paragraph at lines 18--2
-\TU/TeXGyrePagella(0)/m/n/10.95 EL, orchestration, authentification JWT, mTLS/P
-KI, conformité réglementaire (CESOP),
-[2]) [3] (./main.toc [4]) [5] (./chapters/00-glossary.tex
-Underfull \hbox (badness 3815) in paragraph at lines 11--12
-\TU/TeXGyrePagella(0)/m/n/10.95 Data-integration paradigms: \TU/TeXGyrePagella(
-0)/m/it/10.95 Extract–Load \TU/TeXGyrePagella(0)/m/n/10.95 (transformation defe
-rred downstream) vs
-[6]) [7] (./chapters/01-introduction.tex) (./chapters/02-context.tex [1]
-[2]
+LaTeX Font Warning: Font shape `TU/LatinModernRoman(0)/m/sc' undefined
+(Font)              using `TU/LatinModernRoman(0)/m/n' instead on input line 15
+.
+
+
+LaTeX Font Warning: Font shape `TU/LatinModernRoman(0)/b/sc' undefined
+(Font)              using `TU/LatinModernRoman(0)/b/n' instead on input line 15
+.
+
+
+LaTeX Font Warning: Font shape `TU/LatinModernRoman(0)/m/scit' undefined
+(Font)              using `TU/LatinModernRoman(0)/m/it' instead on input line 1
+8.
+
+[1]) (./chapters/00-abstract.tex [1]) (./chapters/00-acknowledgements.tex
+Underfull \hbox (badness 1122) in paragraph at lines 18--2
+\TU/LatinModernRoman(0)/b/n/12 Mots-clés : \TU/LatinModernRoman(0)/m/n/12 ingén
+ierie des données, Apache Airflow, dlt, Snowflake, dbt, ingestion
+[2]) (./chapters/00-glossary.tex [3]
+Underfull \hbox (badness 8038) in paragraph at lines 26--26
+[]|\TU/LatinModernRoman(0)/b/n/12 Data contract
+
+Underfull \hbox (badness 1430) in paragraph at lines 27--27
+[]|\TU/LatinModernRoman(0)/b/n/12 Job Orchestra-
+[4]) [5] (./main.lof) [6] (./main.lot) [7] (./main.lol
+Underfull \hbox (badness 1565) in paragraph at lines 6--6
+ [][] [][][]\TU/LatinModernRoman(0)/m/n/12 The Digipoort \TU/LatinModernMono(0)
+/m/n/12 .meta \TU/LatinModernRoman(0)/m/n/12 sidecar built for a payload (struc
+ture fixed by 
+) [8] (./main.toc [9]) [10] (./chapters/01-introduction.tex [1])
+(./chapters/02-context.tex [2]
 Chapter 1.
 [3] [4] [5] [6] [7]
 
@@ -375,105 +393,74 @@ LaTeX Font Warning: Font shape `TU/LatinModernMono(0)/b/n' undefined
 (Font)              using `TU/LatinModernMono(0)/m/n' instead on input line 142
 .
 
-) (./chapters/03-state-of-the-art.tex [8] [9]
+[8]) (./chapters/03-state-of-the-art.tex [9]
 Chapter 2.
-[10] [11]) (./chapters/04-notion.tex [12]
+[10] [11]) (./chapters/04-notion.tex [12] [13]
 Chapter 3.
+[14]
+Underfull \hbox (badness 5417) in paragraph at lines 43--43
+[]|\TU/LatinModernRoman(0)/m/n/10.95 Job Orchestrator
+
+Overfull \hbox (27.68474pt too wide) in paragraph at lines 43--43
+\TU/LatinModernRoman(0)/m/n/10.95 (\TU/LatinModernMono(0)/m/n/10.95 airflow-kub
+e-pod-jobs\TU/LatinModernRoman(0)/m/n/10.95 )| 
 
 Underfull \hbox (badness 10000) in paragraph at lines 43--43
-[]|\TU/TeXGyrePagella(0)/m/n/10 Job Orchestrator
+[]|\TU/LatinModernRoman(0)/b/n/10.95 dlt
 
-Underfull \hbox (badness 10000) in paragraph at lines 43--43
-[]|\TU/TeXGyrePagella(0)/m/n/10 Custom providers
-
-Overfull \hbox (21.88608pt too wide) in paragraph at lines 43--43
-\TU/TeXGyrePagella(0)/m/n/10 (\TU/LatinModernMono(0)/m/n/10 airflow-kube-pod-jo
-bs\TU/TeXGyrePagella(0)/m/n/10 )| 
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--43
-[]|\TU/TeXGyrePagella(0)/b/n/10 dlt
-[13]
-
-LaTeX Warning: Float too large for page by 46.85869pt on input line 81.
-
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty) [14] [15]
-Underfull \hbox (badness 2134) in paragraph at lines 123--124
-[]\TU/TeXGyrePagella(0)/m/n/10.95 Two design choices in this parsing are worth 
-noting. Resolving \TU/LatinModernMono(0)/m/n/10.95 physicalType \TU/TeXGyrePage
-lla(0)/m/it/10.95 be-
-[16] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
-Underfull \hbox (badness 1509) in paragraph at lines 163--163
-[]|\TU/TeXGyrePagella(0)/m/n/10 Coercion by Notion property type: dates reduced
- to the local day, times-
-[17] [18]) (./chapters/05-tableau.tex [19]
+Overfull \hbox (1.81558pt too wide) in paragraph at lines 43--43
+\TU/LatinModernRoman(0)/m/n/10.95 (\TU/LatinModernMono(0)/m/n/10.95 qonto-pytho
+n-dlt\TU/LatinModernRoman(0)/m/n/10.95 )| 
+[15] [16] [17] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+[18] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty) [19]
+[20]) (./chapters/05-tableau.tex [21]
 Chapter 4.
-[20]
-Underfull \hbox (badness 5726) in paragraph at lines 36--37
-[]\TU/TeXGyrePagella(0)/b/n/10.95 Migration of both pipelines \TU/TeXGyrePagell
-a(0)/m/n/10.95 to \TU/LatinModernMono(0)/m/n/10.95 qonto-python-data-engineerin
-g \TU/TeXGyrePagella(0)/m/n/10.95 (\TU/LatinModernMono(0)/m/n/10.95 jobs/tablea
-u/\TU/TeXGyrePagella(0)/m/n/10.95 ),
-
-Underfull \hbox (badness 3919) in paragraph at lines 36--37
-\TU/TeXGyrePagella(0)/m/n/10.95 run as \TU/LatinModernMono(0)/m/n/10.95 CustomJ
-obKubernetesPodOperator \TU/TeXGyrePagella(0)/m/n/10.95 — one pod per workbook,
- thus \TU/TeXGyrePagella(0)/m/it/10.95 outside
-
-Underfull \hbox (badness 1924) in paragraph at lines 36--37
-\TU/TeXGyrePagella(0)/m/n/10.95 the Airflow image (the end-to-end runtime flow 
-is shown in Figure [][]4.2[][]). The
-[21] [22] [23] [24]) (./chapters/06-cesop.tex [25]
+[22] [23] [24] [25] [26] [27] [28]) (./chapters/06-cesop.tex [29]
 Chapter 5.
 
 Underfull \hbox (badness 10000) in paragraph at lines 25--25
-[]|\TU/TeXGyrePagella(0)/b/n/10 PKIoverheid \TU/TeXGyrePagella(0)/m/n/10 certif
-icate (X.509),
-[26] [27] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty) [28])
-(./chapters/07-assessment.tex [29]
+[]|\TU/LatinModernRoman(0)/b/n/10.95 Other countries (ES-
+
+Underfull \hbox (badness 7851) in paragraph at lines 25--25
+[]|\TU/LatinModernRoman(0)/b/n/10.95 PKIoverheid \TU/LatinModernRoman(0)/m/n/10
+.95 certificate (X.509),
+[30] [31] [32] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty) [33])
+(./chapters/07-assessment.tex [34]
 Chapter 6.
 
-Underfull \hbox (badness 10000) in paragraph at lines 22--22
-[]|\TU/TeXGyrePagella(0)/m/n/10 Triggering con-
-
-Underfull \hbox (badness 1275) in paragraph at lines 22--22
-[]|\TU/TeXGyrePagella(0)/m/n/10 Byte-for-byte parity + zero-downtime
+Underfull \hbox (badness 1960) in paragraph at lines 22--22
+[]|\TU/LatinModernRoman(0)/m/n/10.95 To \TU/LatinModernMono(0)/m/n/10.95 qonto-
+python-dlt \TU/LatinModernRoman(0)/m/n/10.95 (dlt Snowflake
 
 Underfull \hbox (badness 10000) in paragraph at lines 22--22
-[]|\TU/TeXGyrePagella(0)/m/n/10 Resilience
+[]|\TU/LatinModernRoman(0)/m/n/10.95 To \TU/LatinModernMono(0)/m/n/10.95 qonto-
+python-data-engineering
 
-Underfull \hbox (badness 1014) in paragraph at lines 22--22
-[]|\TU/TeXGyrePagella(0)/m/n/10 A single secret, short-lived token, no
-[30]) (./chapters/08-conclusion.tex [31]) (./chapters/09-biblio.tex [32]
-Underfull \hbox (badness 2409) in paragraph at lines 24--25
-[]\TU/TeXGyrePagella(0)/m/n/10 P. Ford-Hutchinson, \TU/TeXGyrePagella(0)/m/it/1
-0 Securing FTP with TLS\TU/TeXGyrePagella(0)/m/n/10 , RFC 4217, IETF, October 2
-005. [][]$[][][][][] [] [] [] [][][] []
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
+[]|\TU/LatinModernRoman(0)/m/n/10.95 Resilience
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
+[]|\TU/LatinModernRoman(0)/m/n/10.95 Native pagination, load auditing,
+[35]) (./chapters/08-conclusion.tex [36] [37]) (./chapters/09-biblio.tex
+[38]
+Underfull \hbox (badness 4913) in paragraph at lines 28--29
+[]\TU/LatinModernRoman(0)/m/n/10.95 R. Dillet, \TU/LatinModernRoman(0)/m/it/10.
+95 French B2B fintech Qonto reaches 600,000 customers and files for
 
 Underfull \hbox (badness 10000) in paragraph at lines 28--29
-[]\TU/TeXGyrePagella(0)/m/n/10 R. Dillet, \TU/TeXGyrePagella(0)/m/it/10 French 
-B2B fintech Qonto reaches 600,000 customers and files for a
-
-Underfull \hbox (badness 10000) in paragraph at lines 28--29
-\TU/TeXGyrePagella(0)/m/it/10 banking license\TU/TeXGyrePagella(0)/m/n/10 , Tec
-hCrunch, July 2025. [][]$[][][][][] [] [] [] [][][][][][][][][][] [] [][][] [] 
-[][][][] [] [][] [] [][] []
-) (./chapters/10-appendices.tex [33]
+\TU/LatinModernRoman(0)/m/it/10.95 a banking license\TU/LatinModernRoman(0)/m/n
+/10.95 , TechCrunch, July 2025. [][]$[][][][][] [] [] [] [][][][][][][][][][] [
+] [][][] [] [][][][] [] [][] [] [][] []
+) (./chapters/10-appendices.tex [39]
 Appendix A.
-[34]
+[40]
 Appendix B.
-[35]
+[41]
 Appendix C.
-
-Underfull \hbox (badness 2189) in paragraph at lines 26--27
-[] []\TU/TeXGyrePagella(0)/b/n/10.95 Tableau project (\TU/LatinModernMono(0)/b/
-n/10.95 qonto-python-data-engineering\TU/TeXGyrePagella(0)/b/n/10.95 ).[] \TU/T
-eXGyrePagella(0)/m/n/10.95 JWT dependencies and logic (#171,
-[36]
+[42]
 Appendix D.
-Missing character: There is no ▶ (U+25B6) in font Latin Modern Mono 8 Regular/O
-T:script=latn;language=dflt;mapping=tex-text;!
-) [37] (./main.aux)
+[43]) [44] (./main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -482,5 +469,5 @@ LaTeX Warning: There were multiply-defined labels.
 
  )
 (see the transcript file for additional information)
-Output written on main.pdf (45 pages).
+Output written on main.pdf (55 pages).
 Transcript written on main.log.

@@ -1,42 +1,46 @@
-% ---------------- Cover page ----------------
-\begin{titlepage}
+% ---------------- Cover page (academic style) ----------------
 \thispagestyle{empty}
-\centering
-\vspace*{0.4cm}
+\begin{center}
 
-{\sffamily\large\color{qgray} \university\par}
-{\sffamily\normalsize\color{qgray} \academicYear\par}
+\noindent
+\begin{minipage}[c]{0.5\textwidth}
+  \includegraphics[width=4.3cm]{imgs/ufr.png}
+\end{minipage}%
+\begin{minipage}[c]{0.5\textwidth}
+  \raggedleft\includegraphics[width=2cm]{imgs/qonto_flower.jpeg}
+\end{minipage}
 
-\vspace{0.5cm}
-{\color{qaccent}\rule{\textwidth}{1.4pt}}
-\vspace{1.4cm}
+\vspace{1.3cm}
 
-{\sffamily\bfseries\color{qink}\fontsize{15}{18}\selectfont Master's end-of-studies internship report\par}
-\vspace{0.3cm}
-{\sffamily\color{qgray}\large \studentTrack\par}
+{\large \textsc{\textbf{Master's End-of-Studies Internship Report}}}\\[0.15cm]
+{\large \textsc{\university}}\\[0.08cm]
+{\large \textsc{\universityUnit}}\\[0.08cm]
+{\large \textsc{\textit{\studentTrack}}}\\[0.25cm]
 
-\vspace{1.6cm}
-{\sffamily\bfseries\color{qink}\fontsize{23}{27}\selectfont \reportTitle\par}
-\vspace{0.7cm}
-{\sffamily\itshape\color{qaccent}\large \reportSubtitle\par}
+\rule{\linewidth}{0.3mm}\\[0.45cm]
+{\huge\bfseries \reportTitle}\\[0.25cm]
+\rule{\linewidth}{0.3mm}\\[0.55cm]
 
-\vspace{1.6cm}
-{\color{qaccent}\rule{0.5\textwidth}{0.8pt}}
-\vspace{1.2cm}
+\includegraphics[width=6cm]{imgs/qonto.png}\\[1.3cm]
 
-\begin{tabular}{@{}r@{\hskip 10pt}l@{}}
-\sffamily\bfseries\color{qink} Student & \sffamily \studentName \\[4pt]
-\sffamily\bfseries\color{qink} Company & \sffamily \companyName \\[4pt]
-\sffamily\bfseries\color{qink} Period & \sffamily \internshipPeriod \\[4pt]
-\sffamily\bfseries\color{qink} Company supervisor & \sffamily \companyTutor \\
- & \sffamily\small\color{qgray} \companyTutorRole \\
- & \sffamily\small\color{qgray} \companyTutorMail \\
- & \sffamily\small\color{qgray} \companyAddress \\[4pt]
-\sffamily\bfseries\color{qink} University tutor & \sffamily \universityTutor \\
+\begin{minipage}{0.85\textwidth}\large
+  \begin{flushleft}
+    \emph{Presented by:}\\[0.15cm]
+    \textbf{\studentName}\\[0.5cm]
+    % \emph{Internship period:} \internshipPeriod
+  \end{flushleft}
+\end{minipage}\\[0.9cm]
+
+\begin{tabular}{@{}p{4.6cm}l@{}}
+\emph{Company supervisor:} & \companyTutor \\
+                           & {\small \companyTutorRole} \\
+                           & {\small \companyTutorMail} \\[0.35cm]
+\emph{University tutor:}   & \universityTutor \\
 \end{tabular}
 
 \vfill
-{\color{qaccent}\rule{\textwidth}{1.4pt}}
-\vspace{0.3cm}
-{\sffamily\footnotesize\color{qgray} Data Platform team — Data Engineering \quad$\bullet$\quad \companyName\par}
-\end{titlepage}
+\rule{\linewidth}{0.2mm}\\[0.12cm]
+{\large \academicYear}\\[0.06cm]
+% {\small \university{} \;\textbullet\; \universityUnit}
+\end{center}
+\clearpage

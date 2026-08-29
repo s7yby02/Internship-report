@@ -1,6 +1,6 @@
 % ---------------- Abstract / Résumé ----------------
 \chapter*{Abstract}
-\addcontentsline{toc}{chapter}{Abstract / Résumé}
+\addcontentsline{toc}{chapter}{Abstract}
 \markboth{Abstract}{}
 
 This end-of-studies internship took place within Qonto's \emph{Data Platform} team, a European neobank and payment service provider (PSP). It focused on hardening and industrialising data pipelines orchestrated by Apache Airflow. Three projects are presented. The first is the migration of Notion data ingestion to the \emph{dlt} (data load tool) framework with a direct Snowflake destination: it was triggered by a \emph{silent data-truncation} incident caused by an API change, and its core challenge was achieving \emph{byte-for-byte} parity with the legacy system so that the production cutover would be downtime-free and transparent to the hundreds of downstream dbt models. The second project replaced personal-access-token authentication (14 manually rotated PATs relying on a brittle pooling mechanism) with a JWT-based \emph{Connected App} (a single secret), while moving the Tableau pipelines out of Airflow's shared Docker base image. The third, being finalised, implements the \emph{CESOP Netherlands} regulatory transmission chain to the government Digipoort gateway over FTPS/mTLS with a PKIoverheid certificate, as two DAGs (a quarterly submitter and an asynchronous receipt poller). The common thread of the first two projects is \emph{decoupling} a shared infrastructure dependency, identified as the true source of fragility, before fixing the business problem itself. Results include eliminating silent truncation by construction, removing all manual token rotation, and substantially reducing legacy code and the number of Airflow tasks.
@@ -8,9 +8,11 @@ This end-of-studies internship took place within Qonto's \emph{Data Platform} te
 \vspace{4pt}
 \noindent\textbf{Keywords:} data engineering, Apache Airflow, dlt, Snowflake, dbt, EL ingestion, orchestration, JWT authentication, mTLS/PKI, regulatory compliance (CESOP), zero-downtime migration.
 
+\clearpage
 \begin{french}
-\vspace{10pt}
-\section*{Résumé}
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+\markboth{Résumé}{}
 
 Ce stage de fin d'études s'est déroulé au sein de l'équipe \emph{Data Platform} de Qonto, néobanque européenne et prestataire de services de paiement (PSP). Il portait sur la fiabilisation et l'industrialisation de pipelines de données orchestrés par Apache Airflow. Trois projets y sont présentés. Le premier est la migration de l'ingestion des données Notion vers le framework \emph{dlt} (data load tool) avec écriture directe dans Snowflake : le déclencheur était un incident de \emph{troncature silencieuse} causé par un changement d'API, et la difficulté centrale a été d'obtenir une parité \emph{octet-à-octet} avec l'ancien système pour réaliser une bascule de production sans interruption ni régression sur les modèles dbt en aval. Le deuxième projet a remplacé l'authentification par jetons personnels (14 PAT à rotation manuelle, avec un mécanisme de pool fragile) par une \emph{Connected App} en JWT (un unique secret), tout en migrant les pipelines Tableau hors de l'image Docker partagée d'Airflow. Le troisième, en cours de finalisation, met en place la chaîne de transmission réglementaire \emph{CESOP Pays-Bas} vers la passerelle gouvernementale Digipoort en FTPS/mTLS avec certificat PKIoverheid, sous la forme de deux DAGs. Le fil conducteur des deux premiers projets est le \emph{découplage} d'une dépendance d'infrastructure partagée, identifiée comme la véritable cause de fragilité, avant la correction du problème métier.
 
