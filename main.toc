@@ -67,7 +67,6 @@
 \contentsline {chapter}{Conclusion and perspectives}{38}{chapter*.45}%
 \contentsline {chapter}{Bibliography}{39}{chapter*.46}%
 \contentsline {chapter}{\numberline {A}Internship timeline}{40}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Contribution summary}{41}{appendix.B}%
-\contentsline {chapter}{\numberline {C}Implementation detail: naming convention for parity}{43}{appendix.C}%
-\contentsline {chapter}{\numberline {D}CESOP: the Digipoort FTPS/mTLS client}{45}{appendix.D}%
-\contentsline {chapter}{\numberline {E}Digipoort acknowledgements}{47}{appendix.E}%
+\contentsline {chapter}{\numberline {B}Implementation detail: naming convention for parity}{41}{appendix.B}%
+\contentsline {chapter}{\numberline {C}CESOP: the Digipoort FTPS/mTLS client}{43}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Digipoort acknowledgements}{46}{appendix.D}%

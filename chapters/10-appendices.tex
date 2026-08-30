@@ -19,7 +19,7 @@ The internship runs from 13~April to 9~October~2026. It opened with a two-week o
   \node[qaccent,anchor=north,font=\sffamily\tiny] at (6.3,-0.62) {end (9 Oct)};
   % row labels
   \node[anchor=east] at (-0.15,6) {Onboarding \& the Qonto Way};
-  \node[anchor=east] at (-0.15,5) {Notion \textrightarrow{} dlt migration};
+  \node[anchor=east] at (-0.15,5) {Notion to dlt migration};
   \node[anchor=east] at (-0.15,4) {Tableau DAGs \& JWT};
   \node[anchor=east] at (-0.15,3) {CESOP Netherlands chain};
   \node[anchor=east] at (-0.15,2) {Report \& defense};
@@ -36,34 +36,35 @@ The internship runs from 13~April to 9~October~2026. It opened with a two-week o
   % upcoming / not assigned (outline only)
   \draw[fill=white,draw=qgray!70,dashed,rounded corners=1.5pt] (5.55,-0.26) rectangle (6.30,0.26);
 \end{tikzpicture}
-\caption{Indicative timeline of the internship (13~April--9~October~2026). Solid bars: completed work. Dashed bars: work in progress (Postgres/Qontract) and time not yet assigned.}
+\caption{Indicative timeline of the internship (13~April--9~October~2026).}
 \label{fig:gantt}
 \end{figure}
 
-\chapter{Contribution summary}\label{anx:contrib}
+% \chapter{Contribution summary}\label{anx:contrib}
 
-To give a sense of the scope of the work rather than a raw commit log, Table~\ref{tab:contrib} pairs the concrete deliverables of each project with the volume of merged code they represent (author: A.~ELHARRAN). Line counts include tests and the generated schedule entries; they indicate the \emph{scale} of the contribution, not code quality.
+% To give a sense of the scope of the work rather than a raw commit log, Table~\ref{tab:contrib} pairs the concrete deliverables of each project with the volume of merged code they represent. Line counts include tests and the generated schedule entries; they indicate the \emph{scale} of the contribution, not code quality.
 
-\begingroup
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering\small
-\begin{tabularx}{\textwidth}{@{}p{2.3cm}X >{\raggedright\arraybackslash}p{3.15cm}@{}}
-\toprule
-\textbf{Project} & \textbf{What was delivered} & \textbf{Merged code} \\
-\midrule
-Notion \textrightarrow{} dlt & A standalone dlt ingestion job replacing the operator coupled to the shared image: contract-driven resources, byte-for-byte column parity, native JSON via JSONL/VARIANT, a resilient retry session for long fetches, schema reconciliation on contract drift. & \texttt{qonto-python-dlt}: 79 commits, $\approx$\,+14{,}200 / $-$1{,}300 \\
-Tableau refresh \& JWT & Refreshes moved off the shared image into K8s pods; JWT \emph{Connected~App} authentication replacing 14 rotated PATs; a metadata loader; a schedule-driven refresh with a concurrency cap and 409-idempotency. & \texttt{qonto-\allowbreak python-\allowbreak data-\allowbreak engineering} (\texttt{tableau}): $\approx$\,+4{,}700 \\
-CESOP Netherlands & A new Digipoort transmission chain: FTPS/mTLS client, \texttt{.meta} builder, four-artefact acknowledgement parser, Snowflake state model, and the two-DAG asynchronous submit/poll design. & \texttt{qonto-\allowbreak python-\allowbreak data-\allowbreak engineering} (\texttt{cesop\_nl}): $\approx$\,+5{,}200 \\
-Cutovers \& decommissioning & New jobs wired in parallel, sensors repointed, then the legacy operators, tokens/PATs, pool and dependencies removed from the shared monorepo. & \texttt{qonto-airflow}: 48 commits, +1{,}100 / $-$7{,}000 (net $-$5{,}900) \\
-\bottomrule
-\end{tabularx}
-\caption{Deliverables and scale of the merged contribution, by project.}
-\label{tab:contrib}
-\end{table}
-\endgroup
+% \begingroup
+% \renewcommand{\arraystretch}{1.35}
+% \begin{table}[H]
+% \centering\small
+% \begin{tabularx}{\textwidth}{@{}p{2.3cm}X >{\raggedright\arraybackslash}p{3.15cm}@{}}
+% \toprule
+% \textbf{Project} & \textbf{What was delivered} & \textbf{Merged code} \\
+% \midrule
+% Notion \textrightarrow{} dlt & A standalone dlt ingestion job replacing the operator coupled to the shared image: contract-driven resources, byte-for-byte column parity, native JSON via JSONL/VARIANT, a resilient retry session for long fetches, schema reconciliation on contract drift. & \texttt{qonto-python-dlt}: 79 commits, $\approx$\,+14{,}200 / $-$1{,}300 \\
+% Tableau refresh \& JWT & Refreshes moved off the shared image into K8s pods; JWT \emph{Connected~App} authentication replacing 14 rotated PATs; a metadata loader; a schedule-driven refresh with a concurrency cap and 409-idempotency. & \texttt{qonto-\allowbreak python-\allowbreak data-\allowbreak engineering} (\texttt{tableau}): $\approx$\,+4{,}700 \\
+% CESOP Netherlands & A new Digipoort transmission chain: FTPS/mTLS client, \texttt{.meta} builder, four-artefact acknowledgement parser, Snowflake state model, and the two-DAG asynchronous submit/poll design. & \texttt{qonto-\allowbreak python-\allowbreak data-\allowbreak engineering} (\texttt{cesop\_nl}): $\approx$\,+5{,}200 \\
+% Cutovers \& decommissioning & New jobs wired in parallel, sensors repointed, then the legacy operators, tokens/PATs, pool and dependencies removed from the shared monorepo. & \texttt{qonto-airflow}: 48 commits, +1{,}100 / $-$7{,}000 (net $-$5{,}900) \\
+% \bottomrule
+% \end{tabularx}
+% \caption{Deliverables and scale of the merged contribution, by project.}
+% \label{tab:contrib}
+% \end{table}
+% \endgroup
 
-The thesis of the two migrations is visible in the last row: decoupling let roughly \textbf{7{,}000 lines of legacy code} be deleted from the shared Airflow monorepo, shrinking the ``blast radius'' of the shared base image, while the new, self-contained jobs live in their own repositories.
+% The thesis of the two migrations is visible in the last row: decoupling let roughly \textbf{7{,}000 lines of legacy code} be deleted from the shared Airflow monorepo, shrinking the ``blast radius'' of the shared base image, while the new, self-contained jobs live in their own repositories.
+
 
 \chapter{Implementation detail: naming convention for parity}\label{anx:naming}
 
@@ -97,13 +98,31 @@ class NamingConvention(BaseNamingConvention):
 
 \chapter{CESOP: the Digipoort FTPS/mTLS client}\label{anx:ftps}
 
-The transport client is the part of the CESOP project that departs most from ordinary data engineering (Chapter~\ref{ch:cesop}). Digipoort speaks \emph{explicit} FTPS (RFC~4217): the client issues \texttt{AUTH TLS} to encrypt the control channel, then \texttt{PBSZ~0} / \texttt{PROT~P} to encrypt the data channel as well. Two non-obvious difficulties had to be solved.
+The transport client is the part of the CESOP project that departs most from ordinary data engineering (Chapter~\ref{ch:cesop}). Digipoort speaks \emph{explicit} FTPS (FTP secured with TLS, RFC~4217~\cite{rfc4217}). Before any file can move, the client must open the control channel, negotiate TLS, secure the data channel, and log in. The exact command dialogue is fixed by the Logius interface specification~\cite{digipoort-ftps}; Listing~\ref{lst:ftps-raw} reproduces it (\texttt{S:}~= server response, \texttt{C:}~= client command).
+
+\begin{lstlisting}[caption={Setting up a TLS connection. Digipoort FTP interface specification~\cite{digipoort-ftps}.},label={lst:ftps-raw}]
+<client opens a connection on tcp/21>
+S: 220 oe.procesinfrastructuur.nl ready
+C: AUTH TLS
+S&C: <TLS connection is negotiated and set up>
+S: 234 Security data exchange complete
+C: PBSZ 0
+S: 200 Protection Buffer Size set to streaming
+C: PROT P
+S: 200 Data connection is private
+C: USER bank
+S: 331 Username OK, need password for login
+C: PASS "the bank's password"
+S: 230 User logged in, proceed.
+\end{lstlisting}
+
+Each step maps onto a single call in the client: \texttt{AUTH TLS} becomes \texttt{ftp.auth()}, \texttt{PBSZ~0}\,/\,\texttt{PROT~P} becomes \texttt{ftp.prot\_p()}, and \texttt{USER}\,/\,\texttt{PASS} becomes \texttt{ftp.login(...)}. What the specification does \emph{not} spell out are the two implementation difficulties that cost the most effort.
 
 \emph{TLS session reuse.} Digipoort, like many government FTPS servers, requires the data connection to \emph{resume} the control connection's TLS session. Python's standard \texttt{ftplib} instead opens a fresh, independent handshake for each data transfer, which the server rejects. The fix is to subclass \texttt{FTP\_TLS} and override \texttt{ntransfercmd} so the data socket is re-wrapped with the control socket's TLS session --- the well-known government-FTPS gotcha, confirmed during the connectivity spike.
 
 \emph{Dual authentication from in-memory secrets.} Authentication is twofold: a PKIoverheid client certificate (\textbf{mTLS}) \emph{and} an FTP username/password. The certificate and key arrive as PEM \emph{text} from the secret store, but \texttt{ssl.load\_cert\_chain} only accepts file \emph{paths}; they are therefore written to short-lived \texttt{0600} temporary files, loaded into the SSL context, then deleted immediately, so nothing sensitive lingers on disk. In production the Logius server CA is added explicitly to the trust store (Listing~\ref{lst:ftps}).
 
-\begin{lstlisting}[language=Python,caption={The Digipoort FTPS/mTLS connection client (\texttt{jobs/cesop\_nl/transport/digipoort\_client.py}, connection part).},label={lst:ftps}]
+\begin{lstlisting}[language=Python,caption={The Digipoort FTPS/mTLS connection client},label={lst:ftps}]
 import ftplib, os, ssl, tempfile
 
 

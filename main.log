@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.8.17)  30 AUG 2026 17:14
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.8.17)  30 AUG 2026 17:38
  restricted system commands enabled.
  file:line:error style messages enabled.
 **/Users/ayoub.elharran/Downloads/rapport-stage-qonto-en/main.tex
@@ -1181,11 +1181,6 @@ Underfull \hbox (badness 1092) in paragraph at lines 6--6
  [][] [][][]\TU/LatinModernRoman(0)/m/n/12 The Digipoort \TU/LatinModernMono(0)/m/n/12 .meta \TU/LatinModernRoman(0)/m/n/12 side-car built for a pay-load (struc-ture fixed by 
  []
 
-
-Overfull \hbox (87.82968pt too wide) in paragraph at lines 8--8
- [][] [][][]\TU/LatinModernRoman(0)/m/n/12 The Digipoort FTPS/mTLS con-nec-tion client (\TU/LatinModernMono(0)/m/n/12 jobs/cesop_nl/transport/digipoort_client.py\TU/LatinModernRoman(0)/m/n/12 , 
- []
-
 )
 \tf@lol=\write6
 
@@ -1212,39 +1207,39 @@ Package luatex.def Info: imgs/qonto.png  used on input line 13.
 [3
 
 ]
-<imgs/project_card_page.png, id=337, 1162.3425pt x 996.72375pt>
+<imgs/project_card_page.png, id=334, 1162.3425pt x 996.72375pt>
 File: imgs/project_card_page.png Graphic file (type png)
 <use imgs/project_card_page.png>
 Package luatex.def Info: imgs/project_card_page.png  used on input line 26.
 (luatex.def)             Requested size: 375.57782pt x 322.0607pt.
  [4<./imgs/project_card_page.png>]
-<imgs/data_platform_delivery_board.png, id=345, 1365.1pt x 1027.84pt>
+<imgs/data_platform_delivery_board.png, id=342, 1365.1pt x 1027.84pt>
 File: imgs/data_platform_delivery_board.png Graphic file (type png)
 <use imgs/data_platform_delivery_board.png>
 Package luatex.def Info: imgs/data_platform_delivery_board.png  used on input line 35.
 (luatex.def)             Requested size: 375.57782pt x 282.7745pt.
-<imgs/airflow.png, id=347, 1810.765pt x 691.58376pt>
+<imgs/airflow.png, id=344, 1810.765pt x 691.58376pt>
 File: imgs/airflow.png Graphic file (type png)
 <use imgs/airflow.png>
 Package luatex.def Info: imgs/airflow.png  used on input line 51.
 (luatex.def)             Requested size: 93.89265pt x 35.85808pt.
  [5<./imgs/data_platform_delivery_board.png><./imgs/airflow.png>]
-<imgs/Snowflake.png, id=356, 3854.4pt x 2168.1pt>
+<imgs/Snowflake.png, id=353, 3854.4pt x 2168.1pt>
 File: imgs/Snowflake.png Graphic file (type png)
 <use imgs/Snowflake.png>
 Package luatex.def Info: imgs/Snowflake.png  used on input line 59.
 (luatex.def)             Requested size: 93.89265pt x 52.79967pt.
-<imgs/s3.png, id=357, 1063.975pt x 449.68pt>
+<imgs/s3.png, id=354, 1063.975pt x 449.68pt>
 File: imgs/s3.png Graphic file (type png)
 <use imgs/s3.png>
 Package luatex.def Info: imgs/s3.png  used on input line 67.
 (luatex.def)             Requested size: 93.89265pt x 39.68037pt.
-<imgs/DBT.png, id=358, 2007.5pt x 766.865pt>
+<imgs/DBT.png, id=355, 2007.5pt x 766.865pt>
 File: imgs/DBT.png Graphic file (type png)
 <use imgs/DBT.png>
 Package luatex.def Info: imgs/DBT.png  used on input line 75.
 (luatex.def)             Requested size: 93.89265pt x 35.86479pt.
-<imgs/Qontract.png, id=359, 492.84125pt x 171.64125pt>
+<imgs/Qontract.png, id=356, 492.84125pt x 171.64125pt>
 File: imgs/Qontract.png Graphic file (type png)
 <use imgs/Qontract.png>
 Package luatex.def Info: imgs/Qontract.png  used on input line 82.
@@ -1256,7 +1251,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/n' will be
 (Font)              scaled to size 8.99994pt on input line 101.
  [6<./imgs/Snowflake.png><./imgs/s3.png><./imgs/DBT.png><./imgs/Qontract.png>]
-<imgs/job_orchestrator.png, id=372, 319.9152pt x 195.6108pt>
+<imgs/job_orchestrator.png, id=369, 319.9152pt x 195.6108pt>
 File: imgs/job_orchestrator.png Graphic file (type png)
 <use imgs/job_orchestrator.png>
 Package luatex.def Info: imgs/job_orchestrator.png  used on input line 126.
@@ -1299,7 +1294,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--43
 LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/n' will be
 (Font)              scaled to size 7.19995pt on input line 64.
 [15]
-<imgs/notion_archi.png, id=495, 727.6275pt x 2367.828pt>
+<imgs/notion_archi.png, id=492, 727.6275pt x 2367.828pt>
 File: imgs/notion_archi.png Graphic file (type png)
 <use imgs/notion_archi.png>
 Package luatex.def Info: imgs/notion_archi.png  used on input line 78.
@@ -1313,13 +1308,13 @@ Chapter 4.
 [22
 
 ] [23]
-<imgs/tableau_refresh.png, id=602, 713.8305pt x 1524.24pt>
+<imgs/tableau_refresh.png, id=599, 713.8305pt x 1524.24pt>
 File: imgs/tableau_refresh.png Graphic file (type png)
 <use imgs/tableau_refresh.png>
 Package luatex.def Info: imgs/tableau_refresh.png  used on input line 66.
 (luatex.def)             Requested size: 302.21393pt x 645.30412pt.
  [24] [25<./imgs/tableau_refresh.png>]
-<imgs/jwt_mecanism.png, id=614, 914.544pt x 1049.886pt>
+<imgs/jwt_mecanism.png, id=611, 914.544pt x 1049.886pt>
 File: imgs/jwt_mecanism.png Graphic file (type png)
 <use imgs/jwt_mecanism.png>
 Package luatex.def Info: imgs/jwt_mecanism.png  used on input line 96.
@@ -1341,7 +1336,7 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
 )
-<imgs/slack_notif.png, id=695, 1057.9525pt x 320.19624pt>
+<imgs/slack_notif.png, id=692, 1057.9525pt x 320.19624pt>
 File: imgs/slack_notif.png Graphic file (type png)
 <use imgs/slack_notif.png>
 Package luatex.def Info: imgs/slack_notif.png  used on input line 126.
@@ -1368,12 +1363,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 22--22
 ]) (./chapters/08-conclusion.tex [36] [37]) (./chapters/09-biblio.tex [38
 
 ]
-Underfull \hbox (badness 3815) in paragraph at lines 28--29
+Underfull \hbox (badness 3815) in paragraph at lines 30--31
 []\TU/LatinModernRoman(0)/m/n/10.95 R. Dil-let, \TU/LatinModernRoman(0)/m/it/10.95 French B2B fin-tech Qonto reaches 600,000 cus-tomers and files for
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 28--29
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
 \TU/LatinModernRoman(0)/m/it/10.95 a bank-ing li-cense\TU/LatinModernRoman(0)/m/n/10.95 , TechCrunch, July 2025. [][]$\TU/LatinModernMono(0)/m/n/10.95 https://techcrunch.com/2025/07/02/
  []
 
@@ -1385,51 +1380,22 @@ Appendix A.
 
 ]
 Appendix B.
-
-Underfull \hbox (badness 10000) in paragraph at lines 60--60
-[]|\TU/LatinModernRoman(0)/m/n/10.95 Tableau re-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 60--60
-[]|\TU/LatinModernRoman(0)/m/n/10.95 CE-SOP
- []
-
-
-Underfull \hbox (badness 5288) in paragraph at lines 60--60
-[]|\TU/LatinModernRoman(0)/m/n/10.95 A new Digipoort trans-mis-sion chain: FTPS/mTLS
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 60--60
-[]|\TU/LatinModernRoman(0)/m/n/10.95 Cu-tovers &
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 60--60
-\TU/LatinModernRoman(0)/m/n/10.95 de-com-mis-
- []
-
 [41
 
 ] [42]
 Appendix C.
 [43
 
-] [44]
+] [44] [45]
 Appendix D.
-[45
 
-] [46]
-Appendix E.
-
-Underfull \hbox (badness 1087) in paragraph at lines 169--170
+Underfull \hbox (badness 1087) in paragraph at lines 188--189
 []\TU/LatinModernRoman(0)/m/n/12 a trans-port con-fir-ma-tion (\TU/LatinModernMono(0)/m/n/12 .ok\TU/LatinModernRoman(0)/m/n/12 ) --- an \TU/LatinModernMono(0)/m/n/12 otp-metadata \TU/LatinModernRoman(0)/m/n/12 (metabe-stand) car-ry-ing a
  []
 
-[47
+[46
 
-]) [48] (./main.aux)
+]) [47] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -1444,19 +1410,19 @@ LaTeX Warning: There were multiply-defined labels.
 )
 
 Here is how much of LuaTeX's memory you used:
- 48925 strings out of 476076
- 597290,1977958 words of node,token memory allocated
- 1537 words of node memory still in use:
-   31 hlist, 2 vlist, 14 rule, 1 local_par, 7 glue, 5 kern, 2 penalty, 2 glyph, 98 attribute, 64 glue_spec, 96 attribute_list, 2 write, 24 pdf_literal, 11 pdf_action, 24 pdf_colorstack nodes
-   avail lists: 1:10,2:5835,3:1237,4:14485,5:11206,6:107,7:14300,8:109,9:28216,10:39,11:1062
- 69678 multiletter control sequences out of 65536+600000
+ 48975 strings out of 476076
+ 477839,1977958 words of node,token memory allocated
+ 1517 words of node memory still in use:
+   31 hlist, 2 vlist, 14 rule, 1 local_par, 7 glue, 5 kern, 2 penalty, 2 glyph, 96 attribute, 64 glue_spec, 94 attribute_list, 2 write, 24 pdf_literal, 9 pdf_action, 24 pdf_colorstack nodes
+   avail lists: 1:9,2:5734,3:1237,4:13588,5:10543,6:108,7:14470,8:109,9:26313,10:39,11:1062
+ 69716 multiletter control sequences out of 65536+600000
  93 fonts using 9543951 bytes
- 98i,11n,104p,1680b,1004s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,12n,104p,1680b,1004s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono8-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmsans8-oblique.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono12-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono10-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman10-bolditalic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmsans8-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman12-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman12-italic.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (60 pages, 3229273 bytes).
+Output written on main.pdf (59 pages, 3228031 bytes).
 
-PDF statistics: 1245 PDF objects out of 1440 (max. 8388607)
- 1063 compressed objects within 11 object streams
- 426 named destinations out of 1000 (max. 1048576)
- 728 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 1252 PDF objects out of 1440 (max. 8388607)
+ 1070 compressed objects within 11 object streams
+ 438 named destinations out of 1000 (max. 1048576)
+ 720 words of extra memory for PDF output out of 10000 (max. 100000000)
 
