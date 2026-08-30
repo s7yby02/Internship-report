@@ -27,7 +27,7 @@ Feedback & Direct API response & \textbf{Files dropped} into an \texttt{out/} fo
 \label{tab:nl-delta}
 \end{table}
 
-The most important design point is the distinction between \emph{the what} and \emph{the how}. \emph{The what}: the XML content (payments, payees, amounts) is the \emph{payload}, produced by an existing generator in the Analytics Engineering team; it \emph{arrives as an input} to my project and follows the standard CESOP format. \emph{The how}: authenticate, attach a \texttt{.meta}, transmit, reconcile the acknowledgements is my scope. I build the pipes, not the water flowing through them.
+The most important design point is the distinction between \emph{the what} and \emph{the how}. \emph{The what}: the XML content (payments, payees, amounts) is the \emph{payload}, produced by an existing generator in the Analytics Engineering team; it \emph{arrives as an input} to my project and follows the standard CESOP format. \emph{The how}: authenticate, attach a \texttt{.meta}, transmit, reconcile the acknowledgements is my scope.
 
 \section{Architecture: two DAGs and a state table}
 
@@ -59,13 +59,13 @@ The ``submission $\rightarrow$ acknowledgement'' loop is \emph{asynchronous} and
 \draw[arr] (state) -| (b2);
 \draw[arr,dashed,draw=qgray] (b5) |- (state);
 \end{tikzpicture}
-\caption{Two-DAG architecture: a quarterly submitter and a three-hourly receipt poller, linked by a state table.}
+\caption{CESOP's Two-DAG architecture: a quarterly submitter and a three-hourly receipt poller, linked by a state table.}
 \label{fig:cesop-dags}
 \end{figure}
 
 The \texttt{RAW.CESOP\_NL.SUBMISSIONS} table holds one row per submission and tracks its lifecycle: transport status, technical validation (a few hours), then business validation (days to weeks). DAG~A inserts the rows; DAG~B updates them as acknowledgements arrive. Its columns mirror exactly those three stages (Listing~\ref{lst:submissions}).
 
-\begin{lstlisting}[language=SQL,caption={The \texttt{RAW.CESOP\_NL.SUBMISSIONS} state table (\texttt{jobs/cesop\_nl/state/schemas.py}).},label={lst:submissions}]
+\begin{lstlisting}[language=SQL,caption={The \texttt{RAW.CESOP\_NL.SUBMISSIONS} state table}]
 CREATE TABLE IF NOT EXISTS RAW.CESOP_NL.SUBMISSIONS (
     SUBMISSION_ID              VARCHAR(255) PRIMARY KEY,  -- our correlation id
     QUARTER                    VARCHAR(16),               -- e.g. 2026Q2
@@ -92,18 +92,18 @@ CREATE TABLE IF NOT EXISTS RAW.CESOP_NL.SUBMISSIONS (
 
 \section{Implementation}
 
-The job lives in \texttt{qonto-python-data-engineering/jobs/cesop\_nl/}, following the repository's conventions (\texttt{config.py} with Pydantic settings, \texttt{main.py}, \texttt{queries/}) and organised by responsibility:
+The job lives in \texttt{qonto-python-data-engineering/jobs/cesop\_nl/}, following the repository's conventions and organised by responsibility:
 
 \begin{itemize}
   \item \textbf{transport/}: the \textbf{FTPS/mTLS} client to Digipoort (connect, upload the file pair, list and download acknowledgements) and the \texttt{.meta} file \textbf{builder}.
-  \item \textbf{submit/}: DAG~A's flow (fetch, validate, digest, \texttt{.meta}, upload, record).
+  \item \textbf{submit/}: DAG~A's flow (fetch, validate, digest, upload, record).
   \item \textbf{poll/}: DAG~B's flow, with an \textbf{acknowledgement parser} that classifies the four artefact types in the \texttt{out/} folder into a uniform result, and the archival of raw receipts on S3.
   \item \textbf{state/}: the Snowflake state-table repository and its schema.
 \end{itemize}
 
 A few notable implementation points. The \texttt{.meta} file is a small XML that accompanies each payload: it carries the reference identifier, the sender, the fixed receiver for CESOP and the size. The upload order is \textbf{strict}: the payload first, \emph{then} the \texttt{.meta} in the same session. It is the arrival of the \texttt{.meta} that triggers processing on the Digipoort side. Trusting Logius's server certificate required explicitly installing the certificate-authority chain. Rejection alerts are surfaced on Slack in \emph{Block Kit} format (Figure~\ref{fig:cesop-slack}). Finally, \emph{resubmission} handling was implemented: a rejected delivery must be resent as a \emph{fresh initial submission} (not as a correction), with a file-identifier increment and dated archival of the acknowledgements. Listing~\ref{lst:meta} shows a representative \texttt{.meta} produced by the builder for one payload; the \texttt{digest} is a 128-hex-char SHA-512 (our only ``signing'').
 
-\begin{lstlisting}[language=XML,caption={The Digipoort \texttt{.meta} sidecar built for a payload (structure fixed by \texttt{metabestand.xsd}).},label={lst:meta}]
+\begin{lstlisting}[language=XML,caption={The Digipoort \texttt{.meta} file built for a payload (structure fixed by \texttt{metabestand.xsd}).},label={lst:meta}]
 <?xml version="1.0" encoding="UTF-8"?>
 <otp-metadata xmlns="http://logius.nl/digipoort/gb/v16/metabestand.xsd"
               profile="otp-gb-1.6">
