@@ -1,10 +1,10 @@
 \chapter{Assessment and skills acquired}\label{ch:assessment}
 
-This chapter steps back from the three projects to draw out the skills acquired and the common methodological pattern, as recommended by the assessment guidelines.
+This chapter steps back from the three projects to draw out the skills acquired and the common methodological pattern.
 
 \section{A common pattern: diagnose, decouple, harden}
 
-In hindsight, the three projects share the same outline, summarised in Table~\ref{tab:synthesis}. The first two are migrations: the true source of fragility was not the business logic but a shared infrastructure dependency, and the right answer was to \emph{decouple} before \emph{hardening}, without ever interrupting the service. The third, regulatory in nature, applies the same rigour to a brand-new chain.
+The three projects share the same outline, summarised in Table~\ref{tab:synthesis}. The first two are migrations: the true source of fragility was not the business logic but a shared infrastructure dependency, and the right answer was to \emph{decouple} before \emph{hardening}, without ever interrupting the service. The third, regulatory in nature, applies the same rigour to a brand-new chain.
 
 \begin{table}[H]
 \centering\small
@@ -32,13 +32,13 @@ This internship let me consolidate and acquire a set of production-grade data-en
   \item \textbf{Ingestion and warehousing}: command of the EL paradigm, of the dlt framework (resources, pipelines, column hints, write dispositions), and of Snowflake loading mechanisms (S3 staging, \texttt{COPY INTO}, atomic swap, grant and schema-drift handling).
   \item \textbf{Orchestration}: designing Airflow DAGs, decoupling patterns via Kubernetes pods, sensors and dependency management, concurrency pools.
   \item \textbf{Security and authentication}: implementing JWT authentication (Connected App), understanding the PAT, OAuth and mTLS/PKI models, and secrets management through an encrypted parameter store.
-  \item \textbf{Software quality}: per-module unit tests, continuous integration, linting, configuration validation, and tooling (a \emph{skill}) to automate recurring tasks.
+  \item \textbf{Software quality}: per-module unit tests, continuous integration, linting, configuration validation, and tooling to automate recurring tasks.
   \item \textbf{Systems integration}: transport protocols (FTPS/mTLS), XML formats and schema validation, state machines and asynchronous reconciliation (CESOP project).
 \end{itemize}
 
 \section{Methodological skills}
 
-Beyond the technical side, the internship reinforced a way of working: \emph{trace problems back to the root cause} before coding (both migrations were born from a refusal to treat a symptom); \emph{make trade-offs explicit} rather than suffer them (choice of dlt, the Tableau server limit, signing reduced to a digest for CESOP); \emph{design for reversibility and zero interruption} (backward-compatible PR sequences); and \emph{measure} the effect of changes (lines removed, tasks reduced, an incident class eliminated). The team's \emph{Value Analysis / Value Engineering} approach served as a guiding thread for each of these points.
+Beyond the technical side, the internship reinforced a way of working: \emph{trace problems back to the root cause} before coding (both migrations were born from a refusal to treat a symptom); \emph{make trade-offs explicit} rather than suffer them (choice of dlt, the Tableau server limit); \emph{design for reversibility and zero interruption} (backward-compatible PR sequences); and \emph{measure} the effect of changes (lines removed, tasks reduced, an incident class eliminated). The team's \emph{Value Analysis / Value Engineering} approach served as a guiding thread for each of these points.
 
 \section{Transferable skills}
 
@@ -46,4 +46,4 @@ I gained autonomy and \emph{ownership}: taking a high-impact topic and carrying 
 
 \section{Value for the company}
 
-The deliverables carry direct and lasting value: the removal of two incident classes (silent truncation; missed token rotation), a significant reduction of legacy code and of coupling to the shared image, and the establishment of a hitherto non-existent regulatory chain. Beyond that, the patterns established (dlt's first Snowflake destination, a zero-downtime migration template, reusable JWT authentication) are references for the team's future migrations.
+The deliverables carry direct and lasting value: the removal of two incident classes (silent truncation; missed token rotation), a significant reduction of legacy code and of coupling to the shared image, and the establishment of a non-existent regulatory chain. Beyond that, the patterns established (dlt's first Snowflake destination, a zero-downtime migration template, reusable JWT authentication) are references for the team's future migrations.

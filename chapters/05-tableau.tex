@@ -15,7 +15,7 @@ Two families of Tableau pipelines lived in \texttt{qonto-airflow}:
 
 The whole thing relied on \textbf{fourteen personal access tokens} (PATs): ten for refresh and four for metadata \emph{expiring every year} and tracked \emph{by hand} in a Notion table. A missed rotation broke the nightly refresh. To stay under the \emph{concurrent-session limit per token} imposed by Tableau, the refresh used a \emph{pool of ten tokens} managed by an XCom mechanism detailed below. Finally, the version of the Tableau client (\emph{Tableau Server Client}, TSC) embedded in the Airflow image was \emph{too old} to support \emph{Connected Apps}: the move to JWT was therefore \emph{blocked} as long as the dependency stayed in the shared image. We find here, exactly, the coupling identified in Chapter~\ref{ch:sota}.
 
-\subsection{The legacy XCom mechanism}
+\subsection*{The legacy XCom mechanism}
 
 This mechanism deserves an explanation, as it illustrates a subtle piece of technical debt. XCom is the communication channel between Airflow tasks, designed to be \emph{immutable} (append-only). The legacy code diverted it to implement a token pool:
 

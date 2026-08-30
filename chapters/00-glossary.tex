@@ -18,6 +18,7 @@
 
 Airflow & Open-source workflow orchestrator. A pipeline is described as a \textbf{DAG}. \\
 DAG & \emph{Directed Acyclic Graph}: a set of tasks linked by dependencies. \\
+Sensor & An Airflow task that waits for a condition (e.g., an upstream dbt model to be ready) before downstream tasks run. \\
 DBT & \emph{data build tool}: SQL transformation tool. \\
 dlt & \emph{data load tool}: a Python \textbf{EL} ingestion library. \\
 EL / ETL & Data-integration paradigms: \emph{Extract–Load} (transformation deferred downstream) vs \emph{Extract–Transform–Load}. \\
@@ -25,6 +26,7 @@ Snowflake & Cloud data warehouse, the target of every ingestion. \\
 S3 & Amazon Web Services object storage, used as a \emph{staging} area. \\
 Data contract (Qontract) & A YAML file declaring the fields, types and key of an ingested table. \\
 Job Orchestrator & Qonto-internal pattern: a job is declared in a \texttt{schedule.yaml} and its Airflow DAG is \emph{auto-generated}. \\
+Kubernetes (K8s) & Container-orchestration platform; each job task runs in an isolated \emph{pod} with its own image and dependencies. \\
 PAT & \emph{Personal Access Token}. \\
 JWT & \emph{JSON Web Token}: a signed token, used here via a Tableau \emph{Connected App} for authentication. \\
 Connected App & A trusted application declared on the Tableau side, enabling signed-JWT authentication instead of PATs. \\

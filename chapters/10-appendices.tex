@@ -1,70 +1,221 @@
-\chapter{Detailed presentation of Qonto}\label{anx:qonto}
+\chapter{Internship timeline}\label{anx:timeline}
 
-Qonto is a European neobank for professionals (freelancers, very small businesses and SMEs), founded in 2017 by Alexandre Prot and Steve Anavi and operated by the company Olinda~SAS~\cite{qonto-wiki}. Its offering covers the business account, payment cards, transfers, invoicing and pre-accounting and financial-steering tools. At the time of the internship, the company reports on the order of 600{,}000 customers, operates in eight European countries (France, Germany, Italy, Spain, Austria, Belgium, the Netherlands, Portugal) and states the ambition of reaching two million customers by 2030~\cite{qonto-press}. On the regulatory side, Qonto operates as a payment institution and has begun the process of obtaining a banking licence. This payment-service-provider status underpins the regulatory-reporting obligations discussed in Chapter~\ref{ch:cesop}.
+The internship runs from 13~April to 9~October~2026. It opened with a two-week onboarding into the team and the \emph{Qonto Way}, after which the projects were carried out in sequence with some overlap; in September come the writing of this report and the defense (Figure~\ref{fig:gantt}). The three main projects are complete: the CESOP Netherlands chain is built and its first production submission is under way. A new Postgres/Qontract ingestion project is currently ongoing; the remaining weeks until the end of the internship are not yet assigned.
 
-\chapter{Technical environment and repositories}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.35cm,y=0.82cm,font=\sffamily\scriptsize]
+  \def\W{7}
+  % alternating row bands (rows y=0..6)
+  \foreach \y in {0,2,4,6}{\fill[qlight] (-0.03,\y-0.36) rectangle (\W,\y+0.36);}
+  % month gridlines + headers (Apr..Oct)
+  \foreach \m/\i in {Apr/0,May/1,Jun/2,Jul/3,Aug/4,Sep/5,Oct/6}{
+    \draw[qgray!25] (\i,-0.55) -- (\i,6.6);
+    \node[qgray] at (\i+0.5,7.0) {\m};
+  }
+  \draw[qgray!25] (\W,-0.55) -- (\W,6.6);
+  % internship end marker (9 Oct ~ 6.3)
+  \draw[qaccent!70,dashed,thick] (6.3,-0.55) -- (6.3,6.7);
+  \node[qaccent,anchor=north,font=\sffamily\tiny] at (6.3,-0.62) {end (9 Oct)};
+  % row labels
+  \node[anchor=east] at (-0.15,6) {Onboarding \& the Qonto Way};
+  \node[anchor=east] at (-0.15,5) {Notion \textrightarrow{} dlt migration};
+  \node[anchor=east] at (-0.15,4) {Tableau DAGs \& JWT};
+  \node[anchor=east] at (-0.15,3) {CESOP Netherlands chain};
+  \node[anchor=east] at (-0.15,2) {Report \& defense};
+  \node[anchor=east] at (-0.15,1) {Postgres/Qontract new project};
+  \node[anchor=east] at (-0.15,0) {Upcoming project};
+  % completed bars (solid) -- internship starts 13 Apr; 2-week onboarding
+  \fill[qgray!70,rounded corners=1.5pt]    (0.43,5.74) rectangle (0.90,6.26);
+  \fill[qaccent!80,rounded corners=1.5pt]  (0.90,4.74) rectangle (3.07,5.26);
+  \fill[qaccent2!80,rounded corners=1.5pt] (2.77,3.74) rectangle (4.20,4.26);
+  \fill[qink!85,rounded corners=1.5pt]     (3.50,2.74) rectangle (5.10,3.26);
+  \fill[qaccent!45,rounded corners=1.5pt]  (4.50,1.74) rectangle (5.33,2.26);
+  % ongoing (light fill + dashed border)
+  \draw[fill=qaccent2!20,draw=qaccent2!75,dashed,rounded corners=1.5pt] (4.90,0.74) rectangle (5.55,1.26);
+  % upcoming / not assigned (outline only)
+  \draw[fill=white,draw=qgray!70,dashed,rounded corners=1.5pt] (5.55,-0.26) rectangle (6.30,0.26);
+\end{tikzpicture}
+\caption{Indicative timeline of the internship (13~April--9~October~2026). Solid bars: completed work. Dashed bars: work in progress (Postgres/Qontract) and time not yet assigned.}
+\label{fig:gantt}
+\end{figure}
 
-The projects span several repositories:
+\chapter{Contribution summary}\label{anx:contrib}
 
-\begin{description}[style=nextline,leftmargin=1em,font=\ttfamily\bfseries]
-  \item[qonto-airflow] Airflow monorepo (declarative DAG generation, shared Docker base image). Target of the decommissionings and production cutovers.
-  \item[qonto-python-dlt] dlt-based ingestion repository (Snowflake destination). Home of the new Notion job.
-  \item[qonto-python-data-engineering] \emph{Job Orchestrator}: Python jobs run in Kubernetes pods. Home of the Tableau and CESOP jobs.
-  \item[data-contracts] Data contracts (Qontract, YAML) describing the schema of ingested tables.
-\end{description}
+To give a sense of the scope of the work rather than a raw commit log, Table~\ref{tab:contrib} pairs the concrete deliverables of each project with the volume of merged code they represent (author: A.~ELHARRAN). Line counts include tests and the generated schedule entries; they indicate the \emph{scale} of the contribution, not code quality.
 
-\noindent\textbf{Technical stack:} Apache Airflow (orchestration), Snowflake (warehouse), Amazon S3 (staging), dbt (transformation), Kubernetes (isolated execution), AWS SSM Parameter Store (secrets), Python~3.12, \texttt{uv} (dependency management).
+\begingroup
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering\small
+\begin{tabularx}{\textwidth}{@{}p{2.3cm}X >{\raggedright\arraybackslash}p{3.15cm}@{}}
+\toprule
+\textbf{Project} & \textbf{What was delivered} & \textbf{Merged code} \\
+\midrule
+Notion \textrightarrow{} dlt & A standalone dlt ingestion job replacing the operator coupled to the shared image: contract-driven resources, byte-for-byte column parity, native JSON via JSONL/VARIANT, a resilient retry session for long fetches, schema reconciliation on contract drift. & \texttt{qonto-python-dlt}: 79 commits, $\approx$\,+14{,}200 / $-$1{,}300 \\
+Tableau refresh \& JWT & Refreshes moved off the shared image into K8s pods; JWT \emph{Connected~App} authentication replacing 14 rotated PATs; a metadata loader; a schedule-driven refresh with a concurrency cap and 409-idempotency. & \texttt{qonto-\allowbreak python-\allowbreak data-\allowbreak engineering} (\texttt{tableau}): $\approx$\,+4{,}700 \\
+CESOP Netherlands & A new Digipoort transmission chain: FTPS/mTLS client, \texttt{.meta} builder, four-artefact acknowledgement parser, Snowflake state model, and the two-DAG asynchronous submit/poll design. & \texttt{qonto-\allowbreak python-\allowbreak data-\allowbreak engineering} (\texttt{cesop\_nl}): $\approx$\,+5{,}200 \\
+Cutovers \& decommissioning & New jobs wired in parallel, sensors repointed, then the legacy operators, tokens/PATs, pool and dependencies removed from the shared monorepo. & \texttt{qonto-airflow}: 48 commits, +1{,}100 / $-$7{,}000 (net $-$5{,}900) \\
+\bottomrule
+\end{tabularx}
+\caption{Deliverables and scale of the merged contribution, by project.}
+\label{tab:contrib}
+\end{table}
+\endgroup
 
-\chapter{Main contributions (Pull Requests)}
+The thesis of the two migrations is visible in the last row: decoupling let roughly \textbf{7{,}000 lines of legacy code} be deleted from the shared Airflow monorepo, shrinking the ``blast radius'' of the shared base image, while the new, self-contained jobs live in their own repositories.
 
-As concrete evidence of the work carried out, the main merged PRs, by project.
+\chapter{Implementation detail: naming convention for parity}\label{anx:naming}
 
-\paragraph{Notion project (\texttt{qonto-python-dlt}).} Porting of the tested modules (\#46) and wiring of the test DAGs (\#47); naming conventions for parity (\#55, \#56, \#57); JSONL loading for native VARIANT/ARRAY (\#68); date and time-zone parity (\#70, \#79); serialisation of list/object columns (\#71, \#72, \#73); nullability aligned with the legacy (\#75); tuned retry session for long fetches (\#80); reserved-keyword suffixing (\#82); schema reconciliation on contract drift (\#83, \#84).
+The hardest constraint of the Notion migration was \emph{byte-for-byte} column-name parity: downstream dbt models already reference the column names produced by the legacy Airflow loader, so the new dlt job had to emit exactly the same identifiers or every dependent model would break.
 
-\paragraph{Notion project --- cutover (\texttt{qonto-airflow}).} Wiring the dlt loader in parallel (\#1419); cutover to \texttt{RAW.NOTION} (\#1513); repointing the sensors (\#1511); removing the transitional shims (\#1529); decommissioning the legacy operator and removing the \texttt{notion-client} dependency (\#1536).
+The difficulty is that dlt's default \texttt{snake\_case} convention actively rewrites identifiers in two ways that both cause drift. It strips a trailing underscore and appends one \texttt{x} per stripped character, turning \texttt{act\_owner\_\_display\_} into \texttt{act\_owner\_\_displayx}; and it collapses runs of \texttt{\_\_} into a single \texttt{\_}, turning \texttt{\_experimental\_\_\_\_blocked\_users} into \texttt{\_experimental\_\_blocked\_users}. Notion property names routinely contain such underscore runs, so both behaviours would silently rename columns.
 
-\paragraph{Tableau project (\texttt{qonto-python-data-engineering}).} JWT dependencies and logic (\#171, \#173); metadata loader (\#179, \#180); refresh pipeline with generated schedule (\#187); concurrency cap and 409 idempotency (\#191); workbook-onboarding skill (\#194); publishing the priority seed to S3 (\#196); documentation (\#204).
+The fix is a custom \emph{passthrough} convention that only lowercases and leaves underscores untouched. Two details make it work: the path separator is set to an out-of-band character (U+25B6) so dlt's path splitting never collapses the real \texttt{\_\_} sequences; and the convention declares itself case-insensitive, which makes the Snowflake destination emit \emph{unquoted} DDL. Snowflake then uppercases on storage, matching the production layout exactly.
 
-\paragraph{Tableau project --- cutover (\texttt{qonto-airflow}).} Per-task priority from \texttt{schedule.yaml} (\#1593); per-DAG \texttt{max\_active\_tasks} (\#1602); P2 priority seed from S3 (\#1626); removal of the legacy refresh runtime --- operator, tokens, PATs, pool (\#1633, \#1634).
+\begin{lstlisting}[language=Python,caption={The passthrough naming convention (\texttt{jobs/notion/naming.py}).}]
+from typing import ClassVar
+from dlt.common.normalizers.naming.naming import NamingConvention as BaseNamingConvention
 
-\paragraph{CESOP project (\texttt{qonto-python-data-engineering}).} Project blueprint (\#221); \texttt{.meta} builder (\#222); acknowledgement parser (\#224); Snowflake state model (\#225); Digipoort FTPS client (\#226); submission flow --- DAG~A (\#228); Logius CA trust (\#229); polling flow --- DAG~B (\#230).
 
-\chapter{Code excerpts}
-
-\section*{JWT authentication (Tableau project)}
-The function that mints the short-lived HS256 token for the Tableau \emph{Connected App} (Chapter~\ref{ch:tableau}):
-
-\begin{lstlisting}[language=Python,caption={\texttt{make\_jwt}: minting a short JWT signed by a single secret.}]
-def make_jwt(client_id: str, secret_id: str, secret_value: str, scopes: list[str]) -> str:
-    return jwt.encode(
-        {
-            "iss": client_id,
-            "exp": datetime.now(UTC) + timedelta(minutes=5),
-            "jti": str(uuid.uuid4()),          # anti-replay
-            "aud": "tableau",
-            "sub": TABLEAU_USER,
-            "scp": scopes,                       # least privilege
-        },
-        secret_value,
-        algorithm="HS256",
-        headers={"kid": secret_id, "iss": client_id},
-    )
-\end{lstlisting}
-
-\section*{Naming convention for parity (Notion project)}
-The custom naming convention imposed on dlt to preserve production column names (Chapter~\ref{ch:notion}): it merely lowercases, without touching underscores, and declares itself case-insensitive to emit unquoted DDL.
-
-\begin{lstlisting}[language=Python,caption={``Passthrough'' naming convention (excerpt).}]
 class NamingConvention(BaseNamingConvention):
-    # dlt collapses "__" ; we pick an out-of-band separator to
-    # avoid the collision with Notion column names.
-    PATH_SEPARATOR: ClassVar[str] = "\u25b6"   # out-of-band separator (U+25B6)
+    # dlt's default path separator is "__"; normalize_path splits at every
+    # "__", drops empty segments, then rejoins -- collapsing multi-underscore
+    # identifiers. Notion property names regularly contain runs of underscores,
+    # so we use an out-of-band separator to dodge the collision.
+    PATH_SEPARATOR: ClassVar[str] = "\u25b6"  # U+25B6, out-of-band separator
 
     def normalize_identifier(self, identifier: str) -> str:
         identifier = super().normalize_identifier(identifier)
+        # lowercase only -- underscores are preserved verbatim
         return self.shorten_identifier(identifier.lower(), identifier, self.max_length)
 
     @property
     def is_case_sensitive(self) -> bool:
-        return False
+        return False  # -> unquoted DDL, Snowflake uppercases on storage
+\end{lstlisting}
+
+\chapter{CESOP: the Digipoort FTPS/mTLS client}\label{anx:ftps}
+
+The transport client is the part of the CESOP project that departs most from ordinary data engineering (Chapter~\ref{ch:cesop}). Digipoort speaks \emph{explicit} FTPS (RFC~4217): the client issues \texttt{AUTH TLS} to encrypt the control channel, then \texttt{PBSZ~0} / \texttt{PROT~P} to encrypt the data channel as well. Two non-obvious difficulties had to be solved.
+
+\emph{TLS session reuse.} Digipoort, like many government FTPS servers, requires the data connection to \emph{resume} the control connection's TLS session. Python's standard \texttt{ftplib} instead opens a fresh, independent handshake for each data transfer, which the server rejects. The fix is to subclass \texttt{FTP\_TLS} and override \texttt{ntransfercmd} so the data socket is re-wrapped with the control socket's TLS session --- the well-known government-FTPS gotcha, confirmed during the connectivity spike.
+
+\emph{Dual authentication from in-memory secrets.} Authentication is twofold: a PKIoverheid client certificate (\textbf{mTLS}) \emph{and} an FTP username/password. The certificate and key arrive as PEM \emph{text} from the secret store, but \texttt{ssl.load\_cert\_chain} only accepts file \emph{paths}; they are therefore written to short-lived \texttt{0600} temporary files, loaded into the SSL context, then deleted immediately, so nothing sensitive lingers on disk. In production the Logius server CA is added explicitly to the trust store (Listing~\ref{lst:ftps}).
+
+\begin{lstlisting}[language=Python,caption={The Digipoort FTPS/mTLS connection client (\texttt{jobs/cesop\_nl/transport/digipoort\_client.py}, connection part).},label={lst:ftps}]
+import ftplib, os, ssl, tempfile
+
+
+class _SessionReuseFTPTLS(ftplib.FTP_TLS):
+    """FTP_TLS that reuses the control channel's TLS session on the data channel.
+
+    Digipoort requires the data connection to resume the control channel's TLS
+    session; stdlib ftplib opens a fresh handshake and is rejected.
+    """
+
+    def ntransfercmd(self, cmd, rest=None):
+        conn, size = ftplib.FTP.ntransfercmd(self, cmd, rest)
+        if self._prot_p:
+            conn = self.context.wrap_socket(
+                conn, server_hostname=self.host, session=self.sock.session
+            )
+        return conn, size
+
+def _build_ssl_context(cert_pem, key_pem, passphrase, *, server_ca_pem):
+    """Build an mTLS SSLContext from in-memory PEM text.
+
+    ssl.load_cert_chain only accepts file *paths*, so cert/key are written to
+    short-lived 0600 temp files, loaded, then deleted immediately.
+    """
+    ctx = ssl.create_default_context()
+    if server_ca_pem:                       # production: trust the Logius CA
+        ctx.load_verify_locations(cadata=server_ca_pem)
+
+    cert_fd, cert_path = tempfile.mkstemp(suffix=".pem")
+    key_fd, key_path = tempfile.mkstemp(suffix=".key")
+    try:
+        with os.fdopen(cert_fd, "w") as fh:
+            fh.write(cert_pem)
+        with os.fdopen(key_fd, "w") as fh:
+            fh.write(key_pem)
+        ctx.load_cert_chain(cert_path, key_path, password=passphrase or None)
+    finally:
+        os.unlink(cert_path)                # key stays parsed in the context;
+        os.unlink(key_path)                 # the PEM files are gone
+    return ctx
+
+class DigipoortClient:
+    # __init__ just stores host/port/credentials/cert/key from config.
+    def connect(self):
+        """Open the control channel, do AUTH TLS + login, then enable PROT P."""
+        ctx = _build_ssl_context(
+            self._cert_pem, self._key_pem, self._passphrase,
+            server_ca_pem=self._server_ca_pem,
+        )
+        ftp = _SessionReuseFTPTLS(context=ctx, timeout=self._timeout)
+        ftp.connect(self._host, self._port)
+        ftp.auth()      # AUTH TLS  -> encrypt control channel (client cert = mTLS)
+        ftp.login(self._username, self._password)
+        ftp.prot_p()    # PBSZ 0 + PROT P -> encrypt the data channel
+        self._ftp = ftp
+\end{lstlisting}
+
+\chapter{Digipoort acknowledgements}\label{anx:receipts}
+
+After a submission, Digipoort drops response files into an \texttt{out/} folder that DAG~B polls (Chapter~\ref{ch:cesop}). Four artefact types can come back, and the acknowledgement parser normalises all of them into a single \texttt{ParsedReceipt} so the poll flow does not branch on each format:
+
+\begin{enumerate}
+  \item a transport confirmation (\texttt{.ok}) --- an \texttt{otp-metadata} (metabestand) carrying a \texttt{<transport><received>} timestamp; correlation is the payload filename in \texttt{data-reference/@id};
+  \item a transport rejection (\texttt{.error}) --- \emph{plain text, not XML}: a \texttt{Foutcode:} line followed by a (possibly multi-line) \texttt{Foutomschrijving:} description, e.g.\ \texttt{Foutcode: ALS400};
+  \item a Belastingdienst technical response --- root \texttt{Responsemessage}, sent on error only;
+  \item a CESOP business-validation response --- root \texttt{CESOP} with a \texttt{ValidationResult} of \texttt{VALIDATED}, \texttt{PARTIALLY REJECTED} or \texttt{FULLY REJECTED}.
+\end{enumerate}
+
+Listing~\ref{lst:ack-ok} shows the transport confirmation; Listing~\ref{lst:ack-cesop} shows the two extremes of the business validation. The rejection is what drives the Slack alert in Figure~\ref{fig:cesop-slack}.
+
+\begin{lstlisting}[language=XML,caption={Transport confirmation (\texttt{.ok}): correlation via \texttt{data-reference/@id}.},label={lst:ack-ok}]
+<?xml version="1.0" encoding="utf-8"?>
+<otp-metadata profile="otp-gb-1.6"
+              xmlns="http://logius.nl/digipoort/gb/v16/metabestand.xsd">
+  <data-reference id="PMT-Q2-2026-NL-QNTONL22XXX-1.1.xml">
+    <organisation>
+      <sender>belastingdienst@ftp.procesinfrastructuur.nl</sender>
+      <receiver>olin4851@ftp.procesinfrastructuur.nl</receiver>
+    </organisation>
+    <transport><received>2026-07-28T09:15:10</received></transport>
+    <content mimeType="application/xml">
+      <filename>PMT-Q2-2026-NL-QNTONL22XXX-1.1.xml</filename>
+      <size>7341007</size>
+    </content>
+  </data-reference>
+</otp-metadata>
+\end{lstlisting}
+
+\begin{lstlisting}[language=XML,caption={CESOP business validation: the accepted case, then a full rejection with a diagnosable error (correlation via \texttt{CorrMessageRefId}).},label={lst:ack-cesop}]
+<!-- Happy path: accepted -->
+<cesop:CESOP xmlns:cesop="urn:ec.europa.eu:taxud:fiscalis:cesop:v1" version="4.03">
+  <cesop:MessageSpec>
+    <cesop:CorrMessageRefId>216fd983-f252-4cb8-a0b1-a440cd728b4e</cesop:CorrMessageRefId>
+  </cesop:MessageSpec>
+  <cesop:ValidationResult>
+    <cesop:ValidationResult>VALIDATED</cesop:ValidationResult>
+  </cesop:ValidationResult>
+</cesop:CESOP>
+
+<!-- Rejection: parsed into ERROR_DETAIL / VALIDATION_ERRORS and alerted on Slack -->
+<cesop:CESOP xmlns:cesop="urn:ec.europa.eu:taxud:fiscalis:cesop:v1" version="4.03">
+  <cesop:MessageSpec>
+    <cesop:CorrMessageRefId>216fd983-f252-4cb8-a0b1-a440cd728b4e</cesop:CorrMessageRefId>
+  </cesop:MessageSpec>
+  <cesop:ValidationResult>
+    <cesop:ValidationResult>FULLY REJECTED</cesop:ValidationResult>
+    <cesop:ValidationErrors>
+      <cesop:ErrorCode>40050</cesop:ErrorCode>
+      <cesop:ErrorShortDesc>ReportedTransaction missing</cesop:ErrorShortDesc>
+      <cesop:ErrorDescription>The element ReportedTransaction is mandatory.</cesop:ErrorDescription>
+      <cesop:DocRefId>f254bc84-53ba-4ab2-a2fb-ee24b0cbc2e9</cesop:DocRefId>
+    </cesop:ValidationErrors>
+  </cesop:ValidationResult>
+</cesop:CESOP>
 \end{lstlisting}
