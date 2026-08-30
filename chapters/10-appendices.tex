@@ -1,6 +1,6 @@
 \chapter{Internship timeline}\label{anx:timeline}
 
-The internship runs from 13~April to 9~October~2026. It opened with a two-week onboarding into the team and the \emph{Qonto Way}, after which the projects were carried out in sequence with some overlap; in September come the writing of this report and the defense (Figure~\ref{fig:gantt}). The three main projects are complete: the CESOP Netherlands chain is built and its first production submission is under way. A new Postgres/Qontract ingestion project is currently ongoing; the remaining weeks until the end of the internship are not yet assigned.
+The internship runs from 13~April to 9~October~2026. It opened with a two-week onboarding covering the company, the team and the \emph{Qonto Way}, after which the projects were carried out in sequence with some overlap; in September come the writing of this report and the defense (Figure~\ref{fig:gantt}). The three main projects are complete: the CESOP Netherlands chain is built and its first production submission is under way. A new Postgres/Qontract ingestion project is currently ongoing; the remaining weeks until the end of the internship are not yet assigned.
 
 \begin{figure}[H]
 \centering
@@ -66,9 +66,9 @@ The internship runs from 13~April to 9~October~2026. It opened with a two-week o
 % The thesis of the two migrations is visible in the last row: decoupling let roughly \textbf{7{,}000 lines of legacy code} be deleted from the shared Airflow monorepo, shrinking the ``blast radius'' of the shared base image, while the new, self-contained jobs live in their own repositories.
 
 
-\chapter{Implementation detail: naming convention for parity}\label{anx:naming}
+\chapter{Naming convention for parity: Implementation detail}\label{anx:naming}
 
-The hardest constraint of the Notion migration was \emph{byte-for-byte} column-name parity: downstream dbt models already reference the column names produced by the legacy Airflow loader, so the new dlt job had to emit exactly the same identifiers or every dependent model would break.
+One of the challenging constraints of the Notion migration was \emph{byte-for-byte} column-name parity: downstream dbt models already reference the column names produced by the legacy Airflow loader, so the new dlt job had to emit exactly the same identifiers or every dependent model would break.
 
 The difficulty is that dlt's default \texttt{snake\_case} convention actively rewrites identifiers in two ways that both cause drift. It strips a trailing underscore and appends one \texttt{x} per stripped character, turning \texttt{act\_owner\_\_display\_} into \texttt{act\_owner\_\_displayx}; and it collapses runs of \texttt{\_\_} into a single \texttt{\_}, turning \texttt{\_experimental\_\_\_\_blocked\_users} into \texttt{\_experimental\_\_blocked\_users}. Notion property names routinely contain such underscore runs, so both behaviours would silently rename columns.
 
@@ -98,9 +98,9 @@ class NamingConvention(BaseNamingConvention):
 
 \chapter{CESOP: the Digipoort FTPS/mTLS client}\label{anx:ftps}
 
-The transport client is the part of the CESOP project that departs most from ordinary data engineering (Chapter~\ref{ch:cesop}). Digipoort speaks \emph{explicit} FTPS (FTP secured with TLS, RFC~4217~\cite{rfc4217}). Before any file can move, the client must open the control channel, negotiate TLS, secure the data channel, and log in. The exact command dialogue is fixed by the Logius interface specification~\cite{digipoort-ftps}; Listing~\ref{lst:ftps-raw} reproduces it (\texttt{S:}~= server response, \texttt{C:}~= client command).
+The transport client is the part of the CESOP project that departs most from ordinary data engineering (Chapter~\ref{ch:cesop}). Digipoort speaks \emph{explicit} FTPS (FTP secured with TLS). Before any file can move, the client must open the control channel, negotiate TLS, secure the data channel, and log in. The exact command dialogue is fixed by the Logius interface specification~\cite{digipoort-ftps}; Listing~\ref{lst:ftps-raw} reproduces it (\texttt{S:}~= server response, \texttt{C:}~= client command).
 
-\begin{lstlisting}[caption={Setting up a TLS connection. Digipoort FTP interface specification~\cite{digipoort-ftps}.},label={lst:ftps-raw}]
+\begin{lstlisting}[caption={Setting up a TLS connection from Digipoort FTP interface specification~\cite{digipoort-ftps}.},label={lst:ftps-raw}]
 <client opens a connection on tcp/21>
 S: 220 oe.procesinfrastructuur.nl ready
 C: AUTH TLS
@@ -118,7 +118,7 @@ S: 230 User logged in, proceed.
 
 Each step maps onto a single call in the client: \texttt{AUTH TLS} becomes \texttt{ftp.auth()}, \texttt{PBSZ~0}\,/\,\texttt{PROT~P} becomes \texttt{ftp.prot\_p()}, and \texttt{USER}\,/\,\texttt{PASS} becomes \texttt{ftp.login(...)}. What the specification does \emph{not} spell out are the two implementation difficulties that cost the most effort.
 
-\emph{TLS session reuse.} Digipoort, like many government FTPS servers, requires the data connection to \emph{resume} the control connection's TLS session. Python's standard \texttt{ftplib} instead opens a fresh, independent handshake for each data transfer, which the server rejects. The fix is to subclass \texttt{FTP\_TLS} and override \texttt{ntransfercmd} so the data socket is re-wrapped with the control socket's TLS session --- the well-known government-FTPS gotcha, confirmed during the connectivity spike.
+\emph{TLS session reuse.} Digipoort, like many government FTPS servers, requires the data connection to \emph{resume} the control connection's TLS session. Python's standard \texttt{ftplib} instead opens a fresh, independent handshake for each data transfer, which the server rejects. The fix is to subclass \texttt{FTP\_TLS} and override \texttt{ntransfercmd} so the data socket is re-wrapped with the control socket's TLS session.
 
 \emph{Dual authentication from in-memory secrets.} Authentication is twofold: a PKIoverheid client certificate (\textbf{mTLS}) \emph{and} an FTP username/password. The certificate and key arrive as PEM \emph{text} from the secret store, but \texttt{ssl.load\_cert\_chain} only accepts file \emph{paths}; they are therefore written to short-lived \texttt{0600} temporary files, loaded into the SSL context, then deleted immediately, so nothing sensitive lingers on disk. In production the Logius server CA is added explicitly to the trust store (Listing~\ref{lst:ftps}).
 
@@ -185,10 +185,10 @@ class DigipoortClient:
 After a submission, Digipoort drops response files into an \texttt{out/} folder that DAG~B polls (Chapter~\ref{ch:cesop}). Four artefact types can come back, and the acknowledgement parser normalises all of them into a single \texttt{ParsedReceipt} so the poll flow does not branch on each format:
 
 \begin{enumerate}
-  \item a transport confirmation (\texttt{.ok}) --- an \texttt{otp-metadata} (metabestand) carrying a \texttt{<transport><received>} timestamp; correlation is the payload filename in \texttt{data-reference/@id};
-  \item a transport rejection (\texttt{.error}) --- \emph{plain text, not XML}: a \texttt{Foutcode:} line followed by a (possibly multi-line) \texttt{Foutomschrijving:} description, e.g.\ \texttt{Foutcode: ALS400};
-  \item a Belastingdienst technical response --- root \texttt{Responsemessage}, sent on error only;
-  \item a CESOP business-validation response --- root \texttt{CESOP} with a \texttt{ValidationResult} of \texttt{VALIDATED}, \texttt{PARTIALLY REJECTED} or \texttt{FULLY REJECTED}.
+  \item a transport confirmation (\texttt{.ok}): an \texttt{otp-metadata} (metabestand) carrying a \texttt{<transport><received>} timestamp; correlation is the payload filename in \texttt{data-reference/@id};
+  \item a transport rejection (\texttt{.error}): \emph{plain text, not XML}: a \texttt{Foutcode} (error code in Dutch): line followed by a (possibly multi-line) \texttt{Foutomschrijving:} description, e.g.\ \texttt{Foutcode: ALS400};
+  \item a Belastingdienst technical response: an xml file with root \texttt{Responsemessage}, sent on error only;
+  \item a CESOP business-validation response: an xml file with root \texttt{CESOP} and a \texttt{ValidationResult} of \texttt{VALIDATED}, \texttt{PARTIALLY REJECTED} or \texttt{FULLY REJECTED}.
 \end{enumerate}
 
 Listing~\ref{lst:ack-ok} shows the transport confirmation; Listing~\ref{lst:ack-cesop} shows the two extremes of the business validation. The rejection is what drives the Slack alert in Figure~\ref{fig:cesop-slack}.
@@ -211,7 +211,7 @@ Listing~\ref{lst:ack-ok} shows the transport confirmation; Listing~\ref{lst:ack-
 </otp-metadata>
 \end{lstlisting}
 
-\begin{lstlisting}[language=XML,caption={CESOP business validation: the accepted case, then a full rejection with a diagnosable error (correlation via \texttt{CorrMessageRefId}).},label={lst:ack-cesop}]
+\begin{lstlisting}[language=XML,caption={CESOP business validation: the accepted case, then a full rejection with a diagnosable error.},label={lst:ack-cesop}]
 <!-- Happy path: accepted -->
 <cesop:CESOP xmlns:cesop="urn:ec.europa.eu:taxud:fiscalis:cesop:v1" version="4.03">
   <cesop:MessageSpec>
