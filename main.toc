@@ -46,27 +46,27 @@
 \contentsline {section}{\numberline {4.1}The legacy}{22}{section.4.1}%
 \contentsline {section}{\numberline {4.2}The central problem: authentication}{22}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Solution: dedicated pods and a JWT Connected App}{23}{section.4.3}%
-\contentsline {section}{\numberline {4.4}How the JWT works}{26}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Difficulties encountered}{27}{section.4.5}%
-\contentsline {paragraph}{The jobs API blocked under JWT.}{27}{section*.38}%
-\contentsline {paragraph}{Refresh-pod starvation.}{28}{section*.39}%
-\contentsline {paragraph}{Idempotency on 409 and 429.}{28}{section*.40}%
-\contentsline {section}{\numberline {4.6}Decisions and trade-offs}{28}{section.4.6}%
-\contentsline {chapter}{\numberline {5}CESOP Netherlands regulatory transmission chain}{30}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Regulatory context}{30}{section.5.1}%
-\contentsline {section}{\numberline {5.2}The Dutch specificity}{30}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Architecture: two DAGs and a state table}{31}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Implementation}{32}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Sticking points resolved}{33}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Assessment and skills acquired}{35}{chapter.6}%
-\contentsline {section}{\numberline {6.1}A common pattern: diagnose, decouple, harden}{35}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Technical skills}{35}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Methodological skills}{36}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Transferable skills}{36}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Value for the company}{36}{section.6.5}%
-\contentsline {chapter}{Conclusion and perspectives}{37}{chapter*.45}%
-\contentsline {chapter}{Bibliography}{38}{chapter*.46}%
-\contentsline {chapter}{\numberline {A}Internship timeline}{39}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Naming convention for parity: Implementation detail}{40}{appendix.B}%
-\contentsline {chapter}{\numberline {C}CESOP: the Digipoort FTPS/mTLS client}{42}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Digipoort acknowledgements}{45}{appendix.D}%
+\contentsline {section}{\numberline {4.4}How the JWT works}{25}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Difficulties encountered}{26}{section.4.5}%
+\contentsline {paragraph}{The jobs API blocked under JWT.}{26}{section*.38}%
+\contentsline {paragraph}{Refresh-pod starvation.}{27}{section*.39}%
+\contentsline {paragraph}{Idempotency on 409.}{27}{section*.40}%
+\contentsline {section}{\numberline {4.6}Decisions and trade-offs}{27}{section.4.6}%
+\contentsline {chapter}{\numberline {5}CESOP Netherlands regulatory transmission chain}{28}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Regulatory context}{28}{section.5.1}%
+\contentsline {section}{\numberline {5.2}The Dutch specificity}{28}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Architecture: two DAGs and a state table}{29}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Implementation}{30}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Sticking points resolved}{31}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Assessment and skills acquired}{33}{chapter.6}%
+\contentsline {section}{\numberline {6.1}A common pattern: diagnose, decouple, harden}{33}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Technical skills}{33}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Methodological skills}{34}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Transferable skills}{34}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Value for the company}{34}{section.6.5}%
+\contentsline {chapter}{Conclusion and perspectives}{35}{chapter*.45}%
+\contentsline {chapter}{Bibliography}{36}{chapter*.46}%
+\contentsline {chapter}{\numberline {A}Internship timeline}{37}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Naming convention for parity: Implementation detail}{38}{appendix.B}%
+\contentsline {chapter}{\numberline {C}CESOP: the Digipoort FTPS/mTLS client}{40}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Digipoort acknowledgements}{43}{appendix.D}%
