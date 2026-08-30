@@ -60,13 +60,13 @@
 \contentsline {section}{\numberline {5.5}Sticking points resolved}{33}{section.5.5}%
 \contentsline {chapter}{\numberline {6}Assessment and skills acquired}{35}{chapter.6}%
 \contentsline {section}{\numberline {6.1}A common pattern: diagnose, decouple, harden}{35}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Technical skills}{36}{section.6.2}%
+\contentsline {section}{\numberline {6.2}Technical skills}{35}{section.6.2}%
 \contentsline {section}{\numberline {6.3}Methodological skills}{36}{section.6.3}%
 \contentsline {section}{\numberline {6.4}Transferable skills}{36}{section.6.4}%
 \contentsline {section}{\numberline {6.5}Value for the company}{36}{section.6.5}%
-\contentsline {chapter}{Conclusion and perspectives}{38}{chapter*.45}%
-\contentsline {chapter}{Bibliography}{39}{chapter*.46}%
-\contentsline {chapter}{\numberline {A}Internship timeline}{40}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Naming convention for parity: Implementation detail}{41}{appendix.B}%
-\contentsline {chapter}{\numberline {C}CESOP: the Digipoort FTPS/mTLS client}{43}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Digipoort acknowledgements}{46}{appendix.D}%
+\contentsline {chapter}{Conclusion and perspectives}{37}{chapter*.45}%
+\contentsline {chapter}{Bibliography}{38}{chapter*.46}%
+\contentsline {chapter}{\numberline {A}Internship timeline}{39}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Naming convention for parity: Implementation detail}{40}{appendix.B}%
+\contentsline {chapter}{\numberline {C}CESOP: the Digipoort FTPS/mTLS client}{42}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Digipoort acknowledgements}{45}{appendix.D}%
