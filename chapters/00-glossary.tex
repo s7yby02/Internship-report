@@ -25,8 +25,10 @@ EL / ETL & Data-integration paradigms: \emph{Extract–Load} (transformation def
 Snowflake & Cloud data warehouse, the target of every ingestion. \\
 S3 & Amazon Web Services object storage, used as a \emph{staging} area. \\
 Data contract (Qontract) & A YAML file declaring the fields, types and key of an ingested table. \\
+ODCS & \emph{Open Data Contract Standard}: the open specification the Qontract data contracts follow (v3.1.0). \\
 Job Orchestrator & Qonto-internal pattern: a job is declared in a \texttt{schedule.yaml} and its Airflow DAG is \emph{auto-generated}. \\
 Kubernetes (K8s) & Container-orchestration platform; each job task runs in an isolated \emph{pod} with its own image and dependencies. \\
+On-call paging & Automatically alerting (\emph{paging}) the engineer on the on-call rotation when a critical pipeline fails. \\
 PAT & \emph{Personal Access Token}. \\
 JWT & \emph{JSON Web Token}: a signed token, used here via a Tableau \emph{Connected App} for authentication. \\
 Connected App & A trusted application declared on the Tableau side, enabling signed-JWT authentication instead of PATs. \\

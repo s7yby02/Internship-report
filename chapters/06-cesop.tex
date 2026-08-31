@@ -65,7 +65,7 @@ The ``submission $\rightarrow$ acknowledgement'' loop is \emph{asynchronous} and
 
 The \texttt{RAW.CESOP\_NL.SUBMISSIONS} table holds one row per submission and tracks its lifecycle: transport status, technical validation (a few hours), then business validation (days to weeks). DAG~A inserts the rows; DAG~B updates them as acknowledgements arrive. Its columns mirror exactly those three stages (Listing~\ref{lst:submissions}).
 
-\begin{lstlisting}[language=SQL,caption={The \texttt{RAW.CESOP\_NL.SUBMISSIONS} state table}]
+\begin{lstlisting}[language=SQL,caption={The \texttt{RAW.CESOP\_NL.SUBMISSIONS} state table},label={lst:submissions}]
 CREATE TABLE IF NOT EXISTS RAW.CESOP_NL.SUBMISSIONS (
     SUBMISSION_ID              VARCHAR(255) PRIMARY KEY,  -- our correlation id
     QUARTER                    VARCHAR(16),               -- e.g. 2026Q2
